@@ -92,8 +92,13 @@ class _Rail extends StatelessWidget {
               child: Container(
                 width: AppSize.minTap,
                 height: AppSize.minTap,
-                decoration: BoxDecoration(color: c.accent, borderRadius: AppRadius.fieldAll),
-                child: Icon(Icons.qr_code_scanner_rounded, color: c.onAccent),
+                // المحدد كلوحة الديمو: التدرج البرتقالي وتوهجه والأيقونة داكنة
+                decoration: BoxDecoration(
+                  gradient: AppPalette.of(context).gradient,
+                  borderRadius: AppRadius.fieldAll,
+                  boxShadow: AppPalette.of(context).glow,
+                ),
+                child: Icon(Icons.qr_code_scanner_rounded, color: AppPalette.of(context).accentInk),
               ),
             ),
           ),

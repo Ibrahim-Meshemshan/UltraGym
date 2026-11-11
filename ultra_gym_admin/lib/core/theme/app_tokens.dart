@@ -44,6 +44,11 @@ abstract final class AppRadius {
   static const fieldAll = BorderRadius.all(Radius.circular(URadius.field));
   static const cardAll = BorderRadius.all(Radius.circular(URadius.card));
   static const fullAll = BorderRadius.all(Radius.circular(URadius.full));
+
+  /// عنصر القائمة الجانبية (كلوحة الديمو `--r-md`)، وحلقة تركيزه حوله بمسافة `AppSize.focusGap`.
+  static const nav = 14.0;
+  static const navAll = BorderRadius.all(Radius.circular(nav));
+  static const navFocusAll = BorderRadius.all(Radius.circular(nav + AppSize.focusGap + AppSize.focusRing));
 }
 
 /// المقاسات الثابتة.
@@ -102,6 +107,11 @@ abstract final class AppSize {
 
   /// نافذة مسح QR بالكاميرا: سماكة إطار التصويب.
   static const scanFrameStroke = 3.0;
+
+  /// عنصر القائمة الجانبية (`.snav__item` بالديمو: 44)، وحلقة تركيز لوحة المفاتيح: سمك 2 وبُعد 2 عن العنصر.
+  static const navItem = 44.0;
+  static const focusRing = 2.0;
+  static const focusGap = 2.0;
 
   /// الصورة الدائرية بصف الجدول (`.av`).
   static const avatar = 36.0;

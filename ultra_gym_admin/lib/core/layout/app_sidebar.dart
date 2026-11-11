@@ -106,10 +106,10 @@ class _GroupLabel extends StatelessWidget {
       );
     }
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(AppSpace.s3, AppSpace.s4, AppSpace.s3, AppSpace.s2),
+      padding: const EdgeInsetsDirectional.fromSTEB(AppSpace.s3, AppSpace.s3, AppSpace.s3, AppSpace.s2),
       child: Semantics(
         header: true,
-        child: Text(title, style: UType.caption(color: SidebarInk.of(context).groupLabel)),
+        child: Text(title, style: UType.caption(color: SidebarInk.of(context).groupLabel).weight(700)),
       ),
     );
   }
