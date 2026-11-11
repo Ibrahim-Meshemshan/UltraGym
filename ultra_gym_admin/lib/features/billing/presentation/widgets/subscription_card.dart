@@ -21,7 +21,7 @@ class SubscriptionCard extends StatelessWidget {
       onRetry: cubit.load,
       isEmpty: (o) => o.current == null,
       empty: CutCard(
-        child: EmptyState(
+        child: AppEmptyState(
           icon: Icons.workspace_premium_rounded,
           title: 'لا يوجد اشتراك مسجّل للنادي بعد',
           message: 'يفعّل فريق UltraGym الباقة ويصدر فواتيرها. تواصل معنا من الدعم الفني لأي سؤال.',

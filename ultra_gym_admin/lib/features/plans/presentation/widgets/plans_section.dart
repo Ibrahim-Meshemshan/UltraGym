@@ -58,7 +58,7 @@ class _Body extends StatelessWidget {
           onRetry: list.load,
           loading: const _Shimmer(),
           isEmpty: (p) => p.items.isEmpty,
-          empty: EmptyState(
+          empty: AppEmptyState(
             icon: archived ? Icons.archive_outlined : Icons.sell_rounded,
             title: archived ? 'لا خطط بالأرشيف' : 'لا خطط اشتراك بعد',
             message: archived

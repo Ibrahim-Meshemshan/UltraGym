@@ -3,12 +3,13 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/core.dart';
 import '../../domain/models/dashboard_models.dart';
+import '../demo/demo_kpi.dart';
 import 'alerts_card.dart';
 import 'cash_boxes_card.dart';
 import 'expiring_card.dart';
 import 'finance_card.dart';
 
-/// محتوى الرئيسية تحت البانر بترتيب `Dashboard.html`: أرقام اليوم، المال + الصناديق، التنبيهات + المنتهية.
+/// محتوى الرئيسية تحت الرأس بترتيب `Dashboard.html`: أرقام اليوم، المال + الصناديق، التنبيهات + المنتهية.
 /// المال للمالك فقط (الخادم لا يرسل `finance` للاستقبال)، والتنبيهات تظهر حين توجد.
 class DashboardBody extends StatelessWidget {
   const DashboardBody({super.key, required this.data});
@@ -39,7 +40,8 @@ class DashboardBody extends StatelessWidget {
   );
 }
 
-/// أرقام اليوم: أربع بطاقات (الأعمدة = العرض ÷ 230)، كل منها تفتح قسمها.
+/// أرقام اليوم بأسلوب التجربة: الاشتراكات الفعّالة بطاقة التدرج الرئيسية مع شريط أجزائها، والباقي
+/// بطاقات هادئة (الأعمدة = العرض ÷ 230). كلها تدخل متتابعة وتفتح قسمها.
 class DashboardStats extends StatelessWidget {
   const DashboardStats({super.key, required this.data});
 
@@ -48,50 +50,62 @@ class DashboardStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = data.players, m = data.memberships, a = data.attendance, d = data.debts;
+    final cards = [
+      DemoHeroKpi(
+        icon: Icons.card_membership_rounded,
+        label: 'الاشتراكات الفعّالة',
+        value: m.active.toDouble(),
+        note: (text: 'اشتراكات اليوم: ${m.soldToday}', tone: null),
+        parts: [
+          (label: 'فعّالة', value: m.active),
+          (label: 'مجمّدة', value: m.frozen),
+          (label: 'بالسماح', value: m.inGrace),
+        ],
+        onTap: () => context.go(Routes.memberships),
+      ),
+      DemoKpi(
+        icon: Icons.groups_rounded,
+        label: 'الأعضاء',
+        value: p.total.toDouble(),
+        note: p.newThisMonth > 0
+            ? (text: 'جدد هذا الشهر: ${p.newThisMonth}', tone: UTone.success)
+            : (text: 'لا أعضاء جدد هذا الشهر', tone: null),
+        onTap: () => context.go(Routes.members),
+      ),
+      DemoKpi(
+        icon: Icons.login_rounded,
+        label: 'دخول اليوم',
+        value: a.today.toDouble(),
+        note: (
+          text: [
+            'مرفوض ${a.rejectedToday}',
+            'هذا الشهر ${Formatters.number(a.thisMonth)}',
+            if (a.visitorsToday > 0) 'زوار ${a.visitorsToday}',
+          ].join(' · '),
+          tone: null,
+        ),
+        onTap: () => context.go(Routes.attendance),
+      ),
+      DemoKpi(
+        icon: Icons.account_balance_wallet_outlined,
+        label: 'الديون',
+        value: d.totalDueUsd,
+        prefix: r'$',
+        decimals: 2,
+        note: d.players > 0
+            ? (
+                text: 'على ${Formatters.count(d.players, 'عضو واحد', 'عضوين', 'أعضاء', many: 'عضواً')}',
+                tone: UTone.warning,
+              )
+            : (text: 'لا ديون مستحقة', tone: null),
+        onTap: () => context.go(DashboardLinks.debts),
+      ),
+    ];
     return Semantics(
       container: true,
       label: 'أرقام اليوم',
       child: ResponsiveGrid(
-        children: [
-          AppStatCard(
-            icon: Icons.groups_rounded,
-            label: 'الأعضاء',
-            value: p.total.toDouble(),
-            note: p.newThisMonth > 0 ? 'جدد هذا الشهر: ${p.newThisMonth}' : 'لا أعضاء جدد هذا الشهر',
-            noteTone: p.newThisMonth > 0 ? UTone.success : null,
-            onTap: () => context.go(Routes.members),
-          ),
-          AppStatCard(
-            icon: Icons.card_membership_rounded,
-            label: 'الاشتراكات الفعّالة',
-            value: m.active.toDouble(),
-            note: 'مجمّدة ${m.frozen} · بالسماح ${m.inGrace}',
-            onTap: () => context.go(Routes.memberships),
-          ),
-          AppStatCard(
-            icon: Icons.login_rounded,
-            label: 'دخول اليوم',
-            value: a.today.toDouble(),
-            note: [
-              'مرفوض ${a.rejectedToday}',
-              'هذا الشهر ${Formatters.number(a.thisMonth)}',
-              if (a.visitorsToday > 0) 'زوار ${a.visitorsToday}',
-            ].join(' · '),
-            onTap: () => context.go(Routes.attendance),
-          ),
-          AppStatCard(
-            icon: Icons.account_balance_wallet_outlined,
-            label: 'الديون',
-            value: d.totalDueUsd,
-            prefix: r'$',
-            decimals: 2,
-            note: d.players > 0
-                ? 'على ${Formatters.count(d.players, 'عضو واحد', 'عضوين', 'أعضاء', many: 'عضواً')}'
-                : 'لا ديون مستحقة',
-            noteTone: d.players > 0 ? UTone.warning : null,
-            onTap: () => context.go(DashboardLinks.debts),
-          ),
-        ],
+        children: [for (var i = 0; i < cards.length; i++) Entrance(index: i, child: cards[i])],
       ),
     );
   }

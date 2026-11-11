@@ -158,7 +158,7 @@ class SalePlanStep extends StatelessWidget {
             loading: const StatsShimmer(),
             onRetry: cubit.retryPlans,
             isEmpty: (list) => list.isEmpty,
-            empty: const EmptyState(
+            empty: const AppEmptyState(
               icon: Icons.style_rounded,
               title: 'لا خطط فعّالة',
               message: 'أضف خطة أو فعّل واحدة من "الخطط والكوبونات" ثم عد للبيع.',

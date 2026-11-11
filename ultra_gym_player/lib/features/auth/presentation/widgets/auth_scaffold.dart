@@ -19,16 +19,16 @@ class AuthScaffold extends StatelessWidget {
           return Scaffold(
             backgroundColor: c.bg,
             body: Stack(children: [
-              const Positioned.fill(child: OrnamentPattern(colors: UOrnColors.dark, opacity: UOrnament.loginPattern)),
+              Positioned.fill(child: OrnamentPattern(colors: AppPalette.dark.ornaments, opacity: UOrnament.loginPattern)),
               PositionedDirectional(
                 end: -140,
                 bottom: -160,
                 child: Opacity(
                   opacity: UOrnament.loginPlate,
-                  child: PlateRing(size: mobile ? 380 : 560, colors: UOrnColors.dark),
+                  child: PlateRing(size: mobile ? 380 : 560, colors: AppPalette.dark.ornaments),
                 ),
               ),
-              const PositionedDirectional(start: 0, end: 0, bottom: 0, child: TrackBand(height: AppSpace.s10, colors: UOrnColors.dark)),
+              PositionedDirectional(start: 0, end: 0, bottom: 0, child: TrackBand(height: AppSpace.s10, colors: AppPalette.dark.ornaments)),
               SafeArea(
                 child: Center(
                   child: SingleChildScrollView(
@@ -68,7 +68,7 @@ class _Card extends StatelessWidget {
           if (showLogo) ...[
             Center(child: UltraGymLogo(variant: ULogo.vertical, onDark: true, height: context.isMobile ? 96 : 112)),
             AppSpace.gap3,
-            const Center(child: PulseDivider(width: 200)),
+            Center(child: PulseDivider(width: 200, colors: AppPalette.dark.ornaments)),
             AppSpace.gap4,
           ],
           child,

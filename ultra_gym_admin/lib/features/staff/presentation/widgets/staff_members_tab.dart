@@ -76,7 +76,7 @@ class StaffMembersTab extends StatelessWidget {
               onChanged: (v) => list.filter('type', v),
             ),
           ),
-          empty: EmptyState(
+          empty: AppEmptyState(
             icon: Icons.fitness_center_rounded,
             title: 'أضف أول مدرب أو عامل',
             message: 'سجّل راتبه الأساسي وعمولته، فتُحسب له بالرواتب الشهرية.',

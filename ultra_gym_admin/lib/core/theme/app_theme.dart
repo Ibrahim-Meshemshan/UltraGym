@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ultragym_design/ultragym_design.dart';
 
-/// الثيمان من حزمة الهوية. أي تخصيص للمشروع يُضاف هنا بـ `copyWith` وليس بالشاشات.
+import 'app_theme_data.dart';
+
+/// الثيمان بألوان `AppPalette` (`AppThemeData`، بناء الحزمة نفسه). أي تخصيص للمشروع يُضاف هنا بـ `copyWith` وليس بالشاشات.
 abstract final class AppTheme {
-  static ThemeData get light => _withPackageFonts(UltraGymTheme.light);
-  static ThemeData get dark => _withPackageFonts(UltraGymTheme.dark);
+  static ThemeData get light => _withPackageFonts(AppThemeData.light);
+  static ThemeData get dark => _withPackageFonts(AppThemeData.dark);
 
   /// اسم خط الواجهة كما سجّلته الحزمة (`packages/ultragym_design/ReadexPro`).
   static final String _sans = UType.body().fontFamily!;

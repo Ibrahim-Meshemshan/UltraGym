@@ -27,7 +27,7 @@ class CashHistoryTable extends StatelessWidget {
       onRowTap: onOpen,
       onClearFilters: list.clearFilters,
       header: _Filters(query: state.query),
-      empty: const EmptyState(
+      empty: const AppEmptyState(
         icon: Icons.inventory_2_outlined,
         title: 'لا ورديات مغلقة بعد',
         message: 'كل وردية تُغلق بالجرد تظهر هنا بفرقها وتقريرها.',

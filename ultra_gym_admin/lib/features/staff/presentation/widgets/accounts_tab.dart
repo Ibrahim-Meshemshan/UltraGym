@@ -66,7 +66,7 @@ class AccountsTab extends StatelessWidget {
               onChanged: (v) => list.filter('state', v),
             ),
           ),
-          empty: const EmptyState(
+          empty: const AppEmptyState(
             icon: Icons.manage_accounts_outlined,
             title: 'لا حسابات بعد',
             message: 'الحسابات تظهر هنا عند إضافة أعضاء أو موظفي استقبال.',

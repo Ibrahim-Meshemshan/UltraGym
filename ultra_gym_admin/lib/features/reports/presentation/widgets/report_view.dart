@@ -66,7 +66,7 @@ class ReportView extends StatelessWidget {
           ],
         ),
         if (!info.available)
-          const EmptyState(
+          const AppEmptyState(
             icon: Icons.workspace_premium_rounded,
             title: 'هذا التقرير ليس ضمن باقتك',
             message: 'مقارنة الفروع ضمن التقارير المتقدمة. تواصل مع UltraGym لإضافتها لناديك.',

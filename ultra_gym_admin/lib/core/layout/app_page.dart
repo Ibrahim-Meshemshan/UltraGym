@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ultragym_design/ultragym_design.dart';
 
 import '../responsive/responsive.dart';
 import '../theme/app_tokens.dart';
+import '../widgets/app_empty_state.dart';
 
 /// محتوى أي قسم داخل الهيكل: أقصى عرض 1320 من طرف البداية، هوامش 24 (16 موبايل)، وفراغ 20 بين الأجزاء.
 /// عنوان القسم بالشريط العلوي، فلا عنوان هنا.
@@ -46,7 +46,7 @@ class PendingSection extends StatelessWidget {
   Widget build(BuildContext context) => AppPage(
     children: [
       AppSpace.gap8,
-      EmptyState(title: title, message: 'هذا القسم قيد البناء، ويصل بالتحديث القادم.'),
+      AppEmptyState(title: title, message: 'هذا القسم قيد البناء، ويصل بالتحديث القادم.'),
     ],
   );
 }

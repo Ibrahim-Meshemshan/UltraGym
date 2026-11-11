@@ -64,7 +64,7 @@ class InvoicesTable extends StatelessWidget {
           ),
         ],
       ),
-      empty: const EmptyState(
+      empty: const AppEmptyState(
         icon: Icons.receipt_long_rounded,
         title: 'لا فواتير بعد',
         message: 'تظهر هنا فواتير اشتراك النادي حين يصدرها فريق UltraGym، ويصلك إشعار بكل فاتورة جديدة.',

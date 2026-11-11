@@ -44,7 +44,7 @@ class MembershipTabsCard extends StatelessWidget {
             mobileItem: _paymentMobile,
             minWidth: AppSize.paymentsTableMin,
             footnote: 'الدفعات لا تُعدَّل ولا تُحذف. التصحيح بعكس الحركة من دفتر الحركات (للمالك).',
-            empty: const EmptyState(
+            empty: const AppEmptyState(
               icon: Icons.receipt_long_rounded,
               title: 'لا دفعات',
               message: 'كل الاشتراك دين. سجّل أول دفعة من "سداد الدين".',
@@ -55,7 +55,7 @@ class MembershipTabsCard extends StatelessWidget {
             rows: d.freezes.history,
             columns: _freezes,
             mobileItem: _freezeMobile,
-            empty: const EmptyState(
+            empty: const AppEmptyState(
               icon: Icons.ac_unit_rounded,
               title: 'لم يُجمَّد بعد',
               message: 'كل تجميد يظهر هنا بفترته وسببه، وفكّه المبكر إن حصل.',
@@ -197,7 +197,7 @@ class _Attendance extends StatelessWidget {
             header: header,
             noun: 'زيارة',
             minWidth: AppSize.historyTableMin,
-            empty: const EmptyState(
+            empty: const AppEmptyState(
               icon: Icons.login_rounded,
               title: 'لا زيارات خلال الاشتراك',
               message: 'كل دخول للعضو بين بداية الاشتراك ونهايته يظهر هنا.',

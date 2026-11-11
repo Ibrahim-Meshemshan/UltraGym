@@ -69,7 +69,7 @@ class ActivityTab extends StatelessWidget {
           ),
         ],
       ),
-      empty: const EmptyState(
+      empty: const AppEmptyState(
         icon: Icons.history_rounded,
         title: 'لا نشاط مسجّل بعد',
         message: 'كل عملية بالنادي (بيع، قبض، تعديل، دخول) تظهر هنا بمن نفّذها ومتى.',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/core.dart';
+import '../demo/demo_card.dart';
 import '../../domain/models/dashboard_models.dart';
 import '../bloc/dashboard_cubit.dart';
 import 'dashboard_body.dart';
@@ -14,7 +15,7 @@ class ExpiringCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final slice = context.select<DashboardCubit, Slice<List<ExpiringMembership>>>((c) => c.state.expiring);
-    return SectionCard(
+    return DemoCard(
       title: 'تنتهي خلال 7 أيام',
       action: 'كل القريبة',
       onAction: () => context.go(DashboardLinks.expiring),

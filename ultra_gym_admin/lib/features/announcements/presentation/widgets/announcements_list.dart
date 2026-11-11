@@ -44,7 +44,7 @@ class AnnouncementsList extends StatelessWidget {
               padding: const EdgeInsets.all(AppSpace.s5),
               child: filtered
                   ? NoResults(onClear: list.clearFilters)
-                  : EmptyState(
+                  : AppEmptyState(
                       icon: Icons.campaign_rounded,
                       title: 'لا إعلانات بعد',
                       message: 'انشر موعداً أو عرضاً أو تنبيهاً ليظهر في تطبيق الأعضاء، مع إشعار لهواتفهم إن أردت.',

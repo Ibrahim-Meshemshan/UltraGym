@@ -82,7 +82,7 @@ class _Rail extends StatelessWidget {
       child: Column(
         spacing: AppSpace.s4,
         children: [
-          const UltraGymLogo(variant: ULogo.mark, onDark: true, height: AppSize.control),
+          UltraGymLogo(variant: ULogo.mark, onDark: context.isDark, height: AppSize.control),
           Tooltip(
             message: 'محطة الدخول',
             child: Semantics(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/core.dart';
+import '../demo/demo_card.dart';
 import '../../domain/models/dashboard_models.dart';
 
 /// الصناديق: وردية لكل فرع. المفتوح برقم ورديته ووقت فتحه ورصيده المتوقع (للمالك)، والمغلق بزر "فتح الصندوق".
@@ -11,7 +12,7 @@ class CashBoxesCard extends StatelessWidget {
   final List<CashBox> boxes;
 
   @override
-  Widget build(BuildContext context) => SectionCard(
+  Widget build(BuildContext context) => DemoCard(
     title: 'الصناديق',
     action: 'كل الورديات',
     onAction: () => context.go(Routes.cashSessions),

@@ -74,7 +74,7 @@ class _Body extends StatelessWidget {
             ],
             onClear: state.query.hasFilters ? list.clearFilters : null,
           ),
-          empty: EmptyState(
+          empty: AppEmptyState(
             icon: Icons.local_offer_rounded,
             title: 'لا كوبونات بعد',
             message: 'أنشئ كوداً بخصم نسبة أو مبلغ ليطبّقه الاستقبال عند البيع.',

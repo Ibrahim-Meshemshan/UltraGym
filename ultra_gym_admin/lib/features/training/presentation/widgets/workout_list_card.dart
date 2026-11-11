@@ -60,7 +60,7 @@ class WorkoutListCard extends StatelessWidget {
             isEmpty: (p) => p.items.isEmpty,
             empty: state.query.search.isNotEmpty
                 ? Text('لا خطط بهذا العنوان.', style: UType.label(color: c.inkMuted))
-                : EmptyState(
+                : AppEmptyState(
                     icon: Icons.fitness_center_rounded,
                     title: templates ? 'لا قوالب بعد' : 'لا خطط لأعضاء بعد',
                     message: templates

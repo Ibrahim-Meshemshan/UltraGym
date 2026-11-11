@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/core.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
+import '../demo/demo_card.dart';
 import '../../domain/models/dashboard_models.dart';
 import 'dashboard_body.dart';
 
@@ -15,7 +16,7 @@ class AlertsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final owner = context.select<AuthBloc, bool>((b) => b.state.session?.isClubOwner ?? false);
-    return SectionCard(
+    return DemoCard(
       title: 'تنبيهات',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

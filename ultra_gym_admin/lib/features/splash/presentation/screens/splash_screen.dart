@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/core.dart';
 
-/// شاشة البدء: الشعار على لون الهيكل أثناء استعادة الجلسة (`GET /auth/me`).
+/// شاشة البدء: الشعار على الأرضية الداكنة (`hero`) بالثيمين أثناء استعادة الجلسة (`GET /auth/me`).
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     return Scaffold(
-      backgroundColor: c.sidebar,
+      backgroundColor: c.hero,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -19,7 +19,7 @@ class SplashScreen extends StatelessWidget {
             AppSpace.gap6,
             Entrance(
               index: 1,
-              child: Text(AppConfig.appTitle, style: UType.h3(color: c.sidebarInk)),
+              child: Text(AppConfig.appTitle, style: UType.h3(color: AppPalette.dark.ink2)),
             ),
           ],
         ),

@@ -78,7 +78,7 @@ class ReceptionTab extends StatelessWidget {
                     onChanged: (v) => list.filter('status', v),
                   ),
           ),
-          empty: EmptyState(
+          empty: AppEmptyState(
             icon: Icons.support_agent_rounded,
             title: 'أضف أول موظف استقبال',
             message: 'يدخل بموبايله وكلمة سر مؤقتة، ويعمل بالفروع التي تحددها فقط.',

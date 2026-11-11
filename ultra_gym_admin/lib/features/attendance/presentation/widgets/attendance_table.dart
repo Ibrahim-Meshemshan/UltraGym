@@ -25,7 +25,7 @@ class AttendanceTable extends StatelessWidget {
       onRowTap: (a) => context.go(Routes.child(Routes.members, a.playerId)),
       onClearFilters: list.clearFilters,
       header: _Filters(query: state.query),
-      empty: const EmptyState(
+      empty: const AppEmptyState(
         icon: Icons.login_rounded,
         title: 'لا دخول بهذه الفترة',
         message: 'سجّل الدخول يدوياً من هنا، أو من شاشة الاستقبال.',

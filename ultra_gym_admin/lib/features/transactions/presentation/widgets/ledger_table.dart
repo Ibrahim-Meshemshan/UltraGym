@@ -34,7 +34,7 @@ class LedgerTable extends StatelessWidget {
       onRowTap: onOpen,
       onClearFilters: list.clearFilters,
       header: _Filters(query: state.query),
-      empty: const EmptyState(
+      empty: const AppEmptyState(
         icon: Icons.receipt_long_outlined,
         title: 'لا حركات بهذه الفترة',
         message: 'كل دفعة ومصروف وإيراد يظهر هنا. سجّل مصروفاً أو إيراداً من زر «تسجيل إيراد أو مصروف».',

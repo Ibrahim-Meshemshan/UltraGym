@@ -80,10 +80,14 @@ class _Brand extends StatelessWidget {
     height: AppSize.topBar,
     padding: const EdgeInsets.symmetric(horizontal: AppSpace.s5),
     decoration: BoxDecoration(
-      border: Border(bottom: BorderSide(color: SidebarInk.divider)),
+      border: Border(bottom: BorderSide(color: SidebarInk.of(context).divider)),
     ),
     alignment: collapsed ? Alignment.center : AlignmentDirectional.centerStart,
-    child: UltraGymLogo(variant: collapsed ? ULogo.mark : ULogo.horizontal, onDark: true, height: collapsed ? 26 : 28),
+    child: UltraGymLogo(
+      variant: collapsed ? ULogo.mark : ULogo.horizontal,
+      onDark: context.isDark,
+      height: collapsed ? 26 : 28,
+    ),
   );
 }
 
@@ -98,14 +102,14 @@ class _GroupLabel extends StatelessWidget {
     if (collapsed) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: AppSpace.s2, horizontal: AppSpace.s3),
-        child: Divider(height: 1, color: SidebarInk.divider),
+        child: Divider(height: 1, color: SidebarInk.of(context).divider),
       );
     }
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(AppSpace.s3, AppSpace.s4, AppSpace.s3, AppSpace.s2),
       child: Semantics(
         header: true,
-        child: Text(title, style: UType.caption(color: SidebarInk.groupLabel)),
+        child: Text(title, style: UType.caption(color: SidebarInk.of(context).groupLabel)),
       ),
     );
   }
@@ -138,7 +142,7 @@ class _Account extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: AppSpace.s4, vertical: AppSpace.s3),
       decoration: BoxDecoration(
-        border: Border(top: BorderSide(color: SidebarInk.divider)),
+        border: Border(top: BorderSide(color: SidebarInk.of(context).divider)),
       ),
       child: collapsed
           ? Column(mainAxisSize: MainAxisSize.min, children: [avatar, AppSpace.gap1, logout])
@@ -153,7 +157,7 @@ class _Account extends StatelessWidget {
                     children: [
                       Text(
                         session.user.name,
-                        style: UType.label(color: SidebarInk.selectedText).weight(600),
+                        style: UType.label(color: SidebarInk.of(context).selectedText).weight(600),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

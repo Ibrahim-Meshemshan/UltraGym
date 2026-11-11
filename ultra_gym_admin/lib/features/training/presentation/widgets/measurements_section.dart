@@ -107,7 +107,7 @@ class _Body extends StatelessWidget {
                 spacing: AppSpace.s5,
                 children: [
                   header(),
-                  EmptyState(
+                  AppEmptyState(
                     icon: Icons.monitor_weight_outlined,
                     title: 'اختر عضواً لعرض قياساته',
                     message: 'ابحث بالاسم أو الموبايل أو المعرّف. القياسات يسجّلها النادي وتظهر للعضو بتطبيقه.',
@@ -133,7 +133,7 @@ class _Body extends StatelessWidget {
                           onRetry: cubit.load,
                           loading: const DetailsShimmer(),
                           isEmpty: (p) => p.items.isEmpty,
-                          empty: EmptyState(
+                          empty: AppEmptyState(
                             icon: Icons.monitor_weight_outlined,
                             title: 'لا قياسات لـ $name بعد',
                             message: editable

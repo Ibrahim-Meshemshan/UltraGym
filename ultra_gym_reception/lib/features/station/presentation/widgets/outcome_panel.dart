@@ -21,7 +21,7 @@ class OutcomePanel extends StatelessWidget {
       Slice(:final data?) => CheckInCard(data, onNext: next),
       Slice(:final failure?) => _FailureCard(failure, onNext: next),
       _ => const CutCard(
-        child: EmptyState(
+        child: AppEmptyState(
           icon: Icons.qr_code_2_rounded,
           title: 'جاهز للمسح',
           message: 'امسح رمز QR من تطبيق العضو، أو اكتب معرّفه أو اسمه أو موبايله ثم Enter.',
@@ -165,7 +165,7 @@ class _Lookup extends StatelessWidget {
       onRetry: () => bloc.add(StationSubmitted(query)),
       isEmpty: (l) => l.isEmpty,
       empty: CutCard(
-        child: EmptyState(
+        child: AppEmptyState(
           icon: Icons.person_search_rounded,
           title: 'لا نتائج',
           message: 'لا عضو يطابق «$query». جرّب الموبايل أو معرّف العضو.',

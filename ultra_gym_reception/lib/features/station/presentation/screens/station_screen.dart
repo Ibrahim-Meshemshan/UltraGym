@@ -48,7 +48,7 @@ class _Body extends StatelessWidget {
       onRetry: () => context.read<ActiveBranchCubit>().load(),
       isEmpty: (l) => l.isEmpty,
       empty: const Center(
-        child: EmptyState(
+        child: AppEmptyState(
           icon: Icons.store_mall_directory_rounded,
           title: 'لا فرع لحسابك',
           message: 'اطلب من مالك النادي ربط حسابك بفرع من قسم الموظفين، ثم ادخل من جديد.',

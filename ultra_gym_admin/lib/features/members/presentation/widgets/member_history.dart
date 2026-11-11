@@ -43,7 +43,7 @@ class MemberHistoryCard extends StatelessWidget {
             mobileItem: HistoryColumns.membershipMobile,
             onRowTap: (m) => context.go(Routes.child(Routes.memberships, m.id)),
             noun: 'اشتراكاً',
-            empty: const EmptyState(
+            empty: const AppEmptyState(
               icon: Icons.card_membership_rounded,
               title: 'لا اشتراكات بعد',
               message: 'اشتراكات العضو وتجديداته تظهر هنا بحالتها ودينها.',
@@ -56,7 +56,7 @@ class MemberHistoryCard extends StatelessWidget {
             columns: HistoryColumns.attendance,
             mobileItem: HistoryColumns.attendanceMobile,
             noun: 'زيارة',
-            empty: const EmptyState(
+            empty: const AppEmptyState(
               icon: Icons.login_rounded,
               title: 'لا زيارات بعد',
               message: 'كل دخول للنادي (مقبول أو مرفوض) يظهر هنا بوقته وفرعه.',
@@ -69,7 +69,7 @@ class MemberHistoryCard extends StatelessWidget {
             columns: HistoryColumns.payments,
             mobileItem: HistoryColumns.paymentMobile,
             noun: 'حركة',
-            empty: const EmptyState(
+            empty: const AppEmptyState(
               icon: Icons.receipt_long_rounded,
               title: 'لا دفعات بعد',
               message: 'دفعات العضو واسترجاعاته تظهر هنا بإيصالاتها.',

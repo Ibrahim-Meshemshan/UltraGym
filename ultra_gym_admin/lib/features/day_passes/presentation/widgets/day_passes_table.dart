@@ -24,7 +24,7 @@ class DayPassesTable extends StatelessWidget {
       onRowTap: onOpen,
       onClearFilters: list.clearFilters,
       header: _Filters(query: state.query),
-      empty: const EmptyState(
+      empty: const AppEmptyState(
         icon: Icons.confirmation_number_outlined,
         title: 'لا دخول يومي بهذه الفترة',
         message: 'بِع دخولاً يومياً لزائر أو لعضو بلا اشتراك من زر «بيع دخول يومي».',

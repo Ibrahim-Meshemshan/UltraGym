@@ -51,7 +51,7 @@ class AdvancesTable extends StatelessWidget {
         ),
         onClear: q.hasFilters ? list.clearFilters : null,
       ),
-      empty: EmptyState(
+      empty: AppEmptyState(
         icon: Icons.request_quote_rounded,
         title: 'لا سلف بعد',
         message: 'اصرف سلفة لموظف من الصندوق، وتُخصم من راتبه عند صرفه.',

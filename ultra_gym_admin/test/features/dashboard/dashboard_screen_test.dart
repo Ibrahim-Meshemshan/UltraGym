@@ -84,6 +84,20 @@ void main() {
     expect(h.location, '/memberships/3');
   });
 
+  testWidgets('revenue chart switches between 7 and 14 days', (tester) async {
+    final semantics = tester.ensureSemantics();
+    await open(tester);
+    expect(find.text('إيراد آخر 7 أيام'), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp(r'إيراد آخر 7 أيام.*\$12\.00')), findsOneWidget);
+
+    await tester.ensureVisible(find.text('14 يوماً'));
+    await tester.tap(find.text('14 يوماً'));
+    await tester.pumpAndSettle();
+    expect(find.text('إيراد آخر 14 يوماً'), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp(r'إيراد آخر 14 يوماً')), findsOneWidget);
+    semantics.dispose();
+  });
+
   for (final width in [360.0, 800.0, 1024.0]) {
     testWidgets('no overflow at ${width.toInt()}px', (tester) async {
       await open(tester, width: width);

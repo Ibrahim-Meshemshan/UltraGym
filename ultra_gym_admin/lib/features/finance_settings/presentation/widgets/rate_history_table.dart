@@ -22,7 +22,7 @@ class RateHistoryTable extends StatelessWidget {
       onPage: list.goTo,
       onRetry: list.load,
       header: Text('السجل', style: UType.h3(color: context.colors.ink)),
-      empty: const EmptyState(
+      empty: const AppEmptyState(
         icon: Icons.currency_exchange_rounded,
         title: 'لا أسعار مسجّلة بعد',
         message: 'اعتمد أول سعر صرف ليُحسب به أي مبلغ بالليرة.',

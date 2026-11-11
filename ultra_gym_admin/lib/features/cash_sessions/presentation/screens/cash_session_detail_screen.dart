@@ -24,7 +24,7 @@ class CashSessionDetailScreen extends StatelessWidget {
       return const AppPage(
         children: [
           _BackLink(),
-          EmptyState(
+          AppEmptyState(
             icon: Icons.search_off_rounded,
             title: 'الوردية غير موجودة',
             message: 'الرابط غير صحيح. افتح الوردية من قائمة الورديات.',

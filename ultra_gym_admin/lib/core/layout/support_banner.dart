@@ -4,12 +4,13 @@ import 'package:ultragym_design/ultragym_design.dart';
 
 import '../../features/auth/domain/models/auth_models.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../theme/app_palette.dart';
 import '../theme/app_tokens.dart';
 import '../utils/formatters.dart';
 import '../widgets/on_init.dart';
 
 /// شريط جلسة الدعم (`SystemStates.html`): ثابت أعلى كل الصفحات طوال الجلسة ولا يُخفى.
-/// ألوانه زرقاء داكنة بالثيمين كما بالنموذج.
+/// ألوانه زرقاء داكنة بالثيمين كما بالنموذج (من `AppPalette.dark`).
 class SupportBanner extends StatelessWidget {
   const SupportBanner({super.key, required this.session});
 
@@ -17,9 +18,10 @@ class SupportBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bg = UGPalette.dark.infoSoft;
-    final fg = UGPalette.light.infoSoft;
-    final hint = UGPalette.dark.infoInk;
+    const p = AppPalette.dark;
+    final bg = p.roles.infoSoft;
+    final fg = p.ink;
+    final hint = p.roles.infoInk;
     final ends = session.expiresAt;
     return Semantics(
       liveRegion: true,

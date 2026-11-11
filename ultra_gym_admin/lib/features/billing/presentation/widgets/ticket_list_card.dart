@@ -43,7 +43,7 @@ class TicketListCard extends StatelessWidget {
             isEmpty: (p) => p.items.isEmpty,
             empty: state.query.hasFilters
                 ? Text('لا تذاكر بهذه الحالة.', style: UType.label(color: c.inkMuted))
-                : EmptyState(
+                : AppEmptyState(
                     icon: Icons.support_agent_rounded,
                     title: 'لا تذاكر بعد',
                     message: 'لأي مشكلة أو سؤال عن الاشتراك افتح تذكرة، ويرد فريق UltraGym هنا.',

@@ -14,7 +14,7 @@ class PlanFeatureLocked extends StatelessWidget {
   Widget build(BuildContext context) => Center(
     child: SingleChildScrollView(
       padding: context.pagePadding,
-      child: EmptyState(
+      child: AppEmptyState(
         icon: Icons.workspace_premium_rounded,
         title: 'هذه الميزة ليست ضمن باقتك',
         message: 'الميزات تختلف حسب باقة النادي، ويمكن لفريق UltraGym إضافتها لناديك كاستثناء.',

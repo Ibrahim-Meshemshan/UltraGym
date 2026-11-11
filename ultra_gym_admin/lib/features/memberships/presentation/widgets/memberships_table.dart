@@ -26,17 +26,17 @@ class MembershipsTable extends StatelessWidget {
       onClearFilters: list.clearFilters,
       header: list.tab == MembershipsTab.all ? _Filters(query: state.query) : null,
       empty: switch (list.tab) {
-        MembershipsTab.all => const EmptyState(
+        MembershipsTab.all => const AppEmptyState(
           icon: Icons.card_membership_rounded,
           title: 'لا اشتراكات بعد',
           message: 'بيع أول اشتراك من ملف العضو، ويظهر هنا مع فترته ودينه.',
         ),
-        MembershipsTab.debts => const EmptyState(
+        MembershipsTab.debts => const AppEmptyState(
           icon: Icons.verified_rounded,
           title: 'لا ديون',
           message: 'كل الاشتراكات مدفوعة بالكامل.',
         ),
-        MembershipsTab.expiring => const EmptyState(
+        MembershipsTab.expiring => const AppEmptyState(
           icon: Icons.event_available_rounded,
           title: 'لا اشتراك ينتهي قريباً',
           message: 'لا اشتراكات تنتهي خلال ${MembershipFilters.expiringDays} أيام.',

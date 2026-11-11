@@ -22,7 +22,7 @@ class MembershipDetailScreen extends StatelessWidget {
       return const AppPage(
         children: [
           _BackLink(),
-          EmptyState(
+          AppEmptyState(
             icon: Icons.search_off_rounded,
             title: 'الاشتراك غير موجود',
             message: 'الرابط غير صحيح. افتح الاشتراك من قائمة الاشتراكات أو ملف العضو.',

@@ -4,14 +4,20 @@ import 'package:ultragym_design/ultragym_design.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_tokens.dart';
 
-/// ألوان القائمة الجانبية (داكنة بالثيمين). الشفافيات نفسها التي يستعملها `UGSidebar` بالحزمة،
-/// وعنوان المجموعة بلون `inkFaint` الفاتح كما بصفحة `Dashboard.html`.
-abstract final class SidebarInk {
-  static const selectedText = UGBrand.chalk;
-  static final groupLabel = UGPalette.light.inkFaint;
-  static final divider = UGPalette.dark.line;
-  static final selectedFill = UGBrand.white.withValues(alpha: .10);
-  static final hoverFill = UGBrand.white.withValues(alpha: .05);
+/// ألوان القائمة الجانبية من أدوار الثيم: فاتحة بالوضع الفاتح وداكنة بالداكن (كلوحة الديمو)،
+/// فالتحديد والمرور شفافية من لون النص نفسه.
+class SidebarInk {
+  SidebarInk._(UGPalette c)
+    : selectedText = c.ink,
+      groupLabel = c.inkFaint,
+      divider = c.line,
+      selectedFill = c.ink.withValues(alpha: .07),
+      hoverFill = c.ink.withValues(alpha: .04);
+
+  factory SidebarInk.of(BuildContext context) => SidebarInk._(context.colors);
+
+  final Color selectedText, groupLabel, divider, selectedFill, hoverFill;
+
   static Color focusFill(Color focus) => focus.withValues(alpha: .22);
 }
 
@@ -35,7 +41,8 @@ class NavTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final fg = selected ? SidebarInk.selectedText : c.sidebarInk;
+    final ink = SidebarInk.of(context);
+    final fg = selected ? ink.selectedText : c.sidebarInk;
     final tile = Semantics(
       selected: selected,
       button: true,
@@ -45,15 +52,15 @@ class NavTile extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           borderRadius: AppRadius.smAll,
-          hoverColor: SidebarInk.hoverFill,
+          hoverColor: ink.hoverFill,
           focusColor: SidebarInk.focusFill(c.focus),
           splashFactory: NoSplash.splashFactory,
-          highlightColor: SidebarInk.hoverFill,
+          highlightColor: ink.hoverFill,
           child: AnimatedContainer(
             duration: AppMotion.of(context, AppMotion.fast),
             curve: AppMotion.curve,
             height: AppSize.control,
-            decoration: BoxDecoration(color: selected ? SidebarInk.selectedFill : null, borderRadius: AppRadius.smAll),
+            decoration: BoxDecoration(color: selected ? ink.selectedFill : null, borderRadius: AppRadius.smAll),
             child: Stack(
               children: [
                 PositionedDirectional(

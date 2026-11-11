@@ -22,7 +22,7 @@ class MemberProfileScreen extends StatelessWidget {
       return const AppPage(
         children: [
           _BackLink(),
-          EmptyState(
+          AppEmptyState(
             icon: Icons.person_off_outlined,
             title: 'العضو غير موجود',
             message: 'الرابط غير صحيح. ابحث عن العضو من قائمة الأعضاء.',

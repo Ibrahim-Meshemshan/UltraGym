@@ -78,7 +78,7 @@ class DevicesTable extends StatelessWidget {
           ),
         ],
       ),
-      empty: const EmptyState(
+      empty: const AppEmptyState(
         icon: Icons.devices_other_rounded,
         title: 'لا أجهزة استقبال بعد',
         message: 'افتح شاشة الاستقبال على الجهاز وسجّله باسم وفرع، فيظهر هنا تلقائياً.',

@@ -38,6 +38,8 @@
 | `AppMotion` | `instant 90 / fast 140 / normal 220 / slow 380 / entrance 520 (+60 لكل عنصر)`، `curve`, `emphasized`, `exit`, `reduced()` , `of()` | `UMotionValues` |
 | `Breakpoints` | `UBreakpoints.mobile 600 / tablet 1024 / desktop 1320` | `UBreakpoints` |
 
+- **الألوان (منذ 2026-11-11، بطلب صاحب المشروع)**: ألوان لوحة "Ignara" الدافئة بدل ألوان الهوية، بكل الواجهات الأربع. `core/theme/app_palette.dart` (`AppPalette.light/dark`: قيم الديمو، و `roles` أدوار `UGPalette` معتمة، و `ornaments` ألوان الزخارف بالبرتقالي والعنبري) و `app_theme_data.dart` (نفس بناء `UltraGymTheme` بالحزمة بهذه الأدوار؛ `_build` بالحزمة خاصة). **الحزمة لم تُعدَّل**، والملفان متطابقان بالمشاريع الأربعة (عدّل الأربعة معاً). الزخارف: مرّر `colors: AppPalette.dark.ornaments` (أرضية داكنة) أو `AppPalette.of(context).ornaments`، ولا `UOrnColors.light/dark` (ألوان الهوية القديمة). الحالة الفارغة `AppEmptyState` (`core/widgets`) بدل `EmptyState` الحزمة لأن الحزمة ترسم زخرفتها بلا معامل ألوان. `HeroBanner` الحزمة يرسم زخرفته بألوان الهوية: لا تستعمله. القائمة الجانبية فاتحة بالوضع الفاتح (`sidebar`)، فالشعار عليها `onDark: context.isDark`؛ شاشة البدء والدخول على `hero` الداكنة بالثيمين. التراجع: `AppTheme` يرجع لـ `UltraGymTheme` (نسخة ما قبل التغيير بأول commit بالمستودع).
+
 - **الأدوار اللونية**: `bg`، `surface/surfaceAlt`، `line/lineStrong`، `ink/inkMuted/inkFaint`، `sidebar/sidebarInk/hero` (لون الهيكل)، `primary(+Hover/Soft/Ink/onPrimary)` = الفعل، `accent(+Soft/Ink/onAccent)` = اللمعة/المحدد/الإنجاز، `success/warning/danger/info` بثلاث درجات (قوي، Soft خلفية، Ink نص).
 - **لون واحد لكل معنى.** زر أساسي واحد بكل شاشة. الخطر مختلف بوضوح عن الفعل.
 - **الشارة دائماً**: خلفية هادئة + نص بالحبر + نقطة (`StatusBadge(label, tone: UTone.x)`). اللون وحده لا يكفي.

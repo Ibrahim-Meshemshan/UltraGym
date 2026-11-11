@@ -6,6 +6,7 @@ import '../../networking/paged.dart';
 import '../../responsive/responsive.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_tokens.dart';
+import '../app_empty_state.dart';
 import '../shimmers.dart';
 import '../slice_view.dart';
 import 'app_data_table.dart';
@@ -86,7 +87,7 @@ class NoResults extends StatelessWidget {
   final VoidCallback? onClear;
 
   @override
-  Widget build(BuildContext context) => EmptyState(
+  Widget build(BuildContext context) => AppEmptyState(
     icon: Icons.search_off_rounded,
     title: 'لا نتائج مطابقة',
     message: 'جرّب كلمة بحث أخرى أو امسح الفلاتر لعرض الكل.',

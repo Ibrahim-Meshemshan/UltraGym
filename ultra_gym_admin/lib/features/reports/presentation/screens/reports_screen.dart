@@ -36,7 +36,7 @@ class _Body extends StatelessWidget {
           onRetry: catalog.load,
           loading: const Column(spacing: AppSpace.s4, children: [StatsShimmer(), TableShimmer(columns: 4)]),
           isEmpty: (c) => c.reports.isEmpty,
-          empty: const EmptyState(
+          empty: const AppEmptyState(
             icon: Icons.bar_chart_rounded,
             title: 'لا تقارير متاحة لك',
             message: 'التقارير المالية للمالك. اطلب من مالك النادي ما تحتاجه.',

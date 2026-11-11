@@ -32,12 +32,12 @@ class MembersTable extends StatelessWidget {
       onClearFilters: list.clearFilters,
       header: _Filters(query: state.query, showStatus: !archive),
       empty: archive
-          ? const EmptyState(
+          ? const AppEmptyState(
               icon: Icons.inventory_2_outlined,
               title: 'الأرشيف فارغ',
               message: 'الأعضاء المؤرشفون يظهرون هنا، ويمكن استرجاعهم بسجلهم كاملاً.',
             )
-          : EmptyState(
+          : AppEmptyState(
               icon: Icons.person_add_alt_1_rounded,
               title: 'أضف أول عضو',
               message: 'سجّل بيانات العضو، ويصله رقم دخول وكلمة سر مؤقتة على واتساب.',

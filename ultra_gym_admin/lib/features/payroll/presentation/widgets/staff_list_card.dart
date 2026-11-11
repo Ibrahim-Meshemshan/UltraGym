@@ -33,7 +33,7 @@ class StaffListCard extends StatelessWidget {
           onRetry: onRetry,
           loading: const _Shimmer(),
           isEmpty: (r) => r.staff.isEmpty,
-          empty: const EmptyState(
+          empty: const AppEmptyState(
             icon: Icons.badge_rounded,
             title: 'لا موظفين فعّالين',
             message: 'أضف المدربين والموظفين برواتبهم من "الموظفون والحسابات" ثم اصرف رواتبهم من هنا.',
