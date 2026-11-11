@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "admin-web",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "cd /d ultra_gym_admin && flutter run -d web-server --web-hostname 127.0.0.1 --web-port 5173 --release --dart-define=API_BASE_URL=http://127.0.0.1:8000/api/v1"
+      ],
+      "port": 5173
+    },
+    {
+      "name": "reception-web",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "cd /d ultra_gym_reception && flutter run -d web-server --web-hostname 127.0.0.1 --web-port 5174 --release --dart-define=API_BASE_URL=http://127.0.0.1:8000/api/v1"
+      ],
+      "port": 5174
+    }
+  ]
+}

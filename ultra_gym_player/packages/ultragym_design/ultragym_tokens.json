@@ -1,0 +1,311 @@
+{
+  "$schema": "UltraGym tokens v1",
+  "name": "UltraGym",
+  "note": "كل القيم من studio/engine.js. الألوان بالثيمين، الخطوط، المسافات، الزوايا، الظلال، المقاسات، الحركة، شفافيات الزخارف.",
+  "palette": {
+    "orange": "#FF5A1F",
+    "orangeHi": "#FF6A30",
+    "orangeDeep": "#B53D0A",
+    "charcoal": "#1A1A17",
+    "carbon": "#121210",
+    "bone": "#F5F5F2",
+    "volt": "#C8F03C",
+    "moss": "#4F7A00",
+    "white": "#FFFFFF",
+    "chalk": "#F3F3EE"
+  },
+  "color": {
+    "light": {
+      "bg": "#F5F5F2",
+      "surface": "#FFFFFF",
+      "surfaceAlt": "#EDEDE8",
+      "line": "#E0E0DA",
+      "lineStrong": "#C9C9C0",
+      "ink": "#1A1A17",
+      "inkMuted": "#5F5F57",
+      "inkFaint": "#8A8A80",
+      "sidebar": "#1A1A17",
+      "sidebarInk": "#C9C9C0",
+      "hero": "#1A1A17",
+      "primary": "#FF5A1F",
+      "primaryHover": "#F04A0E",
+      "onPrimary": "#1A1A17",
+      "primaryInk": "#B53D0A",
+      "primarySoft": "#FFE8DC",
+      "accent": "#C8F03C",
+      "onAccent": "#1A1A17",
+      "accentInk": "#4F7A00",
+      "accentSoft": "#EEF8D2",
+      "success": "#2E9E6B",
+      "successSoft": "#E3F5EC",
+      "successInk": "#0D7350",
+      "warning": "#E0A21B",
+      "warningSoft": "#FFF1D1",
+      "warningInk": "#8A5800",
+      "danger": "#D6335A",
+      "dangerSoft": "#FDE6EC",
+      "dangerInk": "#B81F45",
+      "info": "#3D6BF2",
+      "infoSoft": "#E6ECFF",
+      "infoInk": "#2A50C8",
+      "focus": "#1A1A17"
+    },
+    "dark": {
+      "bg": "#121210",
+      "surface": "#1B1B18",
+      "surfaceAlt": "#24241F",
+      "line": "#2E2E29",
+      "lineStrong": "#45453D",
+      "ink": "#F3F3EE",
+      "inkMuted": "#A9A99F",
+      "inkFaint": "#7A7A70",
+      "sidebar": "#0B0B0A",
+      "sidebarInk": "#A9A99F",
+      "hero": "#1B1B18",
+      "primary": "#FF6A30",
+      "primaryHover": "#FF7D4A",
+      "onPrimary": "#1A1A17",
+      "primaryInk": "#FF8E5E",
+      "primarySoft": "#3A1C10",
+      "accent": "#C8F03C",
+      "onAccent": "#1A1A17",
+      "accentInk": "#C8F03C",
+      "accentSoft": "#2C3311",
+      "success": "#3DD68C",
+      "successSoft": "#163126",
+      "successInk": "#3DD68C",
+      "warning": "#F5B642",
+      "warningSoft": "#33280F",
+      "warningInk": "#F5B642",
+      "danger": "#FF7A95",
+      "dangerSoft": "#3A1520",
+      "dangerInk": "#FF7A95",
+      "info": "#8AA9FF",
+      "infoSoft": "#1C2747",
+      "infoInk": "#8AA9FF",
+      "focus": "#C8F03C"
+    }
+  },
+  "logo": {
+    "light": {
+      "bar": "#1A1A17",
+      "u": "#FF5A1F",
+      "head": "#FF5A1F",
+      "ultra": "#1A1A17",
+      "gym": "#FF5A1F",
+      "sub": "#5F5F57"
+    },
+    "dark": {
+      "bar": "#F3F3EE",
+      "u": "#FF6A30",
+      "head": "#FF6A30",
+      "ultra": "#F3F3EE",
+      "gym": "#FF6A30",
+      "sub": "#A9A99F"
+    },
+    "onOrange": {
+      "bar": "#1A1A17",
+      "u": "#1A1A17",
+      "head": "#1A1A17",
+      "ultra": "#1A1A17",
+      "gym": "#FFFFFF",
+      "sub": "#1A1A17"
+    },
+    "onVolt": {
+      "bar": "#1A1A17",
+      "u": "#FF5A1F",
+      "head": "#FF5A1F",
+      "ultra": "#1A1A17",
+      "gym": "#1A1A17",
+      "sub": "#1A1A17"
+    },
+    "mono": {
+      "bar": "currentColor",
+      "u": "currentColor",
+      "head": "currentColor",
+      "ultra": "currentColor",
+      "gym": "currentColor",
+      "sub": "currentColor"
+    }
+  },
+  "font": {
+    "display": {
+      "family": "Changa",
+      "file": "fonts/Changa-VariableFont_wght.ttf",
+      "weights": "200 800"
+    },
+    "sans": {
+      "family": "Readex Pro",
+      "file": "fonts/ReadexPro-VariableFont_wght.ttf",
+      "weights": "160 700"
+    }
+  },
+  "type": {
+    "displayXl": {
+      "family": "Changa",
+      "size": 48,
+      "lineHeight": 56,
+      "weight": 800,
+      "use": "ترحيب كبير، شاشة البدء، أرقام البوستات"
+    },
+    "displayMd": {
+      "family": "Changa",
+      "size": 32,
+      "lineHeight": 42,
+      "weight": 700,
+      "use": "تحية البانر، عنوان حالة فارغة أو نجاح"
+    },
+    "h1": {
+      "family": "Readex Pro",
+      "size": 24,
+      "lineHeight": 36,
+      "weight": 600,
+      "use": "عنوان الصفحة"
+    },
+    "h2": {
+      "family": "Readex Pro",
+      "size": 19,
+      "lineHeight": 30,
+      "weight": 600,
+      "use": "عنوان قسم أو نافذة"
+    },
+    "h3": {
+      "family": "Readex Pro",
+      "size": 16,
+      "lineHeight": 26,
+      "weight": 600,
+      "use": "عنوان بطاقة"
+    },
+    "stat": {
+      "family": "Changa",
+      "size": 30,
+      "lineHeight": 36,
+      "weight": 700,
+      "use": "رقم الإحصائية"
+    },
+    "bodyLg": {
+      "family": "Readex Pro",
+      "size": 15,
+      "lineHeight": 26,
+      "weight": 400,
+      "use": "نص الموبايل"
+    },
+    "body": {
+      "family": "Readex Pro",
+      "size": 14,
+      "lineHeight": 24,
+      "weight": 400,
+      "use": "النص الافتراضي"
+    },
+    "label": {
+      "family": "Readex Pro",
+      "size": 12.5,
+      "lineHeight": 20,
+      "weight": 500,
+      "use": "الأزرار والتسميات"
+    },
+    "caption": {
+      "family": "Readex Pro",
+      "size": 11.5,
+      "lineHeight": 18,
+      "weight": 400,
+      "use": "النص المساعد (أصغر حجم)"
+    }
+  },
+  "space": {
+    "s1": 4,
+    "s2": 8,
+    "s3": 12,
+    "s4": 16,
+    "s5": 20,
+    "s6": 24,
+    "s8": 32,
+    "s10": 40,
+    "s12": 48,
+    "s16": 64
+  },
+  "radius": {
+    "xs": 6,
+    "sm": 10,
+    "field": 12,
+    "card": 16,
+    "cut": 18,
+    "hero": 22,
+    "full": 999
+  },
+  "slantDeg": 10,
+  "size": {
+    "controlSm": 34,
+    "control": 42,
+    "controlLg": 50,
+    "topBar": 64,
+    "sidebar": 264,
+    "sidebarCollapsed": 76,
+    "bottomNav": 68
+  },
+  "breakpoints": {
+    "mobile": 600,
+    "tablet": 1024,
+    "desktop": 1320
+  },
+  "shadow": {
+    "light": {
+      "hover": "0 8px 24px rgba(26,26,23,.08)",
+      "float": "0 24px 60px rgba(26,26,23,.16)"
+    },
+    "dark": {
+      "hover": "0 8px 24px rgba(0,0,0,.35)",
+      "float": "0 24px 60px rgba(0,0,0,.5)"
+    }
+  },
+  "motion": {
+    "curves": {
+      "standard": [
+        0.25,
+        1,
+        0.3,
+        1
+      ],
+      "emphasized": [
+        0.7,
+        0,
+        0.2,
+        1
+      ],
+      "exit": [
+        0.4,
+        0,
+        1,
+        1
+      ]
+    },
+    "ms": {
+      "press": 90,
+      "fast": 140,
+      "base": 220,
+      "slow": 380,
+      "long": 460,
+      "entrance": 520,
+      "entranceStep": 60,
+      "countUp": 900,
+      "bars": 800,
+      "barStep": 70,
+      "shine": 700,
+      "ping": 1600
+    },
+    "ambient": {
+      "speedPattern": 30000,
+      "plateSpin": 40000,
+      "dialSweep": 8000,
+      "pulse": 1600
+    }
+  },
+  "ornamentOpacity": {
+    "heroPattern": 0.1,
+    "heroPlate": 0.3,
+    "loginPattern": 0.12,
+    "loginPlate": 0.32,
+    "emptyDial": 1,
+    "appHeaderPattern": 0.1
+  }
+}

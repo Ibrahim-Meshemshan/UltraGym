@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UltraGym · تسجيل الدخول · UltraGym v1</title>
+<style>
+@font-face{font-family:'Changa';src:url(assets/Changa-VariableFont_wght.ttf) format('truetype');font-weight:200 800;font-display:swap}
+@font-face{font-family:'Readex Pro';src:url(assets/ReadexPro-VariableFont_wght.ttf) format('truetype');font-weight:160 700;font-display:swap}
+body{margin:0;background:#121210}
+a{color:#FF8E5E}a:hover{color:#FFB08C}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.bg{background-color:#121210;background-image:url(assets/backdrop-login-dark.svg);background-size:cover;background-position:center}
+.track{background-image:url(assets/band-track-tile-dark.svg);background-repeat:repeat-x;background-size:160px 48px}
+.frame{background:#2E2E29;padding:1px;clip-path:polygon(0 0,calc(100% - 26px) 0,100% 26px,100% 100%,26px 100%,0 calc(100% - 26px));box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.frame>.in{background:#1B1B18;clip-path:polygon(0 0,calc(100% - 25.6px) 0,100% 25.6px,100% 100%,25.6px 100%,0 calc(100% - 25.6px))}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12.5px;font-weight:500;color:#A9A99F}
+.box{display:flex;align-items:center;gap:10px;height:50px;border:1px solid #45453D;border-radius:12px;background:#121210;padding:0 14px;box-sizing:border-box;color:#A9A99F}
+.box input{flex:1;min-width:0;border:0;background:transparent;color:#F3F3EE;font-family:'Readex Pro',sans-serif;font-size:15px;outline:none}
+.btn{height:50px;border-radius:10px;font-family:'Readex Pro',sans-serif;font-size:14px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;cursor:pointer;box-sizing:border-box}
+.btn-primary{background:#FF6A30;color:#1A1A17}.btn-ghost{background:transparent;color:#FF8E5E}
+.club{display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;border:1px solid #2E2E29;border-radius:14px;background:#24241F;color:#F3F3EE;font-family:'Readex Pro',sans-serif;cursor:pointer;text-align:right;box-sizing:border-box}
+.club:hover{border-color:#FF6A30}
+.badge{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;border-radius:999px;font-size:11.5px;font-weight:500;white-space:nowrap}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+</style>
+<link rel="stylesheet" href="proto.css">
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-src">
+<div class="bg" style="min-height:900px;width:100%;position:relative;display:flex;align-items:center;justify-content:center;padding:48px 16px 96px;box-sizing:border-box;font-family:'Readex Pro',sans-serif;color:#F3F3EE;direction:rtl">
+
+  <div class="frame" style="width:100%;max-width:440px"><div class="in" style="padding:36px 32px 32px;display:flex;flex-direction:column;gap:20px">
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+      <img src="assets/ultragym-vertical-dark.svg" alt="UltraGym" style="height:96px">
+      <img src="assets/divider-pulse-dark.svg" alt="" style="width:200px;height:14px">
+    </div>
+
+    <template data-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+      <form style="display:flex;flex-direction:column;gap:16px;margin:0" onSubmit="{{ submit }}">
+        <div style="text-align:center;display:flex;flex-direction:column;gap:4px">
+          <h1 style="margin:0;font-family:'Changa',sans-serif;font-weight:700;font-size:32px;line-height:42px">أهلاً بعودتك</h1>
+          <p style="margin:0;font-size:14px;line-height:24px;color:#A9A99F">سجّل دخولك لإدارة ناديك</p>
+        </div>
+        <template data-if value="{{ showInvalid }}" hint-placeholder-val="{{ false }}">
+          <div role="alert" style="background:#3A1520;color:#FF7A95;border-radius:12px;padding:10px 14px;font-size:13px;line-height:22px">الموبايل أو معرّف العضو أو كلمة السر غير صحيحة.</div>
+        </template>
+        <template data-if value="{{ showLocked }}" hint-placeholder-val="{{ false }}">
+          <div role="alert" style="background:#33280F;color:#F5B642;border-radius:12px;padding:10px 14px;font-size:13px;line-height:22px">محاولات خاطئة كثيرة. أعد المحاولة بعد <strong class="ltr">14:32</strong> دقيقة.</div>
+        </template>
+        <div class="field">
+          <label for="lg-id">الموبايل أو معرّف العضو</label>
+          <div class="box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><input id="lg-id" dir="ltr" style="text-align:right" placeholder="0944 123 456 أو QMA-482913" autocomplete="username"></div>
+        </div>
+        <div class="field">
+          <label for="lg-pw">كلمة السر</label>
+          <div class="box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><input id="lg-pw" type="password" value="password" autocomplete="current-password"><button type="button" aria-label="إظهار كلمة السر" style="border:0;background:transparent;color:#A9A99F;cursor:pointer;padding:4px;display:flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+        </div>
+        <button class="btn btn-primary" type="submit" disabled="{{ locked }}" style="width:100%">دخول</button>
+        <p style="margin:0;text-align:center;font-size:12.5px;line-height:20px;color:#A9A99F">نسيت كلمة السر؟ اطلب كلمة سر جديدة من إدارة ناديك.</p>
+      </form>
+    </template>
+
+    <template data-if value="{{ isSelect }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="text-align:center;display:flex;flex-direction:column;gap:4px">
+          <h1 style="margin:0;font-family:'Changa',sans-serif;font-weight:700;font-size:32px;line-height:42px">اختر النادي</h1>
+          <p style="margin:0;font-size:14px;line-height:24px;color:#A9A99F">حسابك مرتبط بأكثر من نادٍ</p>
+        </div>
+        <button class="club" type="button" onClick="{{ goChange }}">
+          <span style="width:44px;height:44px;border-radius:12px;background:#3A1C10;color:#FF8E5E;display:flex;align-items:center;justify-content:center;font-family:'Changa',sans-serif;font-weight:700;font-size:18px;flex:0 0 auto">ق</span>
+          <span style="flex:1;display:flex;flex-direction:column;gap:4px"><strong style="font-size:15px;font-weight:600">نادي القمة الرياضي</strong><span class="badge" style="background:#3A1C10;color:#FF8E5E;align-self:flex-start">مالك النادي</span></span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A9A99F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <button class="club" type="button" onClick="{{ goChange }}">
+          <span style="width:44px;height:44px;border-radius:12px;background:#24241F;border:1px solid #45453D;color:#A9A99F;display:flex;align-items:center;justify-content:center;font-family:'Changa',sans-serif;font-weight:700;font-size:18px;flex:0 0 auto;box-sizing:border-box">أ</span>
+          <span style="flex:1;display:flex;flex-direction:column;gap:4px"><strong style="font-size:15px;font-weight:600">نادي الأبطال</strong><span class="badge" style="background:#24241F;color:#A9A99F;border:1px solid #45453D;align-self:flex-start">موظف استقبال</span></span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A9A99F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <button class="btn btn-ghost" type="button" onClick="{{ goLogin }}" style="width:100%">رجوع</button>
+      </div>
+    </template>
+
+    <template data-if value="{{ isChange }}" hint-placeholder-val="{{ false }}">
+      <form style="display:flex;flex-direction:column;gap:16px;margin:0" onSubmit="{{ submitChange }}">
+        <div style="text-align:center;display:flex;flex-direction:column;gap:4px">
+          <h1 style="margin:0;font-family:'Changa',sans-serif;font-weight:700;font-size:30px;line-height:40px">اختر كلمة سر جديدة</h1>
+          <p style="margin:0;font-size:14px;line-height:24px;color:#A9A99F">دخلت بكلمة سر مؤقتة من النادي. غيّرها لتكمل.</p>
+        </div>
+        <div class="field"><label for="cp-old">كلمة السر المؤقتة</label><div class="box"><input id="cp-old" type="password" value="temporary" autocomplete="current-password"></div></div>
+        <div class="field"><label for="cp-new">كلمة السر الجديدة</label><div class="box"><input id="cp-new" type="password" autocomplete="new-password"></div><span style="font-size:11.5px;color:#A9A99F">8 أحرف على الأقل</span></div>
+        <div class="field"><label for="cp-conf">تأكيد كلمة السر</label><div class="box"><input id="cp-conf" type="password" autocomplete="new-password"></div></div>
+        <button class="btn btn-primary" type="submit" style="width:100%">حفظ والمتابعة</button>
+        <button class="btn btn-ghost" type="button" onClick="{{ goLogin }}" style="width:100%;height:40px">تسجيل الخروج</button>
+      </form>
+    </template>
+
+  </div></div>
+
+  <div class="track" style="position:absolute;left:0;right:0;bottom:0;height:48px" aria-hidden="true"></div>
+</div>
+</template>
+<script type="application/json" id="dc-props">{"step":{"editor":"enum","options":["login","select_club","change_password"],"default":"login"},"error":{"editor":"enum","options":["none","invalid","locked"],"default":"none"},"$preview":{"width":1440,"height":900}}</script>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  renderVals() {
+    const step = (this.state && this.state.step) || this.props.step || 'login';
+    const error = this.props.error || 'none';
+    const go = (s) => (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ step: s }); };
+    return {
+      isLogin: step === 'login',
+      isSelect: step === 'select_club',
+      isChange: step === 'change_password',
+      showInvalid: error === 'invalid',
+      showLocked: error === 'locked',
+      locked: error === 'locked',
+      submit: go('select_club'),
+      submitChange: go('login'),
+      goChange: go('change_password'),
+      goLogin: go('login')
+    };
+  }
+}
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

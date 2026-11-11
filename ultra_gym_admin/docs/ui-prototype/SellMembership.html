@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لوحة النادي · بيع اشتراك · UltraGym v1</title>
+<style>
+@font-face{font-family:'Changa';src:url(assets/Changa-VariableFont_wght.ttf) format('truetype');font-weight:200 800;font-display:swap}
+@font-face{font-family:'Readex Pro';src:url(assets/ReadexPro-VariableFont_wght.ttf) format('truetype');font-weight:160 700;font-display:swap}
+body{margin:0;background:var(--bg)}
+a{color:var(--p-ink);text-decoration:none}a:hover{color:var(--p-ink2)}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.cut{background:var(--line);padding:1px;border-radius:16px;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+.cut>.in{background:var(--surface);border-radius:15px;clip-path:polygon(0 0,calc(100% - 17.6px) 0,100% 17.6px,100% 100%,0 100%);height:100%;box-sizing:border-box}
+.badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:500;white-space:nowrap}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.t-success{background:var(--s-soft);color:var(--s-ink)}.t-warning{background:var(--w-soft);color:var(--w-ink)}.t-danger{background:var(--d-soft);color:var(--d-ink)}.t-info{background:var(--i-soft);color:var(--i-ink)}.t-accent{background:var(--a-soft);color:var(--a-ink)}.t-primary{background:var(--p-soft);color:var(--p-ink)}.t-neutral{background:var(--soft);color:var(--muted)}
+.btn{height:42px;padding:0 18px;border-radius:10px;font-family:'Readex Pro',sans-serif;font-size:13px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;cursor:pointer;box-sizing:border-box;white-space:nowrap}
+.btn-primary{background:var(--primary);color:#1A1A18}.btn-secondary{background:var(--surface);border-color:var(--line);color:var(--ink)}.btn-ghost{background:transparent;color:var(--p-ink);padding:0 8px;height:34px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.side{background:#1A1A17;color:#C9C9C0;flex:0 0 264px;width:264px;padding:20px 12px;box-sizing:border-box;display:flex;flex-direction:column;gap:4px}
+.nav-label{font-size:11.5px;color:#8A8A80;padding:14px 12px 6px}
+.nav{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:10px;color:#C9C9C0;font-size:13.5px;position:relative}
+.nav:hover{background:rgba(255,255,255,.05);color:#F3F3EE}
+.nav.on{background:rgba(255,255,255,.10);color:#F3F3EE;font-weight:600}
+.nav.on::after{content:'';position:absolute;right:0;top:9px;bottom:9px;width:4px;border-radius:4px;background:#FF5A1F}
+.nav.on svg{color:#FF5A1F}
+.top{height:64px;display:flex;align-items:center;gap:12px;padding:0 24px;border-bottom:1px solid var(--line);background:var(--bg);flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-family:'Readex Pro',sans-serif;font-size:13px;color:var(--ink);cursor:pointer;box-sizing:border-box;white-space:nowrap}
+.iconbtn{width:38px;height:38px;border-radius:999px;border:1px solid var(--line);background:var(--surface);display:inline-flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer;position:relative}
+.step{display:flex;align-items:center;gap:10px;margin:0;font-size:16px;line-height:26px;font-weight:600}
+.num{width:24px;height:24px;border-radius:7px;background:var(--inv);color:var(--on-inv);font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;transform:skewX(-10deg)}
+.plan{position:relative;display:flex;flex-direction:column;gap:6px;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);cursor:pointer;font-family:'Readex Pro',sans-serif;text-align:right;color:var(--ink);box-sizing:border-box}
+.plan.on{border:2px solid var(--primary);background:var(--p-soft);padding:15px}
+.input{height:42px;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:0 14px;font-family:'Readex Pro',sans-serif;font-size:14px;color:var(--ink);box-sizing:border-box;width:100%}
+.lbl{font-size:12.5px;font-weight:500;color:var(--muted)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.seg button{height:38px;padding:0 16px;border:0;background:transparent;font-family:'Readex Pro',sans-serif;font-size:12.5px;font-weight:500;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--inv);color:var(--on-inv)}
+.sum{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:14px;padding:8px 0}
+
+.th-light{--bg:#F5F5F2;--surface:#FFFFFF;--soft:#EDEDE8;--line:#E0E0DA;--divider:#EDEDE8;--inv:#1A1A17;--on-inv:#F3F3EE;--ink:#1A1A17;--muted:#5F5F57;--faint:#8A8A80;--primary:#FF5A1F;--p-soft:#FFE8DC;--p-ink:#B53D0A;--p-ink2:#8E2F06;--s-soft:#E3F5EC;--s-ink:#0D7350;--w-soft:#FFF1D1;--w-ink:#8A5800;--d-soft:#FDE6EC;--d-ink:#B81F45;--d-line:#F3C2CF;--i-soft:#E6ECFF;--i-ink:#2A50C8;--a-soft:#EEF8D2;--a-ink:#4F7A00}
+.th-dark{--bg:#121210;--surface:#1B1B18;--soft:#24241F;--line:#2E2E29;--divider:#26261F;--inv:#F3F3EE;--on-inv:#1A1A17;--ink:#F3F3EE;--muted:#A9A99F;--faint:#7A7A70;--primary:#FF6A30;--p-soft:#3A1C10;--p-ink:#FF8E5E;--p-ink2:#FFB08A;--s-soft:#163126;--s-ink:#3DD68C;--w-soft:#33280F;--w-ink:#F5B642;--d-soft:#3A1520;--d-ink:#FF7A95;--d-line:#5A2333;--i-soft:#1C2747;--i-ink:#8AA9FF;--a-soft:#263012;--a-ink:#C8F03C}
+.th-dark{color-scheme:dark}
+.th-dark .tbl tbody tr:hover{background:#24241F}
+
+.sk{background:linear-gradient(90deg,var(--soft,#24241F) 25%,var(--line,#2E2E29) 37%,var(--soft,#24241F) 63%);background-size:400% 100%;animation:skm 1.4s ease infinite;border-radius:8px}
+@keyframes skm{0%{background-position:100% 50%}100%{background-position:0 50%}}
+@media (prefers-reduced-motion:reduce){.sk{animation:none}}
+.pse{background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:16px;padding:40px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.pse .ico{width:56px;height:56px;border-radius:999px;background:var(--d-soft,#3A1520);color:var(--d-ink,#FF7A95);display:flex;align-items:center;justify-content:center}
+</style>
+<link rel="stylesheet" href="proto.css">
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-src">
+<div class="{{ themeCls }}" style="min-height:1180px;display:flex;flex-wrap:wrap;font-family:'Readex Pro',sans-serif;color:var(--ink);direction:rtl;background:var(--bg)">
+
+  <nav class="side" aria-label="القائمة الرئيسية">
+    <div style="padding:6px 12px 18px;border-bottom:1px solid #2E2E29;margin-bottom:6px"><img src="assets/ultragym-horizontal-dark.svg" alt="UltraGym" style="height:30px"></div>
+    <a class="nav" href="Dashboard.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="10" rx="2"/><rect x="13" y="3" width="8" height="6" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg>الرئيسية</a>
+    <span class="nav-label">التشغيل</span>
+    <a class="nav" href="Members.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></svg>الأعضاء</a>
+    <a class="nav on" href="Memberships.html" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg>الاشتراكات والديون</a>
+    <a class="nav" href="Attendance.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4H5v16h5M14 8l4 4-4 4M18 12H9"/></svg>الحضور</a>
+    <span class="nav-label">المالية</span>
+    <a class="nav" href="CashSessions.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16v12H4zM4 7l2-3h12l2 3M16 13h2"/></svg>الصندوق والحركات</a>
+    <a class="nav" href="Payroll.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"/></svg>الرواتب والسلف</a>
+    <a class="nav" href="Reports.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>التقارير</a>
+    <span class="nav-label">النادي</span>
+    <a class="nav" href="Plans.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>الخطط والكوبونات</a>
+    <a class="nav" href="Training.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 12h3M19 12h3M5 8v8M19 8v8M7 12h10"/></svg>المدربون والتدريب</a>
+    <a class="nav" href="Announcements.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10v4h3l7 4V6L6 10zM17 9a4 4 0 0 1 0 6"/></svg>الإعلانات</a>
+    <span class="nav-label">الإدارة</span>
+    <a class="nav" href="BranchSettings.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg>الإعدادات والفروع</a>
+    <a class="nav" href="Staff.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16a3 3 0 0 1 6 0M14 10h4M14 14h3"/></svg>الموظفون والحسابات</a>
+    <a class="nav" href="ReceptionDevices.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10v18H7zM11 18h2"/></svg>أجهزة الاستقبال</a>
+    <a class="nav" href="ClubBilling.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg>اشتراك النادي والدعم</a>
+    <div style="margin-top:auto;padding:16px 12px 0;border-top:1px solid #2E2E29;display:flex;align-items:center;gap:10px">
+      <span style="width:36px;height:36px;border-radius:999px;background:#FF5A1F;color:#1A1A17;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px">س</span>
+      <span style="display:flex;flex-direction:column"><strong style="color:#F3F3EE;font-size:13px;font-weight:600">سامر الحلبي</strong><span style="font-size:11.5px;color:#A9A99F">مالك النادي</span></span>
+    </div>
+  </nav>
+
+  <div style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column">
+    <header class="top">
+      <div style="margin-left:auto;display:flex;flex-direction:column">
+        <span style="font-size:12px;color:var(--muted)"><a href="Members.html" style="color:var(--muted)">الاشتراكات</a> ‹ بيع اشتراك</span>
+        <h1 style="margin:0;font-size:22px;line-height:30px;font-weight:600">بيع اشتراك</h1>
+      </div>
+      <button class="pill" type="button" aria-label="فرع البيع"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>الفرع الرئيسي – المزة<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <template data-if value="{{ cashOpen }}" hint-placeholder-val="{{ true }}"><span class="badge t-accent" style="height:30px;padding:0 12px">الوردية <span class="ltr">#48</span> مفتوحة</span></template>
+      <template data-if value="{{ cashClosed }}" hint-placeholder-val="{{ false }}"><span class="badge t-neutral" style="height:30px;padding:0 12px">الصندوق مغلق</span></template>
+      <button class="iconbtn" type="button" onClick="{{ toggleTheme }}" aria-label="{{ themeLabel }}" title="{{ themeLabel }}"><template data-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></template><template data-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></template></button>
+      <button class="iconbtn" type="button" aria-label="الإشعارات"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></svg></button>
+    </header>
+
+    <template data-if value="{{ cashClosed }}" hint-placeholder-val="{{ false }}">
+      <div role="alert" style="display:flex;align-items:center;gap:12px;padding:12px 24px;background:var(--w-soft);color:var(--w-ink);font-size:13px;flex-wrap:wrap"><strong style="font-weight:600">لا توجد وردية صندوق مفتوحة بهذا الفرع.</strong><span>افتح الصندوق لتسجيل الدفعات.</span><button class="btn btn-secondary" type="button" style="margin-right:auto;height:34px">فتح الصندوق</button></div>
+    </template>
+
+    <main style="padding:24px;display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;max-width:1240px;width:100%;box-sizing:border-box">
+<template data-if value="{{ psReady }}" hint-placeholder-val="{{ true }}"><div style="display:contents">
+
+      <div style="flex:2 1 520px;min-width:0;display:flex;flex-direction:column;gap:16px">
+
+        <section class="cut"><div class="in" style="padding:20px 24px;display:flex;flex-direction:column;gap:14px">
+          <h2 class="step"><span class="num"><span style="transform:skewX(10deg)">1</span></span>العضو</h2>
+          <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+            <span style="width:48px;height:48px;border-radius:999px;background:var(--p-soft);color:var(--p-ink);display:flex;align-items:center;justify-content:center;font-weight:600">ه ي</span>
+            <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><strong style="font-size:15px;font-weight:600">هبة يوسف</strong><span style="font-size:12.5px;color:var(--muted)"><span class="ltr">QMA-890424</span> · <span class="ltr">+963 911 223 344</span> · أنثى</span></span>
+            <span class="badge t-neutral">بلا اشتراك</span>
+            <button class="btn btn-ghost" type="button">تغيير العضو</button>
+          </div>
+        </div></section>
+
+        <section class="cut"><div class="in" style="padding:20px 24px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><h2 class="step"><span class="num"><span style="transform:skewX(10deg)">2</span></span>الخطة</h2><span style="font-size:12px;color:var(--muted)">الخطط الفعّالة التي تشمل هذا الفرع</span></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px" role="radiogroup" aria-label="الخطة">
+            <button class="plan on" type="button" role="radio" aria-checked="true">
+              <span style="display:flex;justify-content:space-between;align-items:center"><strong style="font-size:15px;font-weight:600">شهري – حديد</strong><span style="width:18px;height:18px;border-radius:999px;border:5px solid var(--primary);box-sizing:border-box"></span></span>
+              <span style="font-size:12.5px;color:var(--muted)">بالمدة · 30 يومًا · كل الفروع</span>
+              <span style="display:flex;align-items:baseline;gap:8px;margin-top:4px"><strong class="ltr" style="font-family:'Changa',sans-serif;font-size:22px;font-weight:700">$27.50</strong><span style="font-size:12px;color:var(--muted)">ل.س <span class="ltr">357,500</span></span></span>
+            </button>
+            <button class="plan" type="button" role="radio" aria-checked="false">
+              <span style="display:flex;justify-content:space-between;align-items:center"><strong style="font-size:15px;font-weight:600">12 جلسة</strong><span style="width:18px;height:18px;border-radius:999px;border:1.5px solid #C9C9C0;box-sizing:border-box"></span></span>
+              <span style="font-size:12.5px;color:var(--muted)">بالجلسات · خلال 60 يومًا · الفرع الرئيسي</span>
+              <span style="display:flex;align-items:baseline;gap:8px;margin-top:4px"><strong class="ltr" style="font-family:'Changa',sans-serif;font-size:22px;font-weight:700">$45.00</strong><span style="font-size:12px;color:var(--muted)">ل.س <span class="ltr">585,000</span></span></span>
+            </button>
+            <button class="plan" type="button" role="radio" aria-checked="false">
+              <span style="display:flex;justify-content:space-between;align-items:center"><strong style="font-size:15px;font-weight:600">شهري – تدريب خاص</strong><span style="width:18px;height:18px;border-radius:999px;border:1.5px solid #C9C9C0;box-sizing:border-box"></span></span>
+              <span style="font-size:12.5px;color:var(--muted)">بالمدة · 30 يومًا · <span class="badge t-primary" style="height:20px;font-size:11px">يحتاج مدربًا</span></span>
+              <span style="display:flex;align-items:baseline;gap:8px;margin-top:4px"><strong class="ltr" style="font-family:'Changa',sans-serif;font-size:22px;font-weight:700">$60.00</strong><span style="font-size:12px;color:var(--muted)">ل.س <span class="ltr">780,000</span></span></span>
+            </button>
+          </div>
+        </div></section>
+
+        <section class="cut"><div class="in" style="padding:20px 24px;display:flex;flex-direction:column;gap:14px">
+          <h2 class="step"><span class="num"><span style="transform:skewX(10deg)">3</span></span>التاريخ والخصم</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+            <div style="display:flex;flex-direction:column;gap:6px"><label class="lbl" for="sm-start">تاريخ البداية</label><input id="sm-start" class="input" type="date" value="2026-11-10"><span style="font-size:11.5px;color:var(--muted)">الافتراضي اليوم</span></div>
+            <div style="display:flex;flex-direction:column;gap:6px"><span class="lbl">تاريخ النهاية</span><div class="input" style="display:flex;align-items:center;background:var(--bg)"><span class="ltr">2026-12-09</span></div><span style="font-size:11.5px;color:var(--muted)">يحسبه الخادم من الخطة</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span class="lbl">الخصم</span>
+            <div class="seg" role="group" aria-label="نوع الخصم">
+              <button type="button" class="{{ couponTabClass }}" onClick="{{ useCoupon }}">كوبون</button>
+              <button type="button" class="{{ manualTabClass }}" onClick="{{ useManual }}">خصم يدوي · للمالك</button>
+            </div>
+            <template data-if value="{{ isCoupon }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+                <div style="flex:1 1 220px;display:flex;flex-direction:column;gap:6px"><label class="lbl" for="sm-cp" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">كود الكوبون</label><input id="sm-cp" class="input" dir="ltr" style="text-align:right" value="RAMADAN10"><span style="font-size:12px;color:var(--s-ink)">كوبون صالح: خصم 10% · <span class="ltr">−$2.75</span></span></div>
+                <button class="btn btn-secondary" type="button">تطبيق</button>
+              </div>
+            </template>
+            <template data-if value="{{ isManual }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:6px;max-width:260px"><label class="lbl" for="sm-md">قيمة الخصم بالدولار</label><input id="sm-md" class="input" dir="ltr" style="text-align:right" value="2.75"><span style="font-size:11.5px;color:var(--muted)">لا يتجاوز سعر الخطة</span></div>
+            </template>
+          </div>
+        </div></section>
+
+        <section class="cut"><div class="in" style="padding:20px 24px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h2 class="step"><span class="num"><span style="transform:skewX(10deg)">4</span></span>الدفع</h2><span style="font-size:12.5px;color:var(--muted)">سعر صرف اليوم: <strong class="ltr" style="color:var(--ink)">13,000</strong> ل.س للدولار</span></div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <div class="seg" role="group" aria-label="عملة الدفعة الأولى"><button type="button" class="on">USD</button><button type="button">SYP</button></div>
+              <label for="p1" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">مبلغ الدفعة الأولى</label><input id="p1" class="input" dir="ltr" style="text-align:right;flex:1 1 160px;width:auto" value="15.00">
+              <span style="width:110px;font-size:12.5px;color:var(--muted)">= <span class="ltr">$15.00</span></span>
+              <button class="btn btn-ghost" type="button" aria-label="حذف الدفعة الأولى" style="color:var(--muted)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <div class="seg" role="group" aria-label="عملة الدفعة الثانية"><button type="button">USD</button><button type="button" class="on">SYP</button></div>
+              <label for="p2" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">مبلغ الدفعة الثانية</label><input id="p2" class="input" dir="ltr" style="text-align:right;flex:1 1 160px;width:auto" value="65,000">
+              <span style="width:110px;font-size:12.5px;color:var(--muted)">= <span class="ltr">$5.00</span></span>
+              <button class="btn btn-ghost" type="button" aria-label="حذف الدفعة الثانية" style="color:var(--muted)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+            </div>
+            <button class="btn btn-ghost" type="button" style="align-self:flex-start"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>إضافة دفعة بعملة أخرى</button>
+          </div>
+        </div></section>
+      </div>
+
+      <aside class="cut" style="flex:1 1 300px;min-width:0" aria-label="ملخص البيع"><div class="in" style="padding:22px 24px;display:flex;flex-direction:column;gap:4px">
+        <h2 style="margin:0 0 8px;font-size:16px;line-height:26px;font-weight:600">الملخص</h2>
+        <div class="sum"><span style="color:var(--muted)">الخطة</span><strong style="font-weight:600">شهري – حديد</strong></div>
+        <div class="sum"><span style="color:var(--muted)">المدة</span><span><span class="ltr">2026-11-10</span> ← <span class="ltr">2026-12-09</span></span></div>
+        <div class="sum" style="border-top:1px solid var(--divider);margin-top:6px;padding-top:12px"><span style="color:var(--muted)">السعر</span><span class="ltr">$27.50</span></div>
+        <div class="sum"><span style="color:var(--muted)">الخصم · <span class="ltr">RAMADAN10</span></span><span class="ltr" style="color:var(--s-ink)">−$2.75</span></div>
+        <div class="sum" style="border-top:1px solid var(--divider);padding-top:12px"><strong style="font-weight:600">الصافي</strong><span style="display:flex;flex-direction:column;align-items:flex-start"><strong class="ltr" style="font-family:'Changa',sans-serif;font-size:24px;font-weight:700">$24.75</strong><span style="font-size:12px;color:var(--muted)">ل.س <span class="ltr">321,750</span></span></span></div>
+        <div class="sum"><span style="color:var(--muted)">المدفوع</span><span class="ltr">$20.00</span></div>
+        <div class="sum" style="background:var(--w-soft);border-radius:10px;padding:10px 12px;margin-top:4px"><strong style="color:var(--w-ink);font-weight:600">المتبقي (دين)</strong><strong class="ltr" style="color:var(--w-ink)">$4.75</strong></div>
+        <p style="margin:8px 0 12px;font-size:12px;line-height:20px;color:var(--muted)">الدفع الجزئي مسموح بإعدادات النادي. الباقي يظهر بقائمة الديون.</p>
+        <button class="btn btn-primary" type="button" disabled="{{ cashClosed }}" style="width:100%;height:50px;font-size:14px;font-weight:600">تأكيد البيع</button>
+        <p style="margin:10px 0 0;font-size:11.5px;line-height:18px;color:var(--muted);text-align:center">بعد التأكيد: إيصال لكل دفعة جاهز للطباعة</p>
+      </div></aside>
+
+    </div></template>
+<template data-if value="{{ psLoading }}" hint-placeholder-val="{{ false }}"><div style="display:contents" role="status" aria-live="polite"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">جارٍ تحميل الصفحة</span>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;width:100%"><div style="flex:1 1 180px;background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px"><span class="sk" style="display:block;width:50%;height:11px;"></span><span class="sk" style="display:block;width:70%;height:24px;"></span></div><div style="flex:1 1 180px;background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px"><span class="sk" style="display:block;width:50%;height:11px;"></span><span class="sk" style="display:block;width:70%;height:24px;"></span></div><div style="flex:1 1 180px;background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px"><span class="sk" style="display:block;width:50%;height:11px;"></span><span class="sk" style="display:block;width:70%;height:24px;"></span></div><div style="flex:1 1 180px;background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px"><span class="sk" style="display:block;width:50%;height:11px;"></span><span class="sk" style="display:block;width:70%;height:24px;"></span></div></div>
+      <div style="background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:16px;overflow:hidden;width:100%"><div style="padding:18px 20px;display:flex;gap:12px;align-items:center"><span class="sk" style="display:block;width:180px;height:16px;"></span><span class="sk" style="display:block;width:120px;height:36px;border-radius:10px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div></div>
+    </div></template>
+<template data-if value="{{ psError }}" hint-placeholder-val="{{ false }}"><div style="display:contents"><div class="pse" role="alert" style="padding:48px 24px;width:100%;box-sizing:border-box">
+      <span class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg></span>
+      <h2 style="margin:0;font-size:18px;line-height:28px;font-weight:600;color:var(--ink,#F3F3EE)">تعذّر تحميل البيانات</h2>
+      <p style="margin:0;font-size:14px;line-height:22px;color:var(--muted,#A9A99F);max-width:420px">لم يصل رد من الخادم. تحقق من الاتصال ثم أعد المحاولة؛ لم يتغير شيء من بياناتك.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="btn btn-primary" type="button" onClick="{{ psRetry }}" style="height:42px;padding:0 18px;border-radius:10px;border:0;background:var(--primary,#FF6A30);color:#1A1A18;font-family:'Readex Pro',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer">إعادة المحاولة</button></div>
+    </div></div></template>
+</main>
+  </div>
+</div>
+</template>
+<script type="application/json" id="dc-props">{"cashOpen": {"editor": "boolean", "default": true, "section": "الصندوق"}, "theme": {"editor": "enum", "options": ["light", "dark"], "default": "light", "section": "المظهر"}, "pageState": {"editor": "enum", "options": ["ready", "loading", "error"], "default": "ready", "section": "حالة الصفحة"}, "$preview": {"width": 1440, "height": 1180}}</script>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  renderVals() {
+    const base = this.__ps();
+    const ps = (this.state && this.state.__ps) || this.props.pageState || 'ready';
+    return Object.assign({}, base, { psReady: ps === 'ready', psLoading: ps === 'loading', psError: ps === 'error', psRetry: () => this.setState({ __ps: 'ready' }) });
+  }
+  __ps() {
+    const v = this.__rv();
+    const th = (this.state && this.state.__th) || this.props.theme || 'light';
+    return Object.assign({}, v, { themeCls: 'th th-' + th, isDark: th === 'dark', isLight: th !== 'dark', themeLabel: th === 'dark' ? 'التبديل للوضع الفاتح' : 'التبديل للوضع الداكن', toggleTheme: () => this.setState({ __th: th === 'dark' ? 'light' : 'dark' }) });
+  }
+  __rv() {
+    const open = this.props.cashOpen !== false;
+    const mode = (this.state && this.state.mode) || 'coupon';
+    return {
+      cashOpen: open,
+      cashClosed: !open,
+      isCoupon: mode === 'coupon',
+      isManual: mode === 'manual',
+      couponTabClass: mode === 'coupon' ? 'on' : '',
+      manualTabClass: mode === 'manual' ? 'on' : '',
+      useCoupon: () => this.setState({ mode: 'coupon' }),
+      useManual: () => this.setState({ mode: 'manual' })
+    };
+  }
+}
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

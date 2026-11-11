@@ -1,0 +1,625 @@
+‫دليل داخلي · للمشاريع القادمة‬
+‫منهجية العمل‬ ‫الهوية البصرية‪ ،‬الستراكشر‪ ،‬والفلاتر‬
+‫كيف أبني الهوية‪ ،‬وكيف أقّس م مشاريع الداشبورد والتطبيقات‪ ،‬وما القرارات‬ ‫الثابتة والباكجات التي أعتمدها‪ .‬الدليل عام لأي مشروع‪ ،‬وُيستبدل فيه‬ ‫>‪ <brand‬باسم المشروع‪.‬‬
+
+‫‪ .10‬الراوتر والتنقل‬ ‫‪ .11‬الداشبورد (ويب)‬ ‫‪ .12‬تطبيقات الموبايل‬ ‫‪ .13‬التحميل والحالات الأربع‬ ‫‪ .14‬النماذج والتحقق‬ ‫‪ .15‬الباكجات المعتمدة‬ ‫‪ .16‬التسمية والكود والـ ‪Lint‬‬ ‫‪ .17‬قائمة البدء‪ :‬مشروع جديد ‪ /‬ميزة جديدة‬
+
+‫‪ .1‬القرارات الثابتة‬ ‫‪ .2‬تقسيمة المنظومة (الريبو)‬
+‫‪ .3‬الهوية البصرية‪ :‬المنهجية‬ ‫‪ .4‬حزمة التصميم المحلية‬ ‫‪ .5‬ستراكشر مشروع ‪Flutter‬‬
+‫‪ .6‬الطبقات‪ :‬من الـ ‪ API‬إلى الشاشة‬ ‫‪ .7‬إدارة الحالة بلا ‪setState‬‬ ‫‪ .8‬الشبكة والأخطاء‬
+‫‪ .9‬الكاش والعمل دون اتصال‬
+
+‫‪1 / 17‬‬
+
+‫‪ .1‬القرارات الثابتة‬
+‫لا ‪ setState‬بأي مكان بالمشروع‪ .‬كل حالة (حتى إظهار كلمة السر أو التبويب المحدد) بـ ‪ Cubit‬أو ‪.Bloc‬‬ ‫الحالة المحلية البسيطة بـ ‪. ValueCubit<T> / ToggleCubit‬‬
+‫لا ملف فوق ‪ 300‬سطر‪ .‬الملف الكبير ُيقَّس م‪ :‬ويدجتس الشاشة لـ ‪ ، widgets/‬الأحداث والحالة بملفات‬ ‫‪ ، part‬والمسارات لملفات حسب المجال‪.‬‬
+‫إدارة الحالة ‪ Bloc/Cubit‬فقط ( ‪ ،) flutter_bloc‬ولا ‪ Provider‬ولا ‪ GetX‬ولا ‪.Riverpod‬‬ ‫لا قيمة تصميم مكتوبة بالواجهة‪ :‬لا )‪ ، Color(0x...‬لا ‪ TextStyle‬من الصفر‪ ،‬لا أرقام مسافات‬ ‫عشوائية‪ ،‬لا )‪ . Duration(milliseconds: 300‬كلها من التوكنز (‪AppSpace , AppRadius , AppMotion ,‬‬
+‫‪.) context.colors‬‬ ‫لا مسار مكتوب نصًا داخل شاشة‪ :‬كل المسارات بـ ‪. Routes‬‬ ‫كل شاشة بأربع حالات‪ :‬تحميل بهياكل (‪ ،)Shimmer‬خطأ مع إعادة محاولة‪ ،‬فارغة كدعوة‪ ،‬ومحتوى‪.‬‬ ‫لا استثناء يصل للواجهة‪ :‬كل طلب يرجع ‪( ApiResult‬نجاح أو ‪.) Failure‬‬ ‫الواجهة تتصرف حسب نوع الخطأ ( ‪ ) FailureType‬وليس نص الرسالة‪.‬‬ ‫كل التعديلات من مكان واحد‪ FormDialog / AppForm :‬فوق ‪( AppFormCubit‬تحميل ‪ +‬أخطاء حقول‬
+‫‪ 422‬موّحدة)‪.‬‬ ‫الميزات تستورد من ‪ core‬ملفًا واحدًا‪. core/core.dart (barrel) :‬‬ ‫عربي فقط‪ ،RTL ،‬ثيمان (فاتح وداكن)‪ ،‬الأرقام لاتينية‪ ،‬والأرقام والمبالغ والهواتف باتجاه ‪.LTR‬‬ ‫"تقليل الحركة" ُيحترم دائمًا‪ :‬كل حركة تفحص )‪. AppMotion.reduced(context‬‬ ‫لا ‪ overflow‬بأي مقاس‪ :‬تكبير خط النظام محصور بحد ( ‪.) MediaQuery.withClampedTextScaling‬‬
+
+‫‪ .2‬تقسيمة المنظومة (الريبو)‬
+
+‫الواجهات كلها بريبو واحد‪ ،‬والباك اند بريبو منفصل‪ .‬كل واجهة مشروع ‪ Flutter‬مستقل‪ ،‬ومجلد الهوية بجانبها‪:‬‬
+
+‫‪<brand>-frontend/‬‬ ‫‪├── README.md‬‬ ‫‪├── design/‬‬ ‫‪├── super-admin-dashboard/‬‬ ‫‪├── tenant-dashboard/‬‬ ‫‪├── manager-mobile-app/‬‬ ‫‪├── staff-mobile-app/‬‬ ‫‪└── end-user-mobile-app/‬‬
+
+‫جدول‪ :‬المجلد ← المشروع‬ ‫الهوية البصرية (القسم ‪)3‬‬ ‫)‪ (Flutter Web‬داشبورد صاحب المنصة‬ ‫)‪ (Flutter Web‬داشبورد العميل‪/‬المؤسسة‬ ‫)‪ (Android / iOS‬تطبيق حسب الدور‬ ‫تطبيق دور آخر (عدة أدوار بتطبيق واحد إن تشابهت)‬ ‫تطبيق المستخدم النهائي‬
+
+‫تطبيق لكل جمهور (وليس لكل دور)‪ :‬الأدوار المتقاربة (مثًال مدير ومشرف) بتطبيق واحد يتبّدل محتواه حسب‬ ‫الدور‪.‬‬
+‫كل المشاريع بنفس الستراكشر ونفس ‪ core‬تقريبًا‪ ،‬حتى تنتقل الميزة أو الويدجت بين المشاريع بالنسخ‪.‬‬
+‫كل مشروع فيه نسخة من حزمة التصميم بـ )‪. packages/<brand>_design (path dependency‬‬
+
+‫‪2 / 17‬‬
+
+‫اسم المجلدات بالإنجليزية بلا مسافات قدر الإمكان‪ :‬أدوات ‪ Flutter‬تتعطل أحيانًا مع المسارات العربية‪.‬‬ ‫كل مشروع له ‪ README‬قصير‪ :‬ما هو‪ ،‬الخادم الذي يكّلمه‪ ،‬أمر التشغيل والبناء‪ ،‬والستراكشر والقواعد‪.‬‬
+
+‫‪ .3‬الهوية البصرية‪ :‬المنهجية‬
+
+‫‪ 3.1‬مجلد الهوية‬
+
+‫‪design/brand-identity/‬‬
+
+‫‪├── README.md‬‬
+
+‫ابدأ من هنا"‪ :‬من أنت ← ماذا تفتح"‬
+
+‫‪├── brand-guide.html‬‬
+
+‫دليل تفاعلي ُيفتح بالمتصفح (حركات حّية ‪ +‬زر الثيم الداكن)‬
+
+‫التوصيف الكامل‪ :‬الألوان‪ ،‬الخطوط‪ ،‬الزخارف‪ ،‬الحركة‪ ،‬التفاعلات‪ ،‬القوالب‪├── docs/identity-spec.md ،‬‬
+
+‫‪ Flutter‬إعداد‬
+
+‫‪├── tokens/tokens.json‬‬
+
+‫المصدر الوحيد للقيم (ألوان بالثيمين‪ ،‬خطوط‪ ،‬مسافات‪ ،‬زوايا‪ ،‬ظلال‪،‬‬
+
+‫مقاسات‪ ،‬حركة)‬
+
+‫‪├── logo/svg · png · app-icons‬‬
+
+‫أيقونة‪ ،‬عرضي‪ ،‬طولي‪ ،‬ختم‪ ،‬مفّرغ (فاتح وداكن) ‪ +‬أيقونات المتاجر‬
+
+‫‪ favicon‬و‬
+
+‫‪├── ornaments/svg‬‬
+
+‫‪ currentColor‬الزخارف‪ :‬فاتح‪ ،‬داكن‪ ،‬وأحادي‬
+
+‫‪├── fonts/‬‬
+
+‫)‪ (OFL‬الخطوط مع رخصتها‬
+
+‫‪ example/‬تطبيق عرض ‪ Flutter +‬حزمة ‪├── flutter/<brand>_design/‬‬
+
+‫‪├── screenshots/‬‬
+
+‫لقطات تطبيق العرض‬
+
+‫البراند الممتد ‪) social/ print/ video/ email/ studio/ tools/‬اختياري( ──└‬
+
+‫‪ 3.2‬الفكرة قبل الألوان‬
+‫أبدأ بجملة تلخص الشخصية (الإلهام‪ ،‬الإحساس‪ ،‬القاعدة الذهبية)‪ ،‬ثم أربع قواعد تحكم كل قرار تصميم‪:‬‬
+‫‪ .1‬الزخرفة بمكانها فقط‪ :‬للحظات الخاصة (الدخول والبدء‪ ،‬بانر الرئيسية‪ ،‬رأس التطبيق‪ ،‬الحالات الفارغة‪ ،‬النجاح)‪.‬‬ ‫شاشات العمل اليومي (القائمة‪ ،‬الجداول‪ ،‬الفورمات) نظيفة تمامًا‪ .‬مكان مزخرف واحد بالشاشة على الأكثر‪.‬‬
+‫‪ .2‬لون واحد لكل معنى‪ :‬لون الفعل = "اضغط هنا"‪ ،‬لون اللمعة = "المحدد‪/‬المميز"‪ ،‬لون الهيكل = القائمة والبانر‪،‬‬ ‫وألوان الحالات للحالة فقط‪.‬‬
+‫‪ .3‬كل شيء يتحرك‪ ،‬ببطء‪ :‬الحركة الدائمة بطيئة جدًا‪ ،‬والتفاعلية سريعة وواضحة‪.‬‬ ‫‪" .4‬تقليل الحركة" مبني بكل مكّو ن‪.‬‬
+
+‫الاستخدام‬ ‫أرضية الصفحات‬ ‫البطاقات ‪ /‬ترويسة الجدول والمرور‬
+‫الحدود‬ ‫النص بثلاث درجات‬ ‫القائمة‪ ،‬البانر‪ ،‬شاشة الدخول‬ ‫الفعل‪ :‬الزر الأساسي‪ ،‬أعمدة الرسوم‬
+
+‫‪ 3.3‬الألوان بالأدوار (وليس بالأسماء)‬
+‫الدور‬
+‫‪bg‬‬
+‫‪surface / surfaceAlt‬‬ ‫‪border / borderStrong‬‬ ‫‪ink / inkMuted / inkSubtle‬‬ ‫‪( sidebar / hero‬لون الهيكل)‬ ‫‪primary + Hover / Soft / Ink / onPrimary‬‬
+
+‫‪3 / 17‬‬
+
+‫اللمعة‪ :‬العنصر المحدد‪ ،‬حد البطاقة عند المرور‬ ‫نقطة الإشعار‪ ،‬قلب الفاصل‬
+‫كل حالة بثلاث درجات‪ :‬قوي‪ ،‬هادئ (خلفية)‪ ،‬حبر (نص)‬
+
+‫‪accent + Soft / Ink‬‬ ‫‪( spark‬لون ثالث صغير)‬
+‫‪success / warning / danger / info‬‬
+
+‫كل لون بقيمتين (فاتح وداكن) ضمن ‪ Palette.light‬و ‪. Palette.dark‬‬ ‫لون الخطر مختلف بوضوح عن لون الفعل (لا يتشابهان)‪.‬‬
+‫الشارة دائمًا‪ :‬خلفية هادئة ‪ +‬نص بالحبر‪ .‬اللون وحده لا يكفي لنقل معنى‪.‬‬ ‫زر أساسي واحد بكل شاشة‪.‬‬
+‫تباين ‪ 4.5:1‬للنص بالثيمين‪ ،‬و ‪ 3:1‬للنص الكبير والأيقونات‪.‬‬ ‫ما يدخل بـ ‪ُ ColorScheme‬يقرأ بـ ‪ ، context.scheme‬والباقي بامتداد ثيم ‪. context.colors‬‬
+
+‫‪ 3.4‬الخطوط‬
+‫خطان فقط‪ :‬خط واجهة متغرّي (‪ )variable‬لكل النصوص‪ ،‬وخط عرض (‪ )display‬للتحيات وشاشة الدخول‬ ‫وعناوين الحالات الفارغة والنجاح‪ .‬خط العرض لا ُيستخدم لعناوين الصفحات ولا الأزرار ولا الجداول‪.‬‬ ‫الخطوط مضّم نة بالحزمة ولا ُتحَّم ل من الإنترنت‪.‬‬
+‫سّلم أنماط ثابت (‪( TType ): displayXl, displayMd, h1, h2, h3, stat, bodyLg‬نص الموبايل)‪body, label, ,‬‬ ‫‪ .caption‬أي نمط جديد ُيشتق بـ ‪. copyWith‬‬
+‫الخط المتغرّي ‪ :‬الوزن عبر ])‪ fontVariations: [FontVariation('wght', 600‬مع ‪. fontWeight‬‬
+
+‫‪ 3.5‬المسافات والأشكال والظلال‬
+‫شبكة ‪ + 4px: s1=4, s2=8, s3=12, s4=16, s5=20, s6=24, s8=32, s10=40, s12=48‬فراغات جاهزة‬ ‫‪. gap1..gap8‬‬
+‫زوايا‪) :‬الأزرار والشارات والبحث( ‪) · lg 16 · xl 22 · full 999‬الحقول( ‪. sm 8 · md 12‬‬ ‫شكل توقيعي للبطاقة (مثًال زوايا علوية أعرض من السفلية) يتكرر بكل البطاقات‪ ،‬وشكل خاص للبانر والنوافذ‪.‬‬
+‫البطاقة بلا ظل وهي ساكنة‪ ،‬ظل خفيف عند المرور‪ ،‬وظل عائم للنوافذ وبطاقة الدخول فقط‪.‬‬ ‫مقاسات ثابتة‪ :‬عناصر التحكم ‪ ،34/42/50‬صف الجدول ‪ ،52‬الشريط العلوي ‪ ،64‬القائمة ‪ 272‬ومطوية ‪ ،80‬أقصى‬
+‫عرض للمحتوى ‪.1320‬‬
+
+‫الاستخدام‬ ‫الضغط (تصغير ‪)0.97‬‬ ‫المرور‪ ،‬انزلاق عنصر القائمة‬ ‫ارتفاع البطاقة‪ ،‬تبديل حالة القسم‬ ‫تبديل الصفحة‪ ،‬طي القائمة‬ ‫دخول العناصر (‪ 70ms+‬لكل عنصر)‬
+
+‫القيمة‬ ‫‪100ms‬‬ ‫‪180ms‬‬ ‫‪260ms‬‬ ‫‪420ms‬‬ ‫‪600ms‬‬
+
+‫‪ 3.6‬الحركة‬
+‫التوكن‬
+‫‪instant‬‬ ‫‪fast‬‬
+‫‪normal‬‬ ‫‪slow‬‬
+‫‪entrance‬‬
+
+‫‪4 / 17‬‬
+
+‫المنحنى الأساسي‬ ‫التحولات الكبيرة‬
+
+‫)‪Cubic(0.2, 0.8, 0.2, 1‬‬ ‫)‪Cubic(0.2, 0, 0, 1‬‬
+
+‫‪curve‬‬ ‫‪emphasized‬‬
+
+‫لا ارتداد ولا اهتزاز‪ .‬لا حركة فوق ‪ 1.2‬ثانية إلا الحركات الدائمة البطيئة (زحف نقش ‪ ،40s‬دوران ‪.)...70s‬‬
+‫حركات جاهزة كمكونات‪ Entrance(index:) ، CountUp :‬للأرقام‪ ،‬طلوع أعمدة الرسوم‪HoverLift ، ،‬‬ ‫‪ PressScale ، Shine‬على الزر الأساسي‪ PingDot ،‬للإشعار‪.‬‬
+‫مع "تقليل الحركة"‪ :‬العّد والأعمدة والدخول تظهر بقيمتها النهائية فورًا‪ ،‬والدائمة تقف‪.‬‬
+
+‫‪ 3.7‬التفاعلات‬
+‫الداشبورد (ماوس)‪ :‬مرور ‪ +‬ضغط ‪ +‬تركيز لوحة مفاتيح (حلقة ‪ 2px‬بلون اللمعة) ‪ +‬محدد ‪ +‬معّط ل (شفافية ‪)%45‬‬ ‫لكل عنصر‪ :‬الأزرار‪ ،‬البطاقات‪ ،‬عنصر القائمة (انزلاق ‪ + 3px‬مؤشر)‪ ،‬صف الجدول‪ ،‬عمود الرسم (فقاعة القيمة)‪ ،‬الحقل‬
+‫(حد ‪ 2px‬بلون الفعل)‪.‬‬
+‫التطبيقات (لمس)‪ :‬لا مرور‪ .‬تصغير ‪ 0.97‬لحظة الضغط على كل ما ُيضغط‪،‬‬ ‫)(‪ HapticFeedback.selectionClick‬للأفعال المهمة وتبديل التبويب‪ ،‬أهداف ضغط ‪ 48px‬على الأقل‪.‬‬
+
+‫‪ 3.8‬اللغة (‪)Microcopy‬‬
+‫عربية فصحى مبسطة‪ .‬الأزرار فعل مباشر‪" :‬إضافة"‪" ،‬تسجيل دفعة"‪" ،‬حفظ"‪.‬‬ ‫الخطأ‪ :‬ماذا حدث ثم ماذا تفعل‪" .‬الاسم مستخدم مسبقًا‪ .‬جّرب اسمًا آخر‪".‬‬ ‫النجاح قصير بصيغة الماضي‪" :‬تم الحفظ‪".‬‬ ‫الحالة الفارغة دعوة لا اعتذار‪" :‬لا توجد عناصر بعد‪ .‬أضف أول عنصر‪".‬‬ ‫التحية تحسب الوقت‪ :‬صباح الخير ‪ /‬مساء الخير‪.‬‬
+
+‫‪ 3.9‬قوالب الشاشات‬
+‫الداشبورد‪ 1024≥ :‬قائمة مفتوحة ‪ + 272‬شريط علوي ‪ + 64‬محتوى بأقصى عرض ‪ 1320‬وهوامش ‪ .24‬من ‪ 600‬إلى‬ ‫‪ 1024‬قائمة مطوية ‪( 80‬أيقونات ‪ +‬تلميحات)‪ 600< .‬القائمة درج من زر‪ ،‬البحث يختفي‪ ،‬والبطاقات عمود واحد‪.‬‬ ‫شبكة البطاقات‪ :‬الأعمدة = العرض ÷ ‪ 230‬بفراغ ‪.12‬‬
+‫الموبايل‪ :‬رأس بلون الهيكل بزخرفة وتحية (المكان المزخرف الوحيد)‪ ،‬إجراءات سريعة (‪ 3‬بطاقات)‪ ،‬بطاقات محتوى‬ ‫نظيفة‪ ،‬وشريط تنقل سفلي بأربعة عناصر‪.‬‬
+
+‫‪5 / 17‬‬
+
+‫ حزمة التصميم المحلية‬.4
+
+packages/<brand>_design/
+
+├── pubspec.yaml
+
+flutter_svg ‫ تعريف الخطوط‬+ ‫ الأصول‬+ ‫فقط‬
+
+├── assets/logo/ assets/fonts/
+
+└── lib/
+
+├── <brand>_design.dart
+
+barrel: export src/*
+
+└── src/ ├── tokens.dart
+
+‫( القيم الخام‬Palette.light / dark) - ‫لا ُتستخدم مباشرة بالواجهات‬
+
+├── theme.dart
+
+ThemeData ‫ فاتح وداكن‬+ ThemeExtension ‫للألوان الإضافية‬
+
+├── motion.dart Entrance, CountUp, HoverLift, PressScale, Shine ...
+
+├── ornaments.dart ‫ الزخارف بـ‬CustomPainter (‫)تتلون بالثيم وتقف مع تقليل الحركة‬
+
+└── widgets.dart ‫ فاصل( مكونات الهوية‬،‫ شارة‬،‫بطاقة‬، EmptyState ...)
+
+dependencies: <brand>_design: path: packages/<brand>_design
+// ‫ خط من داخل الحزمة ُيشار له بـ‬packages/<‫<العائلة‬/>‫>اسم الحزمة‬ static const sans = 'packages/<brand>_design/MainFont';
+‫ (امتداد‬app_theme.dart ، app_colors.dart :‫ رقيقة فوق الحزمة‬core/theme/ ‫ طبقة‬،‫داخل كل مشروع‬ context.colors )، app_tokens.dart ( AppFonts , AppSpace , AppRadius , AppSize , AppMotion )،
+‫ (شريطا النظام‬system_ui.dart ‫ و‬،)‫ (يتبع الجهاز حتى يختار المستخدم وُيحفظ اختياره‬theme_cubit.dart .)‫شفافان‬
+‫ (لون الهيكل‬flutter_native_splash ‫ وشاشة البدء الأصلية بـ‬، flutter_launcher_icons ‫أيقونة التطبيق بـ‬ .)‫ ونسخة داكنة‬،‫ الشعار‬+
+
+6 / 17
+
+Flutter ‫ ستراكشر مشروع‬.5
+
+lib/
+
+├── main.dart
+
+‫تهيئة‬: GlobalErrorGuard، DI، (‫الموبايل‬: edge-to-edge، ‫ الإشعارات‬،‫)الاتجاه‬
+
+‫ ثم‬runApp
+
+├── app.dart
+
+MaterialApp.router: ‫ العربية‬،‫الثيمان‬، RTL، BlocProviders ‫العامة‬، builder
+
+‫العام‬
+
+├── core/
+
+│ ├── core.dart
+
+barrel: ‫الميزات تستورد هذا فقط‬
+
+│ ├── bloc/
+
+Slice، LoadCubit، ListCubit، ValueCubit/ToggleCubit، AppFormCubit،
+
+pullRefresh
+
+│ ├── config/
+
+app_config.dart: ‫ رابط الـ‬API (dart-define)، ،‫ حدود تكبير الخط‬،‫المهلات‬
+
+‫العنوان‬
+
+│ ├── di/
+
+injection.dart (‫ )التخزين والشبكة‬+ feature_injection.dart (‫)الميزات‬
+
+│ ├── error/
+
+failure، error_handler، validation_translator، global_error_guard
+
+│ ├── layout/
+
+‫( هيكل ما بعد الدخول‬AppShell+Sidebar+Topbar ‫ أو‬MobileShell+TabBar)
+
+│ ├── models/
+
+‫مرجع( موديلات مشتركة صغيرة‬: id + name)
+
+│ ├── networking/ dio_factory، api_client، api_result، auth_interceptor، list_query، paged
+
+│ ├── network/
+
+(‫ )موبايل‬connection_cubit، connectivity_interceptor،
+
+offline_cache_interceptor
+
+│ ├── push/
+
+(‫ )موبايل‬push_service، push_permission
+
+│ ├── responsive/ Breakpoints، context.isMobile/responsive()، ResponsiveGrid
+
+│ ├── router/
+
+app_router، routes (‫)الثوابت‬، nav (open/back)، ‫ملفات مسارات حسب المجال‬
+
+│ ├── storage/
+
+session_storage، (‫ )موبايل‬response_cache + cache_store (io/web)
+
+│ ├── theme/
+
+‫طبقة الثيم فوق حزمة التصميم‬
+
+│ ├── utils/
+
+formatters، json_x، labels، validators، debouncer، launcher، file_pick،
+
+blob_opener
+
+│ └── widgets/
+
+)14 ‫ و‬13 ‫ كل الويدجتس المشتركة (القسم‬+ charts/
+
+└── features/<feature>/
+
+├── domain/models/<feature>_models.dart ├── data/repo/<feature>_repository.dart
+
+)‫كل موديلات الميزة بملف واحد (ُيقَّسم إن كبر‬ ‫العقد‬: abstract interface class (‫)دوال بلا جسم‬
+
+├── data/datasources/<feature>_remote_datasource.dart ‫ الطلبات من الباك اند‬:‫التنفيذ‬
+
+└── presentation/
+
+├── bloc/
+
+<feature>_bloc.dart + _event.dart + _state.dart (part of)
+
+├── screens/ ‫الشاشات‬
+
+└── widgets/ ‫ويدجتس ونوافذ الميزة‬
+
+. presentation/ ‫ميزة بلا خادم (شاشة "المزيد" مثًال ) تكتفي بـ‬ :conditional export ‫ملفات تختلف بين الويب والجهاز ُتقسم بـ‬
+
+// cache_store.dart export 'cache_store_io.dart' if (dart.library.js_interop) 'cache_store_web.dart';
+
+‫ إلى الشاشة‬API ‫ من الـ‬:‫ الطبقات‬.6
+
+Screen ──event──▶ Bloc ──▶ Repository (interface) ◀── implements ── RemoteDataSource ──▶
+
+ApiClient ──▶ Dio
+
+▲
+
+│
+
+│
+
+└── BlocBuilder ◀┘◀───────────── ApiResult<T> (ApiSuccess | ApiFailure(Failure)) ◀──────────┘
+
+7 / 17
+
+‫العقد والتنفيذ‬
+abstract interface class ProfileRepository { Future<ApiResult<Profile>> get(); Future<ApiResult<void>> update(Json body);
+}
+class ProfileRemoteDataSource implements ProfileRepository { ProfileRemoteDataSource(this._api); final ApiClient _api; static const _base = '/profile';
+@override Future<ApiResult<Profile>> get() => _api.getObject(_base, fromJson: Profile.fromJson);
+@override Future<ApiResult<void>> update(Json body) => _api.put(_base, body: body, parse: Parse.none); }
+
+‫الموديل‬
+‫ (لا‬code generation ‫ بلا‬،‫ مكتوب يدويًا‬factory fromJson(Json json) ‫ مع‬Equatable ‫كلاس عادي يمتد‬ .)json_serializable ‫ ولا‬freezed
+json_x : json.intv('id') ، str ، strOrNull ، strList ، date ، obj ، ‫ آمنة عبر امتداد‬JSON ‫القراءة من‬ .‫ غياب حقل أو تغرّي نوعه لا يرمي استثناء‬. asList(raw, fromJson)
+
+)get_it( ‫حقن الاعتماديات‬
+
+‫التسجيل‬ )runApp ‫ (ُتجّه ز قبل‬registerSingleton
+registerLazySingleton
+
+‫النوع‬ ‫ الكاش‬،‫ الاتصال‬،‫التخزين‬
+Dio، ApiClient، ThemeCubit، PushService
+
+registerLazySingleton<XRepository>(() => XRemoteDataSource(sl()))
+
+‫المستودعات‬
+
+‫ بنسخة واحدة للتطبيق‬registerLazySingleton
+
+،‫ عّداد الإشعارات‬،AuthBloc( ‫حالة الجلسة‬ )‫الشارات‬
+
+)‫ ُتغلق مع خروجها‬،‫ (نسخة لكل شاشة‬registerFactory
+
+‫ الشاشة‬Bloc
+
+‫ للبنية و‬configureDependencies() :‫ والتسجيل بدالتين‬final sl = GetIt.instance; :‫المتغير الوحيد‬ .‫ للميزات‬registerFeatures(sl)
+
+8 / 17
+
+setState ‫ إدارة الحالة بلا‬.7
+
+‫ وحدة الحالة‬:Slice
+
+enum LoadStatus { initial, loading, success, failure }
+
+class Slice<T> extends Equatable {
+
+final LoadStatus status; final T? data; final Failure? failure;
+
+bool get isFirstLoad => (isLoading || isInitial) && data == null; // ‫هياكل رمادية‬
+
+bool get isRefreshing => isLoading && data != null;
+
+// ‫المحتوى يبقى ظاهرًا‬
+
+Slice<T> toLoading(); Slice<T> toSuccess(T v); Slice<T> toFailure(Failure f);
+
+Slice<T> fromResult(ApiResult<T> r); Slice<T> mapData(T Function(T) f);
+
+}
+
+‫ البيانات‬.)... Slice<Paged<Item>> list ، Slice<Details> details ( ‫ تتكون من شريحة أو أكثر‬Bloc ‫كل حالة‬ .‫السابقة تبقى أثناء إعادة التحميل‬
+
+‫متى‬ ‫ تعديل محلي‬patch() ،‫ صامت‬load() ، refresh() :‫قسم يقرأ قيمة واحدة‬
+‫بعد الحفظ‬ filter(key, value) ،"‫ "عرض المزيد‬more() ،‫ الصفحة الأولى‬:‫قائمة موبايل‬
+‫يعيد من الأول‬ ‫ لأي حالة واجهة محلية‬setState ‫بديل‬
+)14 ‫أي نموذج أو تأكيد (القسم‬ ‫ حالة بـ‬، sealed + final class ‫ أحداث‬:‫شاشة فيها أكثر من شريحة أو منطق‬
+copyWith
+‫ موجود أعلى الشجرة عند دخول الشاشة‬Bloc ‫طلب أول تحميل من‬ Bloc ‫ ينتظر حتى تهدأ حالات الـ‬:‫السحب للتحديث‬
+setState ‫ بلا‬،‫متابعة مرور الماوس وبناء العنصر حسبه‬
+
+‫الأدوات الجاهزة‬
+‫الأداة‬
+LoadCubit<T>(fetch)
+ListCubit<T>(fetch)
+ValueCubit<T> /
+ToggleCubit AppFormCubit
+‫ كامل‬Bloc
+OnInit pullRefresh(bloc,
+trigger) Hover
+
+‫) لإدارة‬Splash ،‫ الجدول‬،OnInit، Hover( ‫ داخل ويدجتس البنية‬StatefulWidget :‫الاستثناء الوحيد المسموح‬ .‫ وليس لحالة الشاشة‬،controllers ‫دورة الحياة والـ‬
+
+9 / 17
+
+class AdminsBloc extends Bloc<AdminsEvent, AdminsState> { AdminsBloc(this._repo) : super(const AdminsState()) { on<AdminsListRequested>(_onList); on<AdminsListRefreshed>((e, emit) => _onList(AdminsListRequested(state.query), emit)); } Future<void> _onList(AdminsListRequested e, Emitter<AdminsState> emit) async { emit(state.copyWith(query: e.query, list: state.list.toLoading())); emit(state.copyWith(list: state.list.fromResult(await _repo.list(e.query)))); }
+}
+‫ الشبكة والأخطاء‬.8
+‫عقد الرد مع الباك اند‬
+{ "success": true, "message": "...", "data": {...} | [...], "meta": { "pagination": {...}, "summary": {...} } }
+// ‫الخطأ‬: { "success": false, "code": "VALIDATION_ERROR", "message": "...", "errors": { "owner.phone": ["..."] } }
+)DioFactory( ‫ واحد بالتطبيق‬Dio
+listFormat: ‫ و‬، Accept: application/json ،‫ المهلات‬، AppConfig ‫ الرابط من‬: BaseOptions .) ids[]=1 ‫ (مصفوفات لارافيل‬ListFormat.multiCompatible
+.‫ التوكن فقط‬:‫ بالداشبورد‬.‫ الكاش أوًال ← فحص الاتصال ← التوكن‬:)‫ (موبايل‬interceptors ‫ترتيب الـ‬ . [API] GET /path -> 200 ‫ سطر واحد لكل طلب‬:debug ‫بالـ‬
+. --dart-define=API_BASE_URL=https://.../api/v1 :‫الرابط يتغير دون تعديل الكود‬
+‫ واجهة الطلبات الوحيدة‬:ApiClient
+getObject ، getList ، getPaged :‫ ومختصرات‬، parse ‫ مع‬get / post / put / patch / delete / upload getBytes / postBytes ‫ و‬، Pagination + summary + meta )، getWithMeta + ‫ = عناصر‬Paged<T> ‫(يرجع‬
+Parse.none ، Parse.json ، :‫ محّو لات جاهزة‬.)‫ حتى لا تلتقطها برامج التحميل بالمتصفح‬as=base64 ‫للملفات (بـ‬ . Parse.object ، Parse.field ، Parse.intField
+Failure ‫ و‬ApiResult
+sealed class ApiResult<T> { dataOrNull; failureOrNull; when(success:, failure:); map(); } final class ApiSuccess<T> extends ApiResult<T> { final T data; final String? message; } final class ApiFailure<T> extends ApiResult<T> { final Failure failure; }
+UNAUTHENTICATED، FORBIDDEN، NOT_FOUND،( ‫ الثابت بالباك‬code ‫ يطابق حقل‬FailureType CONFLICT، VALIDATION_ERROR، TOO_MANY_REQUESTS، MAINTENANCE،
+،409 ،404 ،403 ،401( ‫) مع احتياط من رقم الحالة‬...SUBSCRIPTION_EXPIRED، PLAN_LIMIT_REACHED .)network، timeout، cancelled( ‫) وأخطاء الشبكة المحلية‬5xx ،503 ،429 ،422
+10 / 17
+
+‫‪ ErrorHandler.handle‬يحّو ل أي استثناء (‪ )Dio، Format، Type‬لـ ‪ Failure‬برسالة عربية‪ :‬ماذا حدث ثم ماذا‬ ‫تفعل‪.‬‬
+‫‪ validation_translator‬يترجم رسائل التحقق الافتراضية الإنجليزية من لارافيل إلى عربية‪.‬‬ ‫)'‪ failure.fieldError('owner‬يدعم المفاتيح المتداخلة‪.‬‬
+‫‪ : AuthInterceptor‬يضيف ‪ ، Bearer‬ويحّو ل أخطاء الجلسة (‪ ،401‬حساب موقوف‪ ،‬تغيير كلمة سر إجباري)‬ ‫لأحداث ‪ SessionEvent‬يستمع لها ‪ AuthBloc‬فيعيد الراوتر التوجيه فورًا‪ .‬أخطاء طلب الدخول نفسه ُتعرض‬
+‫بالنموذج‪.‬‬ ‫‪ : GlobalErrorGuard‬شبكة أمان لأي خطأ غير ملتقط (ُيسَّجل‪ ،‬والمستخدم يرى رسالة عربية بدل شاشة رمادية)‪.‬‬
+‫وإن فشل التشغيل نفسه تظهر شاشة "تعّذر تشغيل التطبيق" بدل شاشة بدء معّلقة‪.‬‬
+‫‪ .9‬الكاش والعمل دون اتصال‬
+‫القرار‪ :‬الكاش على مستوى الـ )‪ HTTP (interceptor‬وليس على مستوى الـ ‪ .Bloc‬لا ‪ . hydrated_bloc‬السبب‪:‬‬ ‫كل شاشة تعمل دون اتصال تلقائيًا دون أي كود بالميزة‪ ،‬والكاش مربوط بالتوكن وُيمسح كامًال عند الخروج‪.‬‬ ‫‪ hydrated_bloc‬يبقى خيارًا فقط لحفظ حالة واجهة بحتة (ليست بيانات خادم) إن احتجتها‪.‬‬
+‫‪( OfflineCacheInterceptor‬للقراءة فقط)‬
+‫‪ُ .1‬يخَّزن فقط‪ GET :‬بـ ‪ ،JSON‬ليس فيه ]‪ extra[skip‬ولا ‪. as=base64‬‬ ‫‪ .2‬المفتاح = بصمة (‪ )FNV-1a‬لـ ‪ : token | uri‬كل حساب له كاشه‪.‬‬
+‫‪ .3‬بالاتصال‪ :‬يرسل ‪ If-None-Match‬بالـ ‪ ETag‬المحفوظ‪ .‬رد ‪ُ ← 304‬تعرض النسخة المحفوظة دون تنزيل‪ .‬رد ‪200‬‬ ‫← ُيحفظ مع ‪ ETag‬ووقت الحفظ‪ .‬ومع وجود نسخة احتياطية تقل مهلة الاتصال لـ ‪ 8‬ثواٍن ‪.‬‬
+‫‪ .4‬دون اتصال أو فشل شبكة‪ُ :‬تعرض آخر نسخة فورًا كرد ‪ 200‬مع ‪ ، extra[fromCache]=true‬وُيسّجل "آخر‬ ‫تحديث قبل‪ "...‬للشريط العلوي‪.‬‬
+‫‪ .5‬الكتابة تحتاج اتصاًال ‪ ConnectivityInterceptor :‬يرفضها فورًا برسالة واضحة‪.‬‬
+‫التخزين‬
+‫)‪ : CacheStore (io‬ملف ‪ JSON‬لكل رد بمجلد التطبيق الخاص‬ ‫( ‪ ،) getApplicationSupportDirectory()/api_cache‬حد ‪ 400‬رد ويحذف الأقدم كل ‪ 40‬كتابة‪ ،‬ولا ُيحفظ رد أكبر‬
+‫من ‪ .1.5MB‬أي خطأ قرص ُيتجاهل (الكاش اختياري)‪.‬‬ ‫‪ CacheStore (web): localStorage‬للمعاينة فقط‪.‬‬ ‫ُيمسح الكاش مع الجلسة (خروج‪ ،‬انتهاء‪ ،‬إيقاف حساب) عبر )‪. SessionStorage(onClear: cache.clear‬‬
+‫‪ :ConnectionCubit‬فحص الإنترنت الموّحد‬
+‫‪ connectivity_plus‬يلتقط تغرّي الشبكة فورًا‪ ،‬و ‪ internet_connection_checker_plus‬يتأكد أن الإنترنت‬ ‫فعلي‪.‬‬
+‫يبدأ مع التطبيق ويعيش طوال عمره‪ .‬أي فشل شبكة بطلب يطلب )(‪ recheck‬فوري‪.‬‬
+‫‪11 / 17‬‬
+
+‫ حالة "لا اتصال" موّحدة‬offline_views ‫ و‬،)‫ العام‬builder ‫ بالـ‬Stack( ‫ فوق كل الشاشات‬OfflineBanner .‫تعيد المحاولة وحدها عند عودة الاتصال‬
+. cache.markOnline() ‫ ) و‬AppPage ( ‫عودة الاتصال ← الشاشات تتحدث وحدها‬
+‫تخزين الجلسة‬
+.runApp ‫ وُيقرأ قبل‬flutter_secure_storage (Keychain/Keystore) ‫ التوكن بـ‬:‫الموبايل‬ . shared_preferences :‫الويب‬
+. shared_preferences ‫) بـ‬...‫التفضيلات (الثيم‬
+‫ الراوتر والتنقل‬.10
+AuthStatus : unknown ‫ حسب‬redirect ‫ و‬، AuthBloc ‫ الـ‬stream ‫ من‬refreshListenable ‫ بـ‬go_router .← splash ، unauthenticated ← login ، offline ، passwordChangeRequired ، authenticated .‫? أثناء التحقق أو الدخول ويعود لها المستخدم بعده‬from= ‫الصفحة المطلوبة ُتحفظ بـ‬ . Routes.child(id) ) + Routes.isoDate ( ‫ دوال للمسارات ذات المعّرف‬+ ‫ ثوابت‬: Routes
+routes_management.dart ،( ‫ والمسارات مقسمة بملفات حسب المجال‬،‫ للهيكل‬ShellRoute :‫الداشبورد‬ .‫ سطر‬300 ‫) حتى لا يتجاوز ملف‬... routes_operations.dart
+‫ مع‬.‫ خاص ُينشأ عند فتحها وُيغلق عند مغادرتها‬Bloc ‫ صفحة مع‬: blocRoute<B>(path, create:, child:) . paramOf(state, name) ‫ و‬idOf(state)
+‫ يبّدل التبويب أو يدفع‬context.open(location) .‫ ) وصفحات ُتفتح فوقها‬Routes.tabs ( ‫ تبويبات‬:‫الموبايل‬ .)‫ يرجع أو يذهب للرئيسية إن ُف تحت الصفحة مباشرة (من إشعار‬context.back() ‫ و‬،‫صفحة‬ .) AppMotion.slow ‫ (تلاٍش بمدة‬fadePage ‫انتقال الشاشات العامة بـ‬
+)Flutter Web( ‫ الداشبورد‬.11
+‫ مفتوحة‬:‫ كمبيوتر‬.‫ مطوية‬:‫ تابلت‬.280 ‫ درج بعرض‬:‫ موبايل‬.‫ المحتوى‬+ AppShell: Sidebar + Topbar . nav_config.dart ‫ عناصر القائمة من‬.) ToggleCubit ‫وُتطوى بزر (حالتها بـ‬
+context.responsive(mobile:, tablet:, ‫ و‬، Breakpoints.mobile = 600 ، tablet = 1024 :‫التجاوب‬ ResponsiveGrid(minItemWidth: ‫ و‬،desktop:) ، context.pagePadding ، cardPadding ، controlHeight
+.240, maxColumns: 4) ‫ أي تغيير‬. PagedTable<T> = SliceView + TableShimmer + AppDataTable + PaginationBar :‫الجداول‬ .‫ فارغ مع فلاتر = "لا نتائج" بزر مسح‬.Bloc ‫ ليطلبه الـ‬onQuery(ListQuery) ‫ مسح فلاتر) يخرج بـ‬،‫ ترتيب‬،‫(صفحة‬
+.‫ وبطاقات على الموبايل‬،‫ تمرير أفقي على التابلت‬،‫ كامل على الكمبيوتر‬AppDataTable . withFilter ، cleared() ، hasFilters ،‫ الفلاتر‬،‫ الترتيب‬،‫ البحث‬،‫ الصفحة‬:ListQuery
+.‫ يلتف على الشاشات الضيقة‬،‫ مسح‬+ ‫ فلاتر‬+ Debouncer ‫ بحث بـ‬:FilterBar ،)‫ (يجلب العنصر عند الفتح‬DetailDialog ،)‫ (قائمة منسدلة بأيقونات ملّو نة‬RowActions :‫الإجراءات‬
+. ExportDialog ،)‫ (بيانات دخول ُتعرض مرة واحدة‬CredentialsDialog ،‫ لكل تعديل‬FormDialog
+12 / 17
+
+‫المكونات‪( StatCard :‬أيقونة ‪ +‬رقم يعّد تصاعديًا)‪( HeroBanner ،‬المكان المزخرف)‪InfoGrid ، ،‬‬ ‫‪ ، StatusBadge ، AppTabs‬الرسوم ( ‪ TrendChart ، BarsChart ، ChartLegend‬فوق ‪.) fl_chart‬‬
+‫البحث الشامل والتنبيهات تفتح الصفحات بفلتر أولي عبر ‪.query parameters‬‬ ‫التشغيل‪ ، flutter run -d chrome :‬والبناء‪flutter build web --release --dart- :‬‬
+‫‪.define=API_BASE_URL=...‬‬
+‫‪ .12‬تطبيقات الموبايل‬
+‫‪ ← main: GlobalErrorGuard.install() ← SystemUiMode.edgeToEdge‬الاتجاه عمودي فقط ←‬ ‫)(‪( configureDependencies() ← PushService.init‬لا يوقف التشغيل إن فشل) ← ‪ .runApp‬أي فشل =‬
+‫شاشة خطأ تشغيل واضحة‪.‬‬ ‫‪app.dart builder: AnnotatedRegion<SystemUiOverlayStyle> ← MediaQuery.withClampedTextScaling‬‬
+‫← إخفاء الـ ]‪ .scrollbars ← Stack[SessionScope(child), OfflineBanner‬و ‪ scaffoldMessengerKey‬عام‬ ‫لعرض الرسائل من أي مكان‪.‬‬
+‫‪ :MobileShell‬أربعة تبويبات كل منها يحفظ حالته‪ ،‬وشريط سفلي عائم ( ‪ ) FancyTabBar‬بزر أوسط يفتح قوس‬ ‫إجراءات سريعة ( ‪ ،) QuickActions‬وشارات أعداد على التبويبات ( ‪ .) NavBadgesCubit‬الرجوع من تبويب غير‬ ‫الرئيسية يعود للرئيسية‪.‬‬
+‫‪ :SessionScope‬حالة الجلسة المشتركة فوق الراوتر (عّداد الإشعارات‪ ،‬الشارات‪ ،‬خيارات مشتركة) تبدأ عند الدخول‬ ‫وُتمسح عند الخروج‪.‬‬
+‫‪ :AppPage + MobileHeader‬هيكل أي شاشة‪ :‬رأس بلون الهيكل (عنوان‪ ،‬وصف‪ ،‬رجوع تلقائي‪ ،‬زخرفة) ثم الأزرار‬ ‫ثم المحتوى‪ ،‬والسحب للتحديث‪.‬‬
+‫القوائم‪ LoadMoreList :‬فوق ‪ ، ListCubit‬و ‪ ActionSheet‬لإجراءات العنصر‪.‬‬ ‫الإشعارات‪ . firebase_messaging + flutter_local_notifications :‬دورة التوكن‪ :‬إذن ← تسجيل التوكن‬ ‫بالخادم عند الدخول وعودة الاتصال وتجدده ← حذفه عند الخروج‪ onOpen .‬يفتح صفحة الإشعارات (بعد انتهاء‬ ‫البدء)‪ ،‬و ‪ onMessage‬يحّدث العّداد‪ push_permission + app_settings .‬لتنبيه "الإشعارات مطفية" وفتح‬
+‫الإعدادات‪.‬‬ ‫الملفات‪ : BlobOpener :‬على الجهاز ُيجلب الملف المحمي وُيحفظ ( ‪ ) path_provider‬وُيفتح ( ‪،) open_filex‬‬
+‫وعلى الويب ‪ .blob‬رفع الملفات بـ ‪ file_picker‬و ‪. FormData‬‬ ‫‪ HTML‬من الخادم (معاينة شهادة‪/‬فاتورة)‪ webview_flutter :‬على الجهاز و ‪ iframe‬على الويب‪.‬‬ ‫اختيار التطبيق المسموح للدور‪ :‬طلب الدخول يرسل اسم التطبيق‪ ،‬والخادم يرفض الدور غير المسموح‪.‬‬ ‫البناء‪ ، flutter build apk --release :‬ومحليًا للمعاينة‪flutter build web --debug --dart- :‬‬
+‫‪.define=API_BASE_URL=http://127.0.0.1:8000/api/v1‬‬
+‫‪13 / 17‬‬
+
+‫‪ .13‬التحميل والحالات الأربع‬
+
+‫(>‪SliceView<T‬‬
+
+‫‪slice: state.details,‬‬
+
+‫‪loading: const DetailsShimmer(),‬‬
+
+‫هيكل بنفس شكل المحتوى ‪//‬‬
+
+‫‪onRetry: () => bloc.add(const DetailsRequested()),‬‬
+
+‫‪isEmpty: (d) => d.items.isEmpty,‬‬
+
+‫‪empty: EmptyState(...),‬‬
+
+‫دعوة لا اعتذار ‪//‬‬
+
+‫‪builder: (context, data) => DetailsView(data),‬‬
+
+‫)‬
+
+‫أول تحميل‪ :‬هياكل رمادية ( ‪ ) shimmer‬مطابقة لشكل المحتوى‪ AppShimmer :‬يحرك كل ‪ShimmerBox‬‬ ‫بداخله‪ ،‬بلون ‪ ، surfaceAlt‬والبطاقة الهيكلية حّد فقط بلا تعبئة‪ .‬جاهز‪ ، TableShimmer :‬هياكل البطاقات‬
+‫والقوائم والإحصاءات‪ .‬لا ‪ CircularProgressIndicator‬بوسط الشاشة‪.‬‬ ‫إعادة التحميل‪ :‬المحتوى يبقى بشفافية ‪ + 0.55‬شريط تقّدم رفيع ‪ 2px‬بالأعلى‪ ،‬والضغط معّط ل مؤقتًا‪.‬‬ ‫خطأ بلا بيانات‪( ErrorState(failure, onRetry) :‬وحالة لا اتصال الموّحدة إن كان السبب الشبكة)‪ .‬خطأ مع‬
+‫بيانات سابقة‪ :‬تبقى البيانات‪.‬‬ ‫التبديل بين الحالات‪ AnimatedSwitcher :‬بمدة ‪ ، normal‬والمحتوى يدخل بـ ‪.) fadeIn ( flutter_animate‬‬
+‫‪ frame‬اختياري حول حالات التحميل والخطأ (ليبقى رأس الصفحة وزر الرجوع ظاهرين)‪.‬‬
+
+‫‪ .14‬النماذج والتحقق‬
+‫أسماء الحقول بصيغة لارافيل المنّق طة ( ‪ ) owner.phone‬لتطابق مفاتيح أخطاء ‪ 422‬مباشرة‪ ،‬و‬ ‫)(‪ form.payload / apiBody‬يحّو لها لشكل متداخل‪.‬‬
+‫‪ : AppFormCubit‬النصوص بـ ‪ُ controllers‬تنشأ عند الطلب ( )‪ ) form.text(name‬وُتتلف معه‪ ،‬وغير النصية بـ‬ ‫)‪ : set(name, value) . submit(send‬تحقق محلي ← إرسال ← توزيع أخطاء ‪ 422‬على الحقول‪ ،‬وأخطاء حقول‬
+‫غير ظاهرة ُتعرض أعلى النموذج ( ‪ ،) orphanErrors‬والفشل العام (‪ ،409‬شبكة) أعلاه‪.‬‬ ‫)‪ : apiBody(keepNulls:, dateTimes:, except:‬التواريخ ‪ 2026-10-07‬أو ‪ ISO‬كامل لحقول محددة‪،‬‬
+‫واستبعاد حقول‪.‬‬ ‫الحقول المربوطة‪( FormText ، FormPassword :‬إظهار‪/‬إخفاء بـ ‪ ، FormDropdown ،)Cubit‬منتقي التاريخ‪ ،‬الاختيار‬
+‫المتعدد برقائق‪ ، FormFile ،‬داخل ‪ . FormColumn‬خيارات القوائم من الخادم بـ ‪. OptionsLoader‬‬ ‫‪ : Validators‬رسائل تقول المطلوب مباشرة ( )(‪.') ، email() ، newPassword‬اكتب اسمك'(‪.)... required‬‬
+
+‫‪14 / 17‬‬
+
+final done = await FormDialog.show<void>( context, title: '‫'تعديل بياناتي‬, icon: Icons.person_rounded, initial: {'name': profile.name, 'email': profile.email}, fields: (_) => FormColumn(children: [ FormText('name', label: '‫'الاسم‬, required: true, validator: Validators.required('‫اكتب‬
+‫اسمك‬.')), FormText('email', label: '‫'البريد الإلكتروني‬, ltr: true, validator: Validators.email()),
+]), onSubmit: (form) => sl<ProfileRepository>().update(form.apiBody(keepNulls: true)), ); if (done != null && context.mounted) context.read<ProfileBloc>().add(const ProfileRequested(silent: true));
+‫ رسالة‬. danger: true ‫ بلا حقول مع‬FormDialog ‫ خروج من كل الأجهزة) هي نفس‬،‫ إيقاف‬،‫نوافذ التأكيد (حذف‬ . AppSnackbar ‫النجاح بـ‬
+
+‫ الباكجات المعتمدة‬.15
+
+‫أين‬
+
+‫الدور‬
+
+‫إدارة الحالة ومقارنة الحالات الكل‬
+
+‫الكل‬
+
+‫حقن الاعتماديات‬
+
+‫الكل‬
+
+‫التوجيه والحماية‬
+
+‫بالمصادقة‬
+
+‫ الكل‬interceptors ‫الطلبات والـ‬
+
+‫التفضيلات وجلسة الويب الكل‬
+
+‫الموبايل‬
+
+‫التوكن الآمن‬
+
+‫الكل‬
+
+‫هياكل التحميل‬
+
+‫حركات الدخول والتلاشي الكل‬
+
+‫الكل‬
+
+‫الرسوم البيانية‬
+
+‫ حزمة‬+ ‫الكل‬ ‫التصميم‬
+
+SVG ‫الشعار والأيقونات‬
+
+‫الكل‬
+
+‫العربية والتواريخ‬
+
+‫الكل‬
+
+‫اختيار ملفات للرفع‬
+
+‫الكل‬
+
+‫الروابط الخارجية‬
+
+‫ والتنزيل على الويب الكل‬blob
+
+‫الباكج‬ flutter_bloc + equatable
+get_it go_router
+dio shared_preferences flutter_secure_storage
+shimmer flutter_animate
+fl_chart flutter_svg
+intl + flutter_localizations
+file_picker url_launcher
+web
+
+15 / 17
+
+‫الموبايل‬ ‫الموبايل‬ ‫الموبايل‬ ‫الموبايل‬ ‫الموبايل‬ )dev( ‫الموبايل‬ )dev( ‫الكل‬
+
+‫حفظ الملفات وفتحها‬ ‫وكاش الردود‬
+‫فحص الاتصال الموّحد‬ ‫ من‬HTML ‫عرض صفحات‬
+‫الخادم‬ ‫إشعارات الجهاز‬
+‫فتح إعدادات الإشعارات‬ ‫بالجهاز‬
+‫الأيقونة وشاشة البدء‬ ‫الأصلية‬
+‫قواعد التحليل‬
+
+path_provider + open_filex connectivity_plus + internet_connection_checker_plus
+webview_flutter
+firebase_core + firebase_messaging +
+flutter_local_notifications app_settings
+flutter_launcher_icons / flutter_native_splash
+flutter_lints
+
+‫ (موديلات يدوية بـ‬freezed / json_serializable ،)HTTP ‫ (الكاش بمستوى‬hydrated_bloc :‫غير مستخدم عمدًا‬ . provider / getx / riverpod ،)‫ واحد‬ApiClient( retrofit ،)json_x
+
+‫ (مثل‬dependency_overrides ‫ إن ظهر تعارض نسخ بالأندرويد ثّبت النسخة بـ‬:‫ملاحظة‬ .) shared_preferences_android
+
+Lint ‫ التسمية والكود والـ‬.16
+_screen ، _bloc ، _event ، _state ، _cubit ، _repository ، :‫ بلاحقة دورها‬snake_case ‫الملفات‬ . _remote_datasource ، _models
+. XRequested ، XRefreshed ، XSubmitted :‫الأحداث بصيغة الماضي‬ . abstract final class (Routes، AppSpace، ErrorHandler، Parse) ‫الكلاسات المساعدة الثابتة‬
+.‫ وليس كيف‬،‫ ماذا يفعل ولماذا‬:‫ بالعربية بأعلى كل كلاس‬/// ‫تعليقات التوثيق‬ ‫ والمصطلحات ثابتة‬،‫ أيقونة بمكان واحد‬+ ‫ لون‬+ ‫ الثابتة (الحالات والأنواع) لنص عربي‬API ‫ ترجمة قيم الـ‬: Labels
+.‫بكل الواجهات‬ . 2026-10-07 ‫ والتواريخ‬،‫ الأرقام لاتينية‬: Formatters .Cubit: if (isClosed) return; ‫ وبالـ‬، if (!context.mounted) return; :‫ بالشاشة‬await ‫بعد أي‬
+include: package:flutter_lints/flutter.yaml formatter:
+page_width: 120 analyzer:
+exclude: [build/**, web/**, android/**, ios/**]
+
+16 / 17
+
+‫ قائمة البدء‬.17
+‫مشروع جديد‬
+identity-spec.md ← brand- ← ‫ ← الشعار بنسخه ← الخطوط‬tokens.json ← ‫ أربع قواعد‬+ ‫ الفكرة‬: ‫ الهوية أوًال‬.1 .guide.html
+. example/ ‫< مع تطبيق عرض‬brand>_design (tokens، theme، motion، ornaments، widgets) ‫ حزمة‬.2 ‫ و‬routes ‫ و‬app_config ‫ كامًال من آخر مشروع (ُيعّدل‬core/ ‫ ثم نسخ‬،‫ بمسار إنجليزي‬flutter create .3
+.)‫ فقط‬labels .‫ بالإعداد أعلاه‬analysis_options.yaml ‫ و‬،path dependency ‫ إضافة الحزمة كـ‬.4 ‫ واسم‬،‫ لطلبات القراءة‬meta.pagination ، ETag/304 ‫ شكل‬،‫ أكواد الأخطاء‬،‫ غلاف الرد‬:‫ الاتفاق مع الباك اند على‬.5
+.‫التطبيق بطلب الدخول‬ .‫) ثم الميزات‬Shell( ‫) ثم الهيكل‬splash، login، change password، offline( ‫ أوًال‬auth ‫ ميزة‬.6
+.‫ الأذونات‬،‫ شاشة البدء‬،‫ الأيقونة‬،Firebase :‫ الموبايل‬.7
+‫ميزة جديدة‬
+.json_x ‫ عبر‬fromJson ‫ الموديلات بـ‬: domain/models/x_models.dart .1 .‫ العقد‬: data/repo/x_repository.dart .2
+. ApiClient ‫ التنفيذ عبر‬: data/datasources/x_remote_datasource.dart .3 .)Bloc factory ‫ الـ‬،lazySingleton ‫ (المستودع‬feature_injection.dart ‫ التسجيل بـ‬.4 .)‫ إن كفى‬LoadCubit / ListCubit ‫ (أو‬Slice ‫ بشرائح‬presentation/bloc/ : Bloc .5
+. Routes + blocRoute ‫ المسار بـ‬.6 .‫ والهيكل الرمادي بشكل المحتوى‬،‫ بحالاتها الأربع‬AppPage + SliceView / PagedTable :‫ الشاشة‬.7
+.‫ والتحديث بعدها صامت‬، FormDialog ‫ التعديلات بـ‬.8 ‫ بلا‬360px ‫ شاشة‬،‫ الثيم الداكن‬،‫ لا قيمة تصميم أو مسار مكتوب‬،‫ سطر‬300 ‫ لا ملف فوق‬،setState ‫ لا‬:‫ مراجعة‬.9
+.‫ نظيف‬flutter analyze ‫ و‬،overflow
+17 / 17
+
+

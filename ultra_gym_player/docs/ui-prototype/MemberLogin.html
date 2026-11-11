@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تطبيق العضو · الدخول · UltraGym v1</title>
+<style>
+@font-face{font-family:'Changa';src:url(assets/Changa-VariableFont_wght.ttf) format('truetype');font-weight:200 800;font-display:swap}
+@font-face{font-family:'Readex Pro';src:url(assets/ReadexPro-VariableFont_wght.ttf) format('truetype');font-weight:160 700;font-display:swap}
+body{margin:0;background:#121210}
+a{color:#FF8E5E;text-decoration:none}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.frame{background:#2E2E29;padding:1px;clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px))}
+.frame>.in{background:#1B1B18;clip-path:polygon(0 0,calc(100% - 21.6px) 0,100% 21.6px,100% 100%,21.6px 100%,0 calc(100% - 21.6px))}
+.badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:500;white-space:nowrap}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.bn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:52px;border-radius:14px;font-size:11.5px;color:#A9A99F}
+.bn.on{background:#3A1C10;color:#FF8E5E;font-weight:600}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;gap:10px}
+.row>span:first-child{color:#A9A99F}
+.card{background:#1B1B18;border:1px solid #2E2E29;border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.h2{margin:0;font-size:15px;line-height:24px;font-weight:600}
+.bar{height:8px;border-radius:999px;background:#2E2E29;overflow:hidden}
+.bar>i{display:block;height:100%;background:#C8F03C;border-radius:999px}
+.grp{background:#1B1B18;border:1px solid #2E2E29;border-radius:16px;overflow:hidden}
+.it{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid #2E2E29;font-size:14px;color:#F3F3EE}
+.it:first-child{border-top:0}
+.it small{display:block;font-size:12px;color:#A9A99F;margin-top:2px}
+.ic{width:36px;height:36px;border-radius:10px;background:#24241F;color:#FF8E5E;display:flex;align-items:center;justify-content:center;flex:0 0 36px}
+.gl{font-size:12.5px;color:#A9A99F;margin:0 4px 8px}
+.sw{width:40px;height:24px;border-radius:999px;background:#45453D;position:relative;display:inline-block;flex:0 0 40px}
+.sw::after{content:'';position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#F3F3EE}
+.sw.on{background:#FF6A30}.sw.on::after{right:auto;left:3px}
+.nt{display:flex;gap:12px;padding:14px 16px;border-top:1px solid #2E2E29}
+.nt:first-child{border-top:0}
+.nt.un{background:#20201C}
+.dot{width:8px;height:8px;border-radius:50%;background:#FF6A30;flex:0 0 8px;margin-top:8px}
+.seg2{display:flex;background:#1B1B18;border:1px solid #2E2E29;border-radius:12px;padding:3px;gap:3px}
+.seg2 button{flex:1;height:36px;border:0;border-radius:9px;background:transparent;color:#A9A99F;font-family:'Readex Pro',sans-serif;font-size:13px}
+.seg2 button.on{background:#3A1C10;color:#FF8E5E;font-weight:600}
+
+.sk{background:linear-gradient(90deg,var(--soft,#24241F) 25%,var(--line,#2E2E29) 37%,var(--soft,#24241F) 63%);background-size:400% 100%;animation:skm 1.4s ease infinite;border-radius:8px}
+@keyframes skm{0%{background-position:100% 50%}100%{background-position:0 50%}}
+@media (prefers-reduced-motion:reduce){.sk{animation:none}}
+.pse{background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:16px;padding:40px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.pse .ico{width:56px;height:56px;border-radius:999px;background:var(--d-soft,#3A1520);color:var(--d-ink,#FF7A95);display:flex;align-items:center;justify-content:center}
+.chip2{height:32px;padding:0 12px;border-radius:999px;border:1px solid #45453D;background:transparent;color:#C9C9C0;font-family:'Readex Pro',sans-serif;font-size:12.5px}
+.chip2.on{background:#3A1C10;border-color:#3A1C10;color:#FF8E5E;font-weight:600}
+.kpi{flex:1 1 0;background:#1B1B18;border:1px solid #2E2E29;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:2px}
+.kpi span{font-size:11.5px;color:#A9A99F}
+.kpi strong{font-family:'Changa',sans-serif;font-size:22px;font-weight:700;color:#F3F3EE}
+</style>
+<link rel="stylesheet" href="proto.css">
+</head>
+<body class="ug-mobile">
+<div id="dc-root"></div>
+<template id="dc-src">
+<div style="width:390px;min-height:844px;position:relative;background:#121210;font-family:'Readex Pro',sans-serif;color:#F3F3EE;direction:rtl;overflow:hidden">
+  <img src="assets/backdrop-login-dark.svg" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:340px;object-fit:cover;opacity:.55">
+  <div style="position:relative;padding:72px 24px 32px;display:flex;flex-direction:column;gap:22px">
+    <img src="assets/ultragym-vertical-dark.svg" alt="UltraGym" style="height:92px;align-self:center">
+    <template data-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}"><form style="display:flex;flex-direction:column;gap:14px;margin-top:40px" onSubmit="{{ toClub }}">
+      <h1 style="margin:0;font-size:24px;line-height:36px;font-weight:600">أهلًا بك</h1>
+      <p style="margin:0;font-size:13.5px;color:#A9A99F">ادخل برقم موبايلك أو معرّف العضو، وكلمة السر التي أعطاك إياها النادي.</p>
+      <label class="gl" for="l-p" style="margin:6px 0 0">الموبايل أو المعرّف</label>
+      <input id="l-p" dir="ltr" value="+963 933 482 610" style="height:52px;border-radius:14px;border:1px solid #45453D;background:#1B1B18;color:#F3F3EE;padding:0 14px;font-family:'Readex Pro',sans-serif;font-size:16px;text-align:right">
+      <label class="gl" for="l-w" style="margin:0">كلمة السر</label>
+      <input id="l-w" type="password" value="••••••••" style="height:52px;border-radius:14px;border:1px solid #45453D;background:#1B1B18;color:#F3F3EE;padding:0 14px;font-family:'Readex Pro',sans-serif;font-size:16px">
+      <template data-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><div role="alert" style="background:#3A1520;color:#FF7A95;border-radius:12px;padding:10px 14px;font-size:13px">{{ err }}</div></template>
+      <button type="submit" style="height:54px;border:0;border-radius:14px;background:#FF6A30;color:#1A1A18;font-family:'Readex Pro',sans-serif;font-size:16px;font-weight:600;margin-top:6px">دخول</button>
+      <p style="margin:0;font-size:12.5px;line-height:20px;color:#A9A99F;text-align:center">نسيت كلمة السر؟ اطلب كلمة جديدة من استقبال ناديك.</p>
+    </form></template>
+    <template data-if value="{{ isClub }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:12px;margin-top:40px">
+      <h1 style="margin:0;font-size:22px;line-height:34px;font-weight:600">اختر النادي</h1>
+      <p style="margin:0;font-size:13.5px;color:#A9A99F">حسابك مسجل بناديين.</p>
+      <div class="grp">
+        <a class="it" href="MemberHome.html"><span class="ic" style="font-family:'Changa',sans-serif;font-weight:700">ق</span><span style="flex:1">نادي القمة الرياضي<small>معرّفك QMA-647281 · اشتراك فعّال</small></span></a>
+        <a class="it" href="MemberHome.html"><span class="ic" style="font-family:'Changa',sans-serif;font-weight:700">ف</span><span style="flex:1">فيتنس زون<small>معرّفك FTZ-208114 · اشتراك منتهٍ</small></span></a>
+      </div>
+    </div></template>
+    <template data-if value="{{ isPw }}" hint-placeholder-val="{{ false }}"><form style="display:flex;flex-direction:column;gap:14px;margin-top:40px" onSubmit="{{ toHome }}">
+      <h1 style="margin:0;font-size:22px;line-height:34px;font-weight:600">اختر كلمة سر جديدة</h1>
+      <p style="margin:0;font-size:13.5px;color:#A9A99F">كلمة السر المؤقتة لمرة واحدة. لا يمكنك المتابعة قبل تغييرها.</p>
+      <input type="password" value="••••••••••" aria-label="كلمة السر الجديدة" style="height:52px;border-radius:14px;border:1px solid #45453D;background:#1B1B18;color:#F3F3EE;padding:0 14px;font-size:16px">
+      <input type="password" value="••••••••••" aria-label="تأكيد كلمة السر" style="height:52px;border-radius:14px;border:1px solid #45453D;background:#1B1B18;color:#F3F3EE;padding:0 14px;font-size:16px">
+      <button type="submit" style="height:54px;border:0;border-radius:14px;background:#FF6A30;color:#1A1A18;font-family:'Readex Pro',sans-serif;font-size:16px;font-weight:600">حفظ والمتابعة</button>
+    </form></template>
+    <template data-if value="{{ isUpdate }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:14px;margin-top:40px;align-items:center;text-align:center">
+      <span style="width:64px;height:64px;border-radius:999px;background:#3A1C10;color:#FF8E5E;display:flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></span>
+      <h1 style="margin:0;font-size:22px;line-height:34px;font-weight:600">تحديث مطلوب</h1>
+      <p style="margin:0;font-size:13.5px;line-height:22px;color:#A9A99F">نسختك <span class="ltr">2.1.0</span> لم تعد مدعومة. حدّث التطبيق للنسخة <span class="ltr">2.4.1</span> لتكمل.</p>
+      <a href="#" style="height:54px;width:100%;border-radius:14px;background:#FF6A30;color:#1A1A18;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center">فتح المتجر</a>
+    </div></template>
+  </div>
+</div>
+</template>
+<script type="application/json" id="dc-props">{"step":{"editor":"enum","options":["login","select_club","change_password","force_update"],"default":"login","section":"الخطوة"},"error":{"editor":"enum","options":["none","invalid","expired","locked"],"default":"none","section":"الخطأ"},"$preview":{"width":390,"height":844}}</script>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  renderVals() {
+    const st = (this.state && this.state.st) || this.props.step || 'login';
+    const er = this.props.error || 'none';
+    const E = { invalid: 'رقم الدخول أو كلمة السر غير صحيحة.', expired: 'انتهت صلاحية كلمة السر المؤقتة. اطلب كلمة جديدة من النادي.', locked: 'محاولات كثيرة. حاول بعد 15 دقيقة.' };
+    const go = (v) => (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ st: v }); };
+    return { isLogin: st === 'login', isClub: st === 'select_club', isPw: st === 'change_password', isUpdate: st === 'force_update', hasErr: er !== 'none', err: E[er] || '', toClub: go('select_club'), toHome: go('select_club') };
+  }
+}
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

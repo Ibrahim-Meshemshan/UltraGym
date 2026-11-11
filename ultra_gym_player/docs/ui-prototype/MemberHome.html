@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تطبيق العضو · الرئيسية · UltraGym v1</title>
+<style>
+@font-face{font-family:'Changa';src:url(assets/Changa-VariableFont_wght.ttf) format('truetype');font-weight:200 800;font-display:swap}
+@font-face{font-family:'Readex Pro';src:url(assets/ReadexPro-VariableFont_wght.ttf) format('truetype');font-weight:160 700;font-display:swap}
+body{margin:0;background:#121210}
+a{color:#FF8E5E;text-decoration:none}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.cut{background:#2E2E29;padding:1px;border-radius:16px;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+.cut>.in{background:#1B1B18;border-radius:15px;clip-path:polygon(0 0,calc(100% - 17.6px) 0,100% 17.6px,100% 100%,0 100%);height:100%;box-sizing:border-box}
+.head{position:relative;overflow:hidden;background:#1A1A17;border-radius:0 0 28px 28px}
+.speed{position:absolute;inset:0;background-image:url(assets/pattern-speed-tile-dark.svg);background-size:120px 120px;opacity:.10}
+.badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:500;white-space:nowrap}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.d-success{background:#163126;color:#3DD68C}.d-warning{background:#33280F;color:#F5B642}.d-info{background:#1C2747;color:#8AA9FF}
+.qa{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;height:104px;font-family:'Readex Pro',sans-serif;font-size:13.5px;font-weight:600;color:#F3F3EE;text-align:center}
+.slab{width:42px;height:42px;border-radius:11px;background:#3A1C10;color:#FF8E5E;display:flex;align-items:center;justify-content:center;transform:skewX(-10deg)}
+.slab>svg{transform:skewX(10deg)}
+.k{font-size:12px;color:#A9A99F}
+.v{font-size:15px;font-weight:600;color:#F3F3EE}
+.bn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:52px;border-radius:14px;font-size:11.5px;color:#A9A99F}
+.bn.on{background:#3A1C10;color:#FF8E5E;font-weight:600}
+
+.sk{background:linear-gradient(90deg,var(--soft,#24241F) 25%,var(--line,#2E2E29) 37%,var(--soft,#24241F) 63%);background-size:400% 100%;animation:skm 1.4s ease infinite;border-radius:8px}
+@keyframes skm{0%{background-position:100% 50%}100%{background-position:0 50%}}
+@media (prefers-reduced-motion:reduce){.sk{animation:none}}
+.pse{background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:16px;padding:40px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.pse .ico{width:56px;height:56px;border-radius:999px;background:var(--d-soft,#3A1520);color:var(--d-ink,#FF7A95);display:flex;align-items:center;justify-content:center}
+</style>
+<link rel="stylesheet" href="proto.css">
+</head>
+<body class="ug-mobile">
+<div id="dc-root"></div>
+<template id="dc-src">
+<div style="width:390px;height:1320px;position:relative;overflow:hidden;background:#121210;font-family:'Readex Pro',sans-serif;color:#F3F3EE;direction:rtl">
+
+  <header class="head" style="padding:20px 20px 26px">
+    <div class="speed" aria-hidden="true"></div>
+    <img src="assets/plate-ring-dark.svg" alt="" aria-hidden="true" style="position:absolute;left:-70px;top:-50px;width:210px;height:210px;opacity:.4">
+    <div style="position:relative;display:flex;align-items:center;justify-content:space-between">
+      <span style="display:flex;align-items:center;gap:10px"><img src="assets/ultragym-mark-dark.svg" alt="UltraGym" style="width:34px"><span style="font-size:13px;color:#C9C9C0">نادي القمة الرياضي</span></span>
+      <a href="MemberNotifications.html" aria-label="الإشعارات، 2 غير مقروءة" style="width:42px;height:42px;border-radius:999px;border:1px solid #45453D;background:rgba(18,18,16,.6);color:#F3F3EE;display:flex;align-items:center;justify-content:center;position:relative"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></svg><span style="position:absolute;top:-3px;left:-3px;min-width:18px;height:18px;border-radius:999px;background:#C8F03C;color:#1A1A17;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center">2</span></a>
+    </div>
+    <div style="position:relative;margin-top:22px;display:flex;flex-direction:column;gap:6px">
+      <h1 style="margin:0;font-family:'Changa',sans-serif;font-weight:700;font-size:30px;line-height:40px">مساء الخير، أحمد</h1>
+      <p style="margin:0;font-size:15px;line-height:26px;color:#C9C9C0">باقي <strong style="color:#F3F3EE">12 يومًا</strong> باشتراكك</p>
+      <span style="align-self:flex-start;margin-top:6px;background:#C8F03C;color:#1A1A17;font-size:12px;font-weight:600;padding:3px 12px;transform:skewX(-10deg)"><span style="display:inline-block;transform:skewX(10deg)">سلسلة حضورك: أسبوعان متتاليان</span></span>
+    </div>
+  </header>
+
+  <main style="padding:18px 16px 110px;display:flex;flex-direction:column;gap:14px">
+<template data-if value="{{ psReady }}" hint-placeholder-val="{{ true }}"><div style="display:contents">
+
+    <div role="status" style="display:flex;gap:10px;align-items:flex-start;background:#33280F;color:#F5B642;border-radius:14px;padding:12px 14px;font-size:13.5px;line-height:22px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="flex:0 0 auto;margin-top:2px"><path d="M12 3l9 16H3zM12 10v4M12 17h.01"/></svg><span>عليك مبلغ متبقٍ <span class="ltr">10.00$</span>. يمكنك دفعه في استقبال النادي.</span></div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+      <a href="MemberCard.html" class="qa" style="background:#FF6A30;color:#1A1A17;border-radius:16px;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%)"><span class="slab" style="background:#1A1A17;color:#FF6A30"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4M8 8h3v3H8zM13 13h3v3h-3zM13 8h3M8 13v3"/></svg></span>دخول بالـ QR</a>
+      <a href="MemberWorkout.html" class="cut"><span class="in qa"><span class="slab"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 12h3M19 12h3M5 8v8M19 8v8M7 12h10"/></svg></span>برنامجي</span></a>
+      <a href="MemberPlans.html" class="cut"><span class="in qa"><span class="slab"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14-5L4 8M4 4v4h4M4 13a8 8 0 0 0 14 5l2-2M20 20v-4h-4"/></svg></span>تجديد</span></a>
+    </div>
+
+    <section class="cut"><div class="in" style="padding:18px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h2 style="margin:0;font-size:16px;line-height:26px;font-weight:600">اشتراكي</h2><span class="badge d-success">فعّال</span></div>
+      <div style="display:flex;flex-direction:column;gap:2px"><strong style="font-size:17px;font-weight:600">شهري · حديد</strong><span class="k">الفرع الرئيسي – المزة · مع المدرب باسل حداد</span></div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="height:8px;border-radius:999px;background:#24241F;overflow:hidden"><div style="height:100%;width:60%;background:#FF6A30;border-radius:999px"></div></div>
+        <div style="display:flex;justify-content:space-between" class="k"><span>من <span class="ltr">2026-10-17</span></span><span>إلى <span class="ltr">2026-11-16</span></span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+        <div style="background:#24241F;border-radius:12px;padding:10px 12px"><span class="k" style="display:block">المدفوع</span><span class="v ltr">$20.00 / $30.00</span></div>
+        <div style="background:#33280F;border-radius:12px;padding:10px 12px"><span class="k" style="display:block;color:#F5B642">المتبقي</span><span class="v ltr" style="color:#F5B642">$10.00</span><span style="display:block;font-size:11.5px;color:#C9C9C0">ل.س <span class="ltr">125,000</span></span></div>
+      </div>
+      <span class="k">أيام التجميد المتاحة: 7 · التجميد من استقبال النادي</span>
+    </div></section>
+
+    <section class="cut"><div class="in" style="padding:16px 18px;display:flex;align-items:center;gap:12px">
+      <span style="width:10px;height:10px;border-radius:999px;background:#3DD68C;flex:0 0 auto;box-shadow:0 0 0 5px #163126"></span>
+      <span style="flex:1;display:flex;flex-direction:column"><strong style="font-size:14.5px;font-weight:600">النادي مفتوح لك الآن</strong><span class="k">الفرع الرئيسي – المزة · مختلط بكل الأوقات</span></span>
+    </div></section>
+
+    <section class="cut"><div class="in" style="padding:18px;display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between"><h2 style="margin:0;font-size:16px;line-height:26px;font-weight:600">حضوري</h2><a href="MemberAttendance.html" style="font-size:13px">السجل</a></div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;text-align:center">
+        <div><span class="ltr" style="font-family:'Changa',sans-serif;font-size:28px;font-weight:700;display:block">2</span><span class="k">زيارات هذا الشهر</span></div>
+        <div><span class="ltr" style="font-family:'Changa',sans-serif;font-size:28px;font-weight:700;display:block;color:#A9A99F">12</span><span class="k">الشهر الماضي</span></div>
+        <div><span style="font-family:'Changa',sans-serif;font-size:20px;font-weight:700;display:block;line-height:42px">اليوم</span><span class="k">آخر دخول <span class="ltr">18:42</span></span></div>
+      </div>
+    </div></section>
+
+    <section class="cut"><div class="in" style="padding:18px;display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between"><h2 style="margin:0;font-size:16px;line-height:26px;font-weight:600">آخر قياس</h2><span class="k"><span class="ltr">2026-11-01</span></span></div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+        <div style="background:#24241F;border-radius:12px;padding:10px 12px"><span class="k" style="display:block">الوزن</span><span class="v">82.4 كغ</span></div>
+        <div style="background:#24241F;border-radius:12px;padding:10px 12px"><span class="k" style="display:block">الدهون</span><span class="v ltr">18.2%</span></div>
+        <div style="background:#24241F;border-radius:12px;padding:10px 12px"><span class="k" style="display:block">BMI</span><span class="v ltr">26.0</span></div>
+      </div>
+      <a href="MemberProgress.html" style="font-size:13px;align-self:flex-start">تقدّمي</a>
+    </div></section>
+
+    <section class="cut"><div class="in" style="padding:18px;display:flex;align-items:center;gap:14px">
+      <span class="slab"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 12h3M19 12h3M5 8v8M19 8v8M7 12h10"/></svg></span>
+      <span style="flex:1;min-width:0;display:flex;flex-direction:column"><strong style="font-size:15px;font-weight:600">تضخيم · 4 أيام</strong><span class="k">4 أيام · 13 تمرينًا · باسل حداد</span></span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A9A99F" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+    </div></section>
+
+  </div></template>
+<template data-if value="{{ psLoading }}" hint-placeholder-val="{{ false }}"><div style="display:contents" role="status" aria-live="polite"><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">جارٍ التحميل</span>
+      <span class="sk" style="display:block;width:100%;height:150px;border-radius:18px"></span>
+      <div style="display:flex;gap:10px"><span class="sk" style="display:block;width:100%;height:64px;border-radius:14px"></span><span class="sk" style="display:block;width:100%;height:64px;border-radius:14px"></span><span class="sk" style="display:block;width:100%;height:64px;border-radius:14px"></span></div>
+      <div style="background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:16px;overflow:hidden"><div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line,#2E2E29)"><span class="sk" style="display:block;width:36px;height:36px;border-radius:10px;flex:0 0 36px"></span><span style="flex:1;display:flex;flex-direction:column;gap:8px"><span class="sk" style="display:block;width:60%;height:12px;"></span><span class="sk" style="display:block;width:35%;height:10px;"></span></span></div><div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line,#2E2E29)"><span class="sk" style="display:block;width:36px;height:36px;border-radius:10px;flex:0 0 36px"></span><span style="flex:1;display:flex;flex-direction:column;gap:8px"><span class="sk" style="display:block;width:60%;height:12px;"></span><span class="sk" style="display:block;width:35%;height:10px;"></span></span></div><div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line,#2E2E29)"><span class="sk" style="display:block;width:36px;height:36px;border-radius:10px;flex:0 0 36px"></span><span style="flex:1;display:flex;flex-direction:column;gap:8px"><span class="sk" style="display:block;width:60%;height:12px;"></span><span class="sk" style="display:block;width:35%;height:10px;"></span></span></div><div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line,#2E2E29)"><span class="sk" style="display:block;width:36px;height:36px;border-radius:10px;flex:0 0 36px"></span><span style="flex:1;display:flex;flex-direction:column;gap:8px"><span class="sk" style="display:block;width:60%;height:12px;"></span><span class="sk" style="display:block;width:35%;height:10px;"></span></span></div></div>
+    </div></template>
+<template data-if value="{{ psError }}" hint-placeholder-val="{{ false }}"><div style="display:contents"><div class="pse" role="alert" style="padding:28px 20px;width:100%;box-sizing:border-box">
+      <span class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg></span>
+      <h2 style="margin:0;font-size:18px;line-height:28px;font-weight:600;color:var(--ink,#F3F3EE)">تعذّر تحميل البيانات</h2>
+      <p style="margin:0;font-size:14px;line-height:22px;color:var(--muted,#A9A99F);max-width:420px">لم يصل رد من الخادم. تحقق من الاتصال ثم أعد المحاولة؛ لم يتغير شيء من بياناتك.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="btn btn-primary" type="button" onClick="{{ psRetry }}" style="height:42px;padding:0 18px;border-radius:10px;border:0;background:var(--primary,#FF6A30);color:#1A1A18;font-family:'Readex Pro',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer">إعادة المحاولة</button></div>
+    </div></div></template>
+</main>
+
+  <nav aria-label="التنقل" style="position:absolute;left:0;right:0;bottom:0;height:68px;background:#1B1B18;border-top:1px solid #2E2E29;display:flex;gap:4px;padding:8px 10px;box-sizing:border-box">
+    <a class="bn on" href="MemberHome.html" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/></svg>الرئيسية</a>
+    <a class="bn" href="MemberCard.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4M8 8h3v3H8zM13 13h3v3h-3z"/></svg>بطاقتي</a>
+    <a class="bn" href="MemberMemberships.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg>اشتراكاتي</a>
+    <a class="bn" href="MemberAccount.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>حسابي</a>
+  </nav>
+</div>
+</template>
+<script type="application/json" id="dc-props">{"pageState": {"editor": "enum", "options": ["ready", "loading", "error"], "default": "ready", "section": "حالة الصفحة"}, "$preview": {"width": 390, "height": 1320}}</script>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  renderVals() {
+    const base = this.__ps();
+    const ps = (this.state && this.state.__ps) || this.props.pageState || 'ready';
+    return Object.assign({}, base, { psReady: ps === 'ready', psLoading: ps === 'loading', psError: ps === 'error', psRetry: () => this.setState({ __ps: 'ready' }) });
+  }
+  __ps() { return {}; }
+}
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

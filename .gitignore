@@ -1,0 +1,10 @@
+# Workspace-level ignores (each Flutter project keeps its own .gitignore)
+.idea/
+*.iml
+.claude/settings.local.json
+**/.dart_tool/
+**/build/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+.DS_Store
+Thumbs.db

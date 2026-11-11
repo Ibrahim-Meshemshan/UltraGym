@@ -1,0 +1,939 @@
+openapi: 3.0.3
+info:
+  title: UltraGym - Club & Player Apps (Shared) API
+  version: 1.0.0
+  description: المسارات المشتركة بين لوحة النادي (Flutter Web) وتطبيق اللاعب (Flutter Mobile). كل الردود `{ success, message, data }` للنجاح و`{ success, message, code, errors? }` للخطأ.
+security:
+- bearerAuth: []
+tags:
+- name: Club & Player Apps - Auth
+  description: 'مشترك بين لوحة النادي وتطبيق اللاعب: الدخول برقم الموبايل أو بمعرّف العضو، الخروج، الحساب الحالي، وتغيير كلمة السر'
+- name: Club & Player Apps - Club & Device
+  description: 'مشترك: النادي الحالي وهويته وحالة اشتراكه وميزات باقته، تسجيل الجهاز، فحص نسخة التطبيق، وإعلانات المنصة'
+paths:
+  /auth/login:
+    servers:
+    - url: /api/v1
+    post:
+      tags:
+      - Club & Player Apps - Auth
+      operationId: clubLogin
+      summary: دخول عضو النادي (مالك، استقبال، لاعب)
+      security: []
+      description: 'الحقل `phone` يقبل **رقم الموبايل** (بأي صيغة: `0933000041` أو `+963933000041`) أو **معرّف العضو بالبادئة** (`QMA-482913`، وتُقبل `qma482913`) مع كلمة السر.
+
+
+        - **المعرّف يحدد النادي مباشرة** فلا يُطلب اختيار نادٍ.
+
+        - **بالرقم:** إن كان للحساب أكثر من نادٍ ولم يُرسل `tenant_id` يرجع `requires_tenant_selection = true` وقائمة النوادي **دون توكن**، فتعيد الواجهة الطلب مع `tenant_id` المختار.
+
+        - **التوكن يحمل النادي المختار** ولا يتغير بأي header أو حقل لاحقاً.
+
+        - **`app`:** `player_app` لتطبيق اللاعب، و`reception_web` لشاشة الاستقبال (تعمل دون اتصال): جلسة طويلة (`security.mobile_session_days`، 90 يوماً) تتجدد مع الاستعمال، ويقبل التطبيق أدواره فقط (وإلا
+        `403 APP_NOT_ALLOWED_FOR_ROLE`). بلا `app`: جلسة لوحة النادي (`security.session_lifetime_minutes`، 24 ساعة).
+
+        - 5 محاولات فاشلة = قفل مؤقت 15 دقيقة (على المعرّف/الرقم وعلى الـ IP) مع ترويسة `Retry-After`.
+
+        - كلمة السر المؤقتة لها مدة: بعد انتهائها `403 TEMPORARY_PASSWORD_EXPIRED` حتى تصدر الإدارة كلمة جديدة. ومع `must_change_password = true` يجب تغييرها قبل أي طلب آخر.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - phone
+              - password
+              properties:
+                phone:
+                  type: string
+                  maxLength: 30
+                  description: رقم الموبايل أو معرّف العضو
+                password:
+                  type: string
+                  format: password
+                tenant_id:
+                  type: integer
+                  nullable: true
+                  description: النادي المختار عند تعدد العضويات
+                device_name:
+                  type: string
+                  maxLength: 100
+                  nullable: true
+                app:
+                  type: string
+                  enum:
+                  - player_app
+                  - reception_web
+                  nullable: true
+            examples:
+              by_code:
+                summary: لاعب بمعرّفه من تطبيق اللاعب
+                value:
+                  phone: QMA-482913
+                  password: <password>
+                  app: player_app
+                  device_name: Samsung A54
+              by_phone:
+                summary: مالك النادي برقمه من لوحة النادي
+                value:
+                  phone: 0933000041
+                  password: <password>
+                  device_name: Chrome على Windows
+              select_club:
+                summary: إعادة الطلب بعد اختيار النادي
+                value:
+                  phone: 0933000041
+                  password: <password>
+                  tenant_id: 12
+      responses:
+        '200':
+          description: تم الدخول، أو مطلوب اختيار النادي
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedSuccessEnvelope'
+              examples:
+                logged_in:
+                  summary: تم الدخول
+                  value:
+                    success: true
+                    message: تم تسجيل الدخول بنجاح
+                    data:
+                      requires_tenant_selection: false
+                      token: <token>
+                      token_type: Bearer
+                      expires_at: '2027-01-31T08:00:00Z'
+                      must_change_password: false
+                      user: &id002
+                        id: 41
+                        name: سامر الحلبي
+                        phone: '+963933000041'
+                        email: null
+                        last_login_at: '2026-11-02T07:55:00Z'
+                      member_code: QMA-482913
+                      tenant: &id001
+                        id: 12
+                        name: نادي القمة الرياضي
+                        slug: qimma
+                        logo_url: https://api.ultragym.app/storage/tenants/12/logo.png
+                      roles:
+                      - player
+                      permissions:
+                        can_view_finance: false
+                        can_manage_staff: false
+                      other_tenants_count: 0
+                select_club:
+                  summary: الحساب بأكثر من نادٍ (دخول بالرقم)
+                  value:
+                    success: true
+                    message: اختر النادي للمتابعة، ثم أعد إرسال الطلب مع tenant_id
+                    data:
+                      requires_tenant_selection: true
+                      tenants:
+                      - tenant: *id001
+                        roles:
+                        - club_owner
+                      - tenant:
+                          id: 15
+                          name: نادي الأبطال
+                          slug: abtal
+                          logo_url: null
+                        roles:
+                        - player
+        '401':
+          description: رقم أو معرّف أو كلمة سر خاطئة
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: رقم الموبايل أو كلمة السر غير صحيحة
+                code: INVALID_CREDENTIALS
+        '403':
+          description: لا يُسمح بالدخول
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              examples:
+                suspended:
+                  summary: الحساب موقوف
+                  value:
+                    success: false
+                    message: هذا الحساب موقوف. يرجى مراجعة إدارة النادي.
+                    code: ACCOUNT_SUSPENDED
+                expired_password:
+                  summary: كلمة السر المؤقتة منتهية
+                  value:
+                    success: false
+                    message: انتهت صلاحية كلمة السر المؤقتة. اطلب من إدارة النادي كلمة جديدة.
+                    code: TEMPORARY_PASSWORD_EXPIRED
+                no_membership:
+                  summary: لا عضوية فعّالة
+                  value:
+                    success: false
+                    message: لا توجد عضوية فعّالة لهذا الحساب في أي نادي.
+                    code: NO_ACTIVE_MEMBERSHIP
+                wrong_app:
+                  summary: دور لا يخص هذا التطبيق
+                  value:
+                    success: false
+                    message: هذا الحساب لا يملك دوراً يخص هذا التطبيق.
+                    code: APP_NOT_ALLOWED_FOR_ROLE
+                wrong_club:
+                  summary: tenant_id لنادٍ ليس عضواً فيه
+                  value:
+                    success: false
+                    message: ليس لديك عضوية فعّالة في النادي المحدد.
+                    code: FORBIDDEN
+        '422':
+          description: بيانات ناقصة أو غير صالحة
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: البيانات المدخلة غير صالحة
+                code: VALIDATION_ERROR
+                errors:
+                  phone:
+                  - رقم الموبايل مطلوب.
+        '429':
+          description: قفل مؤقت بعد المحاولات الفاشلة
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+              description: ثوانٍ حتى فك القفل
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: تم قفل الدخول مؤقتاً بسبب كثرة المحاولات الفاشلة. حاول بعد 15 دقيقة.
+                code: TOO_MANY_REQUESTS
+        '500': &id003
+          description: خطأ غير متوقع (التفاصيل بسجل الخادم وتنبيه لفريق المنصة)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: حدث خطأ غير متوقع، يرجى المحاولة لاحقاً.
+                code: SERVER_ERROR
+  /auth/me:
+    servers:
+    - url: /api/v1
+    get:
+      tags:
+      - Club & Player Apps - Auth
+      operationId: clubMe
+      summary: الحساب الحالي ونادي التوكن وأدواره
+      description: 'يُستدعى عند فتح التطبيق: الحساب، النادي المختار بالتوكن، الأدوار والصلاحيات، وهل الجلسة دخول كمستخدم من فريق المنصة. مسموح حتى مع `must_change_password`.'
+      responses:
+        '200':
+          description: بيانات الحساب الحالي
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedSuccessEnvelope'
+              example:
+                success: true
+                message: بيانات الحساب الحالي
+                data:
+                  user: *id002
+                  must_change_password: false
+                  member_code: QMA-482913
+                  tenant: *id001
+                  roles:
+                  - club_owner
+                  permissions:
+                    can_view_finance: true
+                    can_manage_staff: true
+                  is_impersonated: false
+                  session:
+                    client_app: null
+                    expires_at: '2026-11-03T07:55:00Z'
+        '401': &id004
+          description: لا توكن، أو توكن منتهٍ أو ملغى
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: غير مصرح لك بالوصول، يرجى تسجيل الدخول أولاً.
+                code: UNAUTHENTICATED
+        '403':
+          description: توكن فريق المنصة (لا يصلح هنا)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: هذه الواجهة مخصصة لمستخدمي النوادي.
+                code: FORBIDDEN
+        '429': &id005
+          description: تجاوز حد الطلبات
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: عدد الطلبات كبير، حاول بعد قليل
+                code: TOO_MANY_REQUESTS
+        '500': *id003
+  /auth/logout:
+    servers:
+    - url: /api/v1
+    post:
+      tags:
+      - Club & Player Apps - Auth
+      operationId: clubLogout
+      summary: تسجيل الخروج (هذا الجهاز)
+      description: ينهي التوكن الحالي فقط. أرسل `fcm_token` ليتوقف وصول الإشعارات لهذا الجهاز بنفس الطلب.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fcm_token:
+                  type: string
+                  maxLength: 500
+                  nullable: true
+      responses:
+        '200':
+          description: تم تسجيل الخروج بنجاح
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedSuccessEnvelope'
+              example:
+                success: true
+                message: تم تسجيل الخروج بنجاح
+                data: null
+        '401': *id004
+        '429': *id005
+        '500': *id003
+        '422':
+          description: توكن الإشعارات غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: البيانات المدخلة غير صالحة
+                code: VALIDATION_ERROR
+                errors:
+                  fcm_token:
+                  - رمز الجهاز يجب ألا يتجاوز 500 حرفاً.
+  /auth/change-password:
+    servers:
+    - url: /api/v1
+    post:
+      tags:
+      - Club & Player Apps - Auth
+      operationId: clubChangePassword
+      summary: تغيير كلمة السر
+      description: إلزامي بعد أول دخول بكلمة مؤقتة (`must_change_password`). الحد الأدنى من إعدادات المنصة (8)، أحرف وأرقام معاً، ولا تساوي القديمة. يلغي مدة الكلمة المؤقتة وينهي جلسات الأجهزة الأخرى. ممنوع
+        أثناء الدخول كمستخدم من فريق المنصة.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - current_password
+              - new_password
+              - new_password_confirmation
+              properties:
+                current_password:
+                  type: string
+                  format: password
+                new_password:
+                  type: string
+                  format: password
+                  minLength: 8
+                new_password_confirmation:
+                  type: string
+                  format: password
+            example:
+              current_password: <temporary-password>
+              new_password: Qimma2026
+              new_password_confirmation: Qimma2026
+      responses:
+        '200':
+          description: تم تغيير كلمة السر بنجاح
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedSuccessEnvelope'
+              example:
+                success: true
+                message: تم تغيير كلمة السر بنجاح
+                data: null
+        '401': *id004
+        '403':
+          description: أثناء الدخول كمستخدم من فريق المنصة
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: هذا الإجراء غير مسموح أثناء الدخول كمستخدم.
+                code: FORBIDDEN
+        '422':
+          description: كلمة السر الحالية خاطئة أو الجديدة لا تحقق الشروط
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              examples:
+                weak:
+                  summary: الجديدة ضعيفة
+                  value:
+                    success: false
+                    message: البيانات المدخلة غير صالحة
+                    code: VALIDATION_ERROR
+                    errors:
+                      new_password:
+                      - كلمة السر الجديدة يجب أن تحتوي أحرفاً وأرقاماً معاً
+                wrong_current:
+                  summary: الحالية خاطئة
+                  value:
+                    success: false
+                    message: كلمة المرور الحالية غير صحيحة.
+                    code: VALIDATION_ERROR
+                    errors:
+                      current_password:
+                      - كلمة المرور الحالية غير صحيحة.
+        '429': *id005
+        '500': *id003
+  /tenant:
+    servers:
+    - url: /api/v1
+    get:
+      tags:
+      - Club & Player Apps - Club & Device
+      operationId: clubCurrent
+      summary: 'النادي الحالي: الهوية والإعدادات وحالة الاشتراك'
+      description: 'النادي من التوكن حصراً. يُستعمل لتحميل هوية النادي بالتطبيق (الاسم والشعار) وإظهار تنبيه انتهاء الاشتراك: `grace` (عمل كامل حتى `grace_ends_at`)، `expired` (قراءة فقط حتى `read_only_ends_at`)،
+        وبعدها `403 SUBSCRIPTION_LOCKED` لكل الطلبات.'
+      responses:
+        '200':
+          description: بيانات النادي الحالي
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedSuccessEnvelope'
+              example:
+                success: true
+                message: بيانات النادي الحالي
+                data:
+                  id: 1
+                  name: نادي القمة الرياضي
+                  slug: qimma
+                  logo_url: null
+                  status: active
+                  contact:
+                    email: null
+                    phone: '+963933000001'
+                    country: SY
+                    city: دمشق
+                    address: null
+                  settings:
+                    timezone: Asia/Damascus
+                    week_start_day: saturday
+                    weekend_days:
+                    - friday
+                    business_day_ends_at_hour: 2
+                  subscription:
+                    status: active
+                    is_trial: false
+                    plan:
+                      id: 2
+                      name: Pro
+                      slug: pro
+                    ends_at: '2026-11-14'
+                    grace_ends_at: '2026-11-17'
+                    read_only_ends_at: '2026-11-20'
+        '401': *id004
+        '403': &id006
+          description: منع الوصول بسبب حالة الحساب أو النادي أو الاشتراك
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              examples:
+                password_change: &id009
+                  summary: يجب تغيير كلمة السر أولاً
+                  value:
+                    success: false
+                    message: يجب تغيير كلمة السر المؤقتة قبل المتابعة.
+                    code: PASSWORD_CHANGE_REQUIRED
+                suspended_member: &id010
+                  summary: العضوية موقوفة بهذا النادي
+                  value:
+                    success: false
+                    message: تم إيقاف حسابك في هذا النادي.
+                    code: ACCOUNT_SUSPENDED
+                club_suspended: &id011
+                  summary: النادي موقوف من المنصة
+                  value:
+                    success: false
+                    message: تم إيقاف حساب هذا النادي. يرجى التواصل مع إدارة المنصة.
+                    code: TENANT_SUSPENDED
+                subscription_locked: &id012
+                  summary: النادي مقفل لانتهاء الاشتراك والمهل
+                  value:
+                    success: false
+                    message: تم قفل النادي لانتهاء الاشتراك وفترة السماح. يرجى التواصل مع إدارة المنصة للتجديد.
+                    code: SUBSCRIPTION_LOCKED
+                subscription_inactive: &id013
+                  summary: الاشتراك موقوف أو ملغى
+                  value:
+                    success: false
+                    message: اشتراك النادي غير فعّال حالياً. يرجى التواصل مع إدارة المنصة.
+                    code: SUBSCRIPTION_INACTIVE
+        '404': &id007
+          description: النادي غير محدد أو غير موجود (توكن بلا نادٍ)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: النادي غير موجود أو لم يتم تحديده.
+                code: NOT_FOUND
+        '429': *id005
+        '500': *id003
+        '503': &id008
+          description: المنصة بوضع الصيانة
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: المنصة في وضع الصيانة حالياً.
+                code: MAINTENANCE
+  /tenant/entitlements:
+    servers:
+    - url: /api/v1
+    get:
+      tags:
+      - Club & Player Apps - Club & Device
+      operationId: clubEntitlements
+      summary: حدود باقة النادي وميزاتها الفعلية
+      description: الحدود (`null` = غير محدود) والميزات بعد استثناءات المنصة للنادي. الواجهة تخفي ما ليس بالباقة، والباك اند يرفضه أصلاً (`403 FEATURE_NOT_AVAILABLE` أو `403 PLAN_LIMIT_REACHED`).
+      responses:
+        '200':
+          description: الحدود والميزات الفعلية للنادي
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedSuccessEnvelope'
+              example:
+                success: true
+                message: الحدود والميزات الفعلية للنادي
+                data:
+                  limits:
+                    players: 600
+                    staff: 15
+                    branches: 3
+                    storage_mb: 5120
+                  features:
+                    player_app: true
+                    qr_attendance: true
+                    offline_reception: true
+                    advanced_finance: true
+                    advanced_reports: true
+                    reports_export: true
+                    custom_branding: true
+                    priority_support: false
+        '401': *id004
+        '403': *id006
+        '404': *id007
+        '429': *id005
+        '500': *id003
+        '503': *id008
+  /devices:
+    servers:
+    - url: /api/v1
+    post:
+      tags:
+      - Club & Player Apps - Club & Device
+      operationId: deviceRegister
+      summary: تسجيل الجهاز ونسخة التطبيق (وتوكن الإشعارات)
+      description: 'يُستدعى عند كل فتح للتطبيق. سطر واحد لكل (مستخدم، تطبيق، منصة). `fcm_token` اختياري: إن أُرسل يُنقل من أي حساب آخر على نفس الجهاز، وإن غاب يبقى المحفوظ.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - app
+              - platform
+              - app_version
+              properties:
+                app:
+                  type: string
+                  enum:
+                  - player_app
+                  - reception_web
+                platform:
+                  type: string
+                  enum:
+                  - android
+                  - ios
+                  - web
+                app_version:
+                  type: string
+                  example: 1.2.0
+                fcm_token:
+                  type: string
+                  nullable: true
+            example:
+              app: player_app
+              platform: android
+              app_version: 1.2.0
+              fcm_token: <firebase-token>
+      responses:
+        '200':
+          description: تم تسجيل الجهاز
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedSuccessEnvelope'
+              example:
+                success: true
+                message: تم تسجيل الجهاز
+                data:
+                  id: 1
+                  app: player_app
+                  platform: android
+                  app_version: 1.2.0
+                  last_seen_at: '2026-11-02T08:00:00Z'
+        '401': *id004
+        '403': &id014
+          description: منع الوصول بسبب حالة الحساب أو النادي أو الاشتراك، أو النادي بوضع القراءة فقط
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              examples:
+                password_change: *id009
+                suspended_member: *id010
+                club_suspended: *id011
+                subscription_locked: *id012
+                subscription_inactive: *id013
+                read_only:
+                  summary: النادي بوضع القراءة فقط (expired)
+                  value:
+                    success: false
+                    message: انتهى اشتراك النادي. يمكنك تصفح البيانات فقط حتى يتم التجديد.
+                    code: SUBSCRIPTION_EXPIRED
+        '404': *id007
+        '422':
+          description: بيانات غير صالحة
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: البيانات المدخلة غير صالحة
+                code: VALIDATION_ERROR
+                errors:
+                  app:
+                  - قيمة التطبيق غير صالحة.
+                  platform:
+                  - المنصة مطلوب.
+                  app_version:
+                  - نسخة التطبيق مطلوب.
+        '429': *id005
+        '500': *id003
+        '503': *id008
+  /announcements:
+    servers:
+    - url: /api/v1
+    get:
+      tags:
+      - Club & Player Apps - Club & Device
+      operationId: announcementsList
+      summary: إعلانات المنصة الموجهة لي
+      description: حسب أدوار المستخدم بالنادي ونطاق الإعلان (الكل، نوادٍ محددة، باقات محددة). المثبّت أولاً ثم الأحدث، و`meta.summary.unread_count` لشارة غير المقروء.
+      parameters:
+      - name: unread_only
+        in: query
+        schema:
+          type: boolean
+      - name: page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+      - name: per_page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 15
+      responses:
+        '200':
+          description: تم جلب الإعلانات بنجاح
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedSuccessEnvelope'
+              example:
+                success: true
+                message: تم جلب الإعلانات بنجاح
+                data:
+                - id: 1
+                  title: صيانة مجدولة
+                  body: ستتوقف المنصة ليلة الجمعة من 2 حتى 3 صباحاً.
+                  type: maintenance
+                  is_pinned: true
+                  published_at: '2026-11-02T08:00:00Z'
+                  expires_at: null
+                  is_read: false
+                meta:
+                  pagination:
+                    current_page: 1
+                    per_page: 15
+                    total: 1
+                    last_page: 1
+                    from: 1
+                    to: 1
+                  summary:
+                    unread_count: 1
+        '401': *id004
+        '403': *id006
+        '404': *id007
+        '422':
+          description: فلتر غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: البيانات المدخلة غير صالحة
+                code: VALIDATION_ERROR
+                errors:
+                  per_page:
+                  - عدد العناصر بالصفحة يجب ألا يتجاوز 100.
+        '429': *id005
+        '500': *id003
+        '503': *id008
+  /announcements/{announcement_id}/read:
+    servers:
+    - url: /api/v1
+    post:
+      tags:
+      - Club & Player Apps - Club & Device
+      operationId: announcementsMarkRead
+      summary: تعليم إعلان كمقروء
+      parameters:
+      - name: announcement_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: تم تعليم الإعلان كمقروء
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedSuccessEnvelope'
+              example:
+                success: true
+                message: تم تعليم الإعلان كمقروء
+                data: null
+        '401': *id004
+        '403': *id014
+        '404':
+          description: الإعلان غير موجود أو غير موجه لي
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: الإعلان غير موجود
+                code: NOT_FOUND
+        '429': *id005
+        '500': *id003
+        '503': *id008
+  /app-version:
+    servers:
+    - url: /api/v1
+    get:
+      tags:
+      - Club & Player Apps - Club & Device
+      operationId: appVersionCheck
+      summary: فحص نسخة التطبيق والتحديث الإجباري
+      security: []
+      description: 'عام بلا توكن (يُستدعى قبل الدخول). `force_update = true` إذا كانت النسخة الحالية أقل من `min_supported_version` أو أُعلن تحديث إجباري: يمنع التطبيق الاستعمال حتى التحديث من `store_url`.'
+      parameters:
+      - name: app
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - player_app
+          - reception_web
+      - name: platform
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - android
+          - ios
+          - web
+      - name: version
+        in: query
+        required: true
+        schema:
+          type: string
+          example: 1.0.0
+      responses:
+        '200':
+          description: تم فحص الإصدار
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedSuccessEnvelope'
+              example:
+                success: true
+                message: تم فحص الإصدار
+                data:
+                  latest_version: 1.2.0
+                  min_supported_version: 1.1.0
+                  update_available: true
+                  force_update: true
+                  store_url: https://play.google.com/store/apps/details?id=app.ultragym.player
+                  release_notes: تحسينات البطاقة الرقمية
+        '422':
+          description: بيانات ناقصة
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedErrorEnvelope'
+              example:
+                success: false
+                message: البيانات المدخلة غير صالحة
+                code: VALIDATION_ERROR
+                errors:
+                  version:
+                  - الإصدار مطلوب.
+        '429': *id005
+        '500': *id003
+  /ping:
+    servers:
+    - url: /api/v1
+    get:
+      tags:
+      - Club & Player Apps - Club & Device
+      operationId: ping
+      summary: فحص اتصال الخادم
+      security: []
+      description: عام بلا توكن. شاشة الاستقبال تستعمله لمعرفة رجوع الاتصال قبل المزامنة.
+      responses:
+        '200':
+          description: الخادم يعمل
+          content:
+            application/json:
+              example:
+                success: true
+                message: UltraGym Gym Management SaaS API is operational
+                timestamp: '2026-11-02T08:00:00.000000Z'
+        '429': *id005
+        '500': *id003
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Sanctum
+  schemas:
+    SharedSuccessEnvelope:
+      type: object
+      required:
+      - success
+      - message
+      - data
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+        data:
+          nullable: true
+        meta:
+          type: object
+          nullable: true
+    SharedErrorEnvelope:
+      type: object
+      required:
+      - success
+      - message
+      - code
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          description: رسالة عربية جاهزة للعرض
+        code:
+          type: string
+          description: كود ثابت يعتمد عليه الفرونت
+          enum:
+          - UNAUTHENTICATED
+          - INVALID_CREDENTIALS
+          - FORBIDDEN
+          - ACCOUNT_SUSPENDED
+          - PASSWORD_CHANGE_REQUIRED
+          - TEMPORARY_PASSWORD_EXPIRED
+          - NO_ACTIVE_MEMBERSHIP
+          - APP_NOT_ALLOWED_FOR_ROLE
+          - TENANT_SUSPENDED
+          - SUBSCRIPTION_INACTIVE
+          - SUBSCRIPTION_EXPIRED
+          - SUBSCRIPTION_LOCKED
+          - FEATURE_NOT_AVAILABLE
+          - PLAN_LIMIT_REACHED
+          - NOT_FOUND
+          - METHOD_NOT_ALLOWED
+          - CONFLICT
+          - VALIDATION_ERROR
+          - TOO_MANY_REQUESTS
+          - SERVER_ERROR
+          - MAINTENANCE
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: مع 422 فقط

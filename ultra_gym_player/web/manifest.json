@@ -1,0 +1,19 @@
+{
+    "name": "UltraGym · العضو",
+    "short_name": "UltraGym",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#1A1A17",
+    "theme_color": "#FF5A1F",
+    "description": "تطبيق عضو النادي: اشتراكي، بطاقة الدخول QR، حضوري، تقدّمي",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "lang": "ar",
+    "dir": "rtl",
+    "icons": [
+        { "src": "icons/Icon-192.png", "sizes": "192x192", "type": "image/png" },
+        { "src": "icons/Icon-512.png", "sizes": "512x512", "type": "image/png" },
+        { "src": "icons/Icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+        { "src": "icons/Icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    ]
+}

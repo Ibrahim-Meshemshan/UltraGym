@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UltraGym · الأساس البصري · UltraGym v1</title>
+<style>
+@font-face{font-family:'Changa';src:url(assets/Changa-VariableFont_wght.ttf) format('truetype');font-weight:200 800;font-display:swap}
+@font-face{font-family:'Readex Pro';src:url(assets/ReadexPro-VariableFont_wght.ttf) format('truetype');font-weight:160 700;font-display:swap}
+body{margin:0;background:#F5F5F2}
+a{color:#B53D0A}a:hover{color:#8E2F06}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.cut{background:#E0E0DA;padding:1px;border-radius:16px;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+.cut>.in{background:#FFFFFF;border-radius:15px;clip-path:polygon(0 0,calc(100% - 17.6px) 0,100% 17.6px,100% 100%,0 100%);height:100%;box-sizing:border-box}
+.badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:500;white-space:nowrap}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.t-success{background:#E3F5EC;color:#0D7350}.t-warning{background:#FFF1D1;color:#8A5800}.t-danger{background:#FDE6EC;color:#B81F45}.t-info{background:#E6ECFF;color:#2A50C8}.t-accent{background:#EEF8D2;color:#4F7A00}.t-primary{background:#FFE8DC;color:#B53D0A}.t-neutral{background:#EDEDE8;color:#5F5F57}
+.strike{text-decoration:line-through}
+.btn{height:42px;padding:0 18px;border-radius:10px;font-family:'Readex Pro',sans-serif;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:8px;border:1px solid transparent;cursor:pointer;box-sizing:border-box}
+.btn-primary{background:#FF5A1F;color:#1A1A17}.btn-secondary{background:#FFFFFF;border-color:#E0E0DA;color:#1A1A17}.btn-ghost{background:transparent;color:#B53D0A}.btn-danger{background:#D6335A;color:#FFFFFF}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12.5px;font-weight:500;color:#5F5F57}
+.input{height:42px;border:1px solid #E0E0DA;border-radius:12px;background:#FFFFFF;padding:0 14px;font-family:'Readex Pro',sans-serif;font-size:14px;color:#1A1A17;box-sizing:border-box;width:100%}
+.slab{width:36px;height:36px;border-radius:10px;background:#FFE8DC;color:#B53D0A;display:flex;align-items:center;justify-content:center;transform:skewX(-10deg)}
+.slab>svg{transform:skewX(10deg)}
+</style>
+<link rel="stylesheet" href="proto.css">
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-src">
+<div style="width:1440px;height:1760px;box-sizing:border-box;padding:56px 64px;font-family:'Readex Pro',sans-serif;color:#1A1A17;direction:rtl;display:flex;flex-direction:column;gap:32px">
+
+  <header style="display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <h1 style="margin:0;font-family:'Changa',sans-serif;font-weight:800;font-size:48px;line-height:56px">أساس واجهات UltraGym</h1>
+      <p style="margin:0;font-size:15px;line-height:26px;color:#5F5F57">النسخة الأولى · كل قيمة من tokens.json، وكل شارة مربوطة بقيمة يرجعها الخادم</p>
+    </div>
+    <img src="assets/ultragym-mark-light.svg" alt="شعار UltraGym" style="height:64px">
+  </header>
+
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px">
+
+    <!-- Colors -->
+    <section class="cut"><div class="in" style="padding:24px;display:flex;flex-direction:column;gap:18px">
+      <h2 style="margin:0;font-size:19px;line-height:30px;font-weight:600">الألوان</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px">
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:64px;border-radius:10px;background:#FF5A1F"></div><strong style="font-size:13px;font-weight:600">primary</strong><span style="font-size:11.5px;color:#5F5F57">الفعل · زر واحد بكل شاشة</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:64px;border-radius:10px;background:#C8F03C"></div><strong style="font-size:13px;font-weight:600">accent</strong><span style="font-size:11.5px;color:#5F5F57">مباشر · جديد · إنجاز</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:64px;border-radius:10px;background:#1A1A17"></div><strong style="font-size:13px;font-weight:600">sidebar / hero</strong><span style="font-size:11.5px;color:#5F5F57">الهيكل الداكن</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:64px;border-radius:10px;background:#F5F5F2;border:1px solid #E0E0DA;box-sizing:border-box"></div><strong style="font-size:13px;font-weight:600">bg</strong><span style="font-size:11.5px;color:#5F5F57">أرضية عظمية</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:40px;border-radius:10px;background:#B53D0A"></div><strong style="font-size:13px;font-weight:600">primaryInk</strong><span style="font-size:11.5px;color:#5F5F57">روابط وأرقام مميزة</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:40px;border-radius:10px;background:#4F7A00"></div><strong style="font-size:13px;font-weight:600">accentInk</strong><span style="font-size:11.5px;color:#5F5F57">الفولت كنص</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:40px;border-radius:10px;background:#5F5F57"></div><strong style="font-size:13px;font-weight:600">inkMuted</strong><span style="font-size:11.5px;color:#5F5F57">نص ثانوي</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:40px;border-radius:10px;background:#E0E0DA"></div><strong style="font-size:13px;font-weight:600">line</strong><span style="font-size:11.5px;color:#5F5F57">الحدود</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px">
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:28px;border-radius:8px;background:#2E9E6B"></div><span style="font-size:12px">success</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:28px;border-radius:8px;background:#E0A21B"></div><span style="font-size:12px">warning · عنبري</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:28px;border-radius:8px;background:#D6335A"></div><span style="font-size:12px">danger · قرمزي</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:28px;border-radius:8px;background:#3D6BF2"></div><span style="font-size:12px">info</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><div style="height:28px;border-radius:8px;background:#EDEDE8"></div><span style="font-size:12px">neutral</span></div>
+      </div>
+      <p style="margin:0;font-size:12.5px;line-height:20px;color:#5F5F57">النص فوق البرتقالي فحمي دائمًا. الثيم الداكن: أرضية <span class="ltr">#121210</span>، بطاقات <span class="ltr">#1B1B18</span>، برتقالي <span class="ltr">#FF6A30</span>، حلقة التركيز فولت.</p>
+    </div></section>
+
+    <!-- Type -->
+    <section class="cut"><div class="in" style="padding:24px;display:flex;flex-direction:column;gap:14px">
+      <h2 style="margin:0;font-size:19px;line-height:30px;font-weight:600">الخطوط</h2>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;border-bottom:1px solid #E0E0DA;padding-bottom:12px">
+        <span style="font-family:'Changa',sans-serif;font-weight:800;font-size:40px;line-height:48px">صباح الخير، سامر</span><span style="font-size:11.5px;color:#5F5F57">Changa · تحيات وأرقام فقط</span>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;border-bottom:1px solid #E0E0DA;padding-bottom:12px">
+        <span class="ltr" style="font-family:'Changa',sans-serif;font-weight:700;font-size:30px;line-height:36px">1,284 · $18,450</span><span style="font-size:11.5px;color:#5F5F57">stat · 30/36 · 700</span>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px"><span style="font-size:24px;line-height:36px;font-weight:600">الأعضاء</span><span style="font-size:11.5px;color:#5F5F57">h1 · 24/36 · 600</span></div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px"><span style="font-size:19px;line-height:30px;font-weight:600">تفاصيل الاشتراك</span><span style="font-size:11.5px;color:#5F5F57">h2 · 19/30 · 600</span></div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px"><span style="font-size:16px;line-height:26px;font-weight:600">آخر الدفعات</span><span style="font-size:11.5px;color:#5F5F57">h3 · 16/26 · 600</span></div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px"><span style="font-size:14px;line-height:24px">اشتراك شهري يبدأ اليوم وينتهي بعد 30 يومًا.</span><span style="font-size:11.5px;color:#5F5F57">body · 14/24</span></div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px"><span style="font-size:12.5px;line-height:20px;font-weight:500">تسجيل دفعة</span><span style="font-size:11.5px;color:#5F5F57">label · 12.5/20 · 500</span></div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px"><span style="font-size:11.5px;line-height:18px;color:#5F5F57">آخر مزامنة قبل 3 دقائق</span><span style="font-size:11.5px;color:#5F5F57">caption · 11.5/18 · أصغر حجم</span></div>
+      <p style="margin:0;font-size:12.5px;line-height:20px;color:#5F5F57">Readex Pro لكل الواجهة. الأرقام لاتينية، والمبالغ والموبايل والمعرّفات باتجاه LTR.</p>
+    </div></section>
+
+    <!-- Status badges -->
+    <section class="cut" style="grid-column:span 2"><div class="in" style="padding:24px;display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px">
+        <h2 style="margin:0;font-size:19px;line-height:30px;font-weight:600">شارات الحالة · من قيم الخادم مباشرة</h2>
+        <span style="font-size:12.5px;color:#5F5F57">الخادم يرجع <span class="ltr">status</span> و <span class="ltr">status_label</span> جاهزين، والواجهة لا تحسب الحالة</span>
+      </div>
+      <div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:12px 24px;align-items:center">
+        <span style="font-size:13px;font-weight:600">اشتراك العضو</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="badge t-success">فعّال</span><span class="badge t-warning">بفترة السماح</span><span class="badge t-info">مجمّد</span><span class="badge t-info">لم يبدأ</span><span class="badge t-danger">منتهٍ</span><span class="badge t-neutral">ملغى</span></div>
+        <span style="font-size:13px;font-weight:600">تسجيل الدخول</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="badge t-success">مقبول</span><span class="badge t-warning">مقبول بالسماح</span><span class="badge t-neutral">مسجّل مسبقًا</span><span class="badge t-danger">مرفوض</span><span class="badge t-info">دون اتصال</span></div>
+        <span style="font-size:13px;font-weight:600">الصندوق والحركات</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="badge t-accent">الوردية مفتوحة</span><span class="badge t-neutral">مغلقة</span><span class="badge t-danger">عجز</span><span class="badge t-warning">زيادة</span><span class="badge t-success">داخل</span><span class="badge t-danger">خارج</span><span class="badge t-neutral strike">معكوسة</span></div>
+        <span style="font-size:13px;font-weight:600">اشتراك النادي بالمنصة</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="badge t-accent">تجريبي</span><span class="badge t-success">فعّال</span><span class="badge t-warning">فترة سماح</span><span class="badge t-warning">قراءة فقط</span><span class="badge t-danger">مقفل</span><span class="badge t-danger">موقوف</span><span class="badge t-neutral">ملغى</span></div>
+        <span style="font-size:13px;font-weight:600">فواتير المنصة</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="badge t-info">غير مدفوعة</span><span class="badge t-warning">مدفوعة جزئيًا</span><span class="badge t-success">مدفوعة</span><span class="badge t-danger">متأخرة</span><span class="badge t-neutral">ملغاة</span></div>
+        <span style="font-size:13px;font-weight:600">الأدوار والتمييز</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="badge t-primary">مالك النادي</span><span class="badge t-neutral">موظف استقبال</span><span class="badge t-accent">عضو جديد</span><span class="badge t-accent">سلسلة حضور</span></div>
+      </div>
+    </div></section>
+
+    <!-- Buttons & fields -->
+    <section class="cut"><div class="in" style="padding:24px;display:flex;flex-direction:column;gap:18px">
+      <h2 style="margin:0;font-size:19px;line-height:30px;font-weight:600">الأزرار</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+        <button class="btn btn-primary" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>بيع اشتراك</button>
+        <button class="btn btn-secondary" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>تصدير</button>
+        <button class="btn btn-ghost" type="button">التفاصيل</button>
+        <button class="btn btn-danger" type="button">إلغاء الاشتراك</button>
+        <button class="btn btn-primary" type="button" disabled>جارٍ الحفظ…</button>
+      </div>
+      <p style="margin:0;font-size:12.5px;line-height:20px;color:#5F5F57">زر أساسي واحد بكل شاشة. أزرار المال تُعطَّل أثناء التنفيذ وتُرسل مع Idempotency-Key.</p>
+      <h2 style="margin:8px 0 0;font-size:19px;line-height:30px;font-weight:600">الحقول</h2>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px">
+        <div class="field"><label for="f1">الموبايل أو معرّف العضو</label><input id="f1" class="input" dir="ltr" style="text-align:right" value="0944 123 456"></div>
+        <div class="field"><label for="f2">اسم العضو</label><input id="f2" class="input" value="أحمد الخطيب"></div>
+        <div class="field" style="grid-column:span 2"><label for="f3">مبلغ الدفعة</label>
+          <div style="display:flex;gap:8px">
+            <div style="display:flex;border:1px solid #E0E0DA;border-radius:12px;overflow:hidden;flex:0 0 auto" role="group" aria-label="العملة"><button type="button" style="height:40px;padding:0 14px;border:0;background:#1A1A17;color:#F3F3EE;font-family:'Readex Pro';font-size:12.5px;font-weight:500">USD</button><button type="button" style="height:40px;padding:0 14px;border:0;background:#FFFFFF;color:#5F5F57;font-family:'Readex Pro';font-size:12.5px;font-weight:500">SYP</button></div>
+            <input id="f3" class="input" dir="ltr" style="text-align:right" value="15.00">
+          </div>
+          <span style="font-size:11.5px;color:#5F5F57">سعر صرف اليوم: <span class="ltr">13,000</span> ل.س للدولار · يعادل <span class="ltr">195,000</span> ل.س</span>
+        </div>
+        <div class="field" style="grid-column:span 2"><label for="f4">كود الخصم</label><input id="f4" class="input" dir="ltr" style="text-align:right;border:2px solid #D6335A" value="RAMADAN10"><span style="font-size:11.5px;color:#B81F45">الكوبون منتهي الصلاحية.</span></div>
+      </div>
+    </div></section>
+
+    <!-- Cards, money, empty -->
+    <section style="display:flex;flex-direction:column;gap:24px">
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px">
+        <div class="cut"><div class="in" style="padding:20px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:#5F5F57">الاشتراكات الفعّالة</span><span class="slab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></span></div>
+          <span class="ltr" style="font-family:'Changa',sans-serif;font-weight:700;font-size:30px;line-height:36px;text-align:right">962</span>
+          <span style="font-size:11.5px;color:#0D7350">+41 هذا الشهر</span>
+        </div></div>
+        <div class="cut"><div class="in" style="padding:20px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:#5F5F57">الديون</span><span class="slab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16v12H4zM4 7l2-3h12l2 3M16 13h2"/></svg></span></div>
+          <span class="ltr" style="font-family:'Changa',sans-serif;font-weight:700;font-size:30px;line-height:36px;text-align:right">$1,240.50</span>
+          <span style="font-size:11.5px;color:#8A5800">على 37 عضوًا</span>
+        </div></div>
+      </div>
+      <div class="cut"><div class="in" style="padding:20px 24px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 24px">
+        <span style="font-size:13px;color:#5F5F57">مبلغ بالدولار</span><span class="ltr" style="font-size:14px;font-weight:600;text-align:right">$25.00</span>
+        <span style="font-size:13px;color:#5F5F57">مقابله بالليرة (تحته)</span><span style="font-size:13px;color:#5F5F57">ل.س <span class="ltr">325,000</span></span>
+        <span style="font-size:13px;color:#5F5F57">الموبايل</span><span class="ltr" style="font-size:14px;text-align:right">+963 944 123 456</span>
+        <span style="font-size:13px;color:#5F5F57">رقم الإيصال</span><span class="ltr" style="font-size:14px;text-align:right">B1-2026-000013</span>
+        <span style="font-size:13px;color:#5F5F57">وقت (<span class="ltr">*_at</span>)</span><span style="font-size:14px">قبل 5 دقائق · بتوقيت دمشق</span>
+        <span style="font-size:13px;color:#5F5F57">قيمة فارغة</span><span style="font-size:14px;color:#5F5F57">—</span>
+      </div></div>
+      <div class="cut" style="flex:1"><div class="in" style="padding:28px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center">
+        <img src="assets/timer-dial-light.svg" alt="" style="width:112px;height:112px">
+        <h3 style="margin:0;font-family:'Changa',sans-serif;font-weight:700;font-size:28px;line-height:36px">لا توجد دفعات بعد</h3>
+        <img src="assets/divider-pulse-light.svg" alt="" style="width:200px;height:14px">
+        <p style="margin:0;font-size:14px;line-height:24px;color:#5F5F57">أول دفعة تُسجَّل من بيع اشتراك أو سداد دين.</p>
+        <button class="btn btn-primary" type="button">بيع اشتراك</button>
+      </div></div>
+    </section>
+
+  </div>
+</div>
+</template>
+<script type="application/json" id="dc-props">{"$preview":{"width":1440,"height":1760}}</script>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

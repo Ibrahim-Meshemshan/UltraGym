@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>شاشة الاستقبال · المزامنة · UltraGym v1</title>
+<style>
+@font-face{font-family:'Changa';src:url(assets/Changa-VariableFont_wght.ttf) format('truetype');font-weight:200 800;font-display:swap}
+@font-face{font-family:'Readex Pro';src:url(assets/ReadexPro-VariableFont_wght.ttf) format('truetype');font-weight:160 700;font-display:swap}
+body{margin:0;background:var(--bg)}
+a{color:var(--p-ink);text-decoration:none}a:hover{color:var(--p-ink2)}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.cut{background:var(--line);padding:1px;border-radius:16px;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+.cut>.in{background:var(--surface);border-radius:15px;clip-path:polygon(0 0,calc(100% - 17.6px) 0,100% 17.6px,100% 100%,0 100%);height:100%;box-sizing:border-box}
+.badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:500;white-space:nowrap}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.t-success{background:var(--s-soft);color:var(--s-ink)}.t-warning{background:var(--w-soft);color:var(--w-ink)}.t-danger{background:var(--d-soft);color:var(--d-ink)}.t-info{background:var(--i-soft);color:var(--i-ink)}.t-accent{background:var(--a-soft);color:var(--a-ink)}.t-neutral{background:var(--soft);color:var(--muted)}
+.btn{height:46px;padding:0 20px;border-radius:10px;font-family:'Readex Pro',sans-serif;font-size:14px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;cursor:pointer;box-sizing:border-box;white-space:nowrap}
+.btn-primary{background:var(--primary);color:#1A1A18;font-weight:600}.btn-secondary{background:var(--surface);border-color:var(--line);color:var(--ink)}.btn-ghost{background:transparent;color:var(--p-ink);padding:0 10px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.rail{background:#1A1A17;flex:0 0 76px;width:76px;padding:16px 0;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:6px}
+.ri{width:52px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#C9C9C0;position:relative}
+.ri:hover{background:rgba(255,255,255,.05);color:#F3F3EE}
+.ri.on{background:rgba(255,255,255,.10);color:#FF5A1F}
+.ri.on::after{content:'';position:absolute;right:-12px;top:10px;bottom:10px;width:4px;border-radius:4px;background:#FF5A1F}
+.top{min-height:64px;display:flex;align-items:center;gap:12px;padding:8px 24px;border-bottom:1px solid var(--line);background:var(--bg);flex-wrap:wrap;box-sizing:border-box}
+.iconbtn{width:38px;height:38px;border-radius:999px;border:1px solid var(--line);background:var(--surface);display:inline-flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer;position:relative}
+.search{display:flex;align-items:center;gap:12px;height:60px;padding:0 20px;border:2px solid var(--inv);border-radius:16px;background:var(--surface);box-sizing:border-box}
+.search input{flex:1;min-width:0;border:0;outline:none;font-family:'Readex Pro',sans-serif;font-size:17px;color:var(--ink);background:transparent}
+.hd{display:flex;align-items:center;gap:12px;padding:16px 24px;font-size:15px;font-weight:600}
+.feed{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--divider);font-size:13px}
+.av{width:34px;height:34px;border-radius:999px;background:var(--p-soft);color:var(--p-ink);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:0 0 auto}
+.qa{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font-family:'Readex Pro',sans-serif;font-size:13px;font-weight:500;color:var(--ink);cursor:pointer}
+.qa[disabled]{opacity:.45;cursor:not-allowed}
+.slab{width:38px;height:38px;border-radius:10px;background:var(--p-soft);color:var(--p-ink);display:flex;align-items:center;justify-content:center;transform:skewX(-10deg)}
+.slab>svg{transform:skewX(10deg)}
+.ctab{border:0;background:transparent;font-family:'Readex Pro',sans-serif;cursor:pointer}
+.sel{height:42px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:0 12px;font-family:'Readex Pro',sans-serif;font-size:14px;color:var(--ink);box-sizing:border-box;width:100%}
+.fi{display:flex;flex-direction:column;gap:6px;min-width:0}
+.seg{display:inline-flex;background:var(--soft);border-radius:10px;padding:3px;gap:3px}
+.seg button{height:36px;padding:0 16px;border-radius:8px;border:0;background:transparent;font-family:'Readex Pro',sans-serif;font-size:13px;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(26,26,23,.08)}
+.chip{height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-family:'Readex Pro',sans-serif;font-size:12.5px;color:var(--muted);cursor:pointer}
+.chip.on{background:var(--inv);border-color:var(--inv);color:var(--on-inv)}
+.sw{width:40px;height:24px;border-radius:999px;background:var(--line);position:relative;display:inline-block;flex:0 0 40px}
+.sw::after{content:'';position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#FFFFFE}
+.sw.on{background:var(--primary)}.sw.on::after{right:auto;left:3px}
+.stat{flex:1 1 180px;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.stat span{font-size:12.5px;color:var(--muted)}
+.stat strong{font-family:'Changa',sans-serif;font-size:24px;font-weight:700}
+.av{width:36px;height:36px;border-radius:999px;background:var(--soft);color:var(--muted);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex:0 0 36px}
+.kv{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:9px 0;border-top:1px solid var(--divider)}
+.kv>span:first-child{color:var(--muted)}
+.h2{margin:0;font-size:16px;line-height:26px;font-weight:600}
+.btn-danger{background:#D6335A;color:#FFFFFF}
+.btn-dline{background:var(--surface);border-color:var(--d-line);color:var(--d-ink)}
+.ov{position:absolute;inset:0;background:rgba(26,26,23,.5);display:flex;align-items:flex-start;justify-content:center;padding:96px 16px;box-sizing:border-box}
+.dlg{max-width:600px;padding:24px;display:flex;flex-direction:column;gap:16px}
+.dh{display:flex;justify-content:space-between;align-items:center}
+.dh h2{margin:0;font-size:19px;line-height:30px;font-weight:600}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{background:var(--soft);color:var(--muted);font-weight:500;font-size:12.5px;text-align:right;padding:10px 14px;white-space:nowrap}
+.tbl td{padding:12px 14px;border-top:1px solid var(--divider);vertical-align:middle}
+.input{height:50px;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:0 14px;font-family:'Readex Pro',sans-serif;font-size:18px;color:var(--ink);box-sizing:border-box;width:100%}
+.lbl{font-size:12.5px;font-weight:500;color:var(--muted)}
+.dlg{background:var(--surface);border-radius:16px;box-shadow:0 24px 60px rgba(26,26,23,.16);width:100%;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+.cur{flex:1 1 280px;min-width:0;border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.ln{display:flex;justify-content:space-between;font-size:14px}
+.ln span:first-child{color:var(--muted)}
+.op{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--divider);font-size:13.5px}
+.op code{font-family:ui-monospace,monospace;font-size:11.5px;color:var(--faint);direction:ltr}
+
+.th-light{--bg:#F5F5F2;--surface:#FFFFFF;--soft:#EDEDE8;--line:#E0E0DA;--divider:#EDEDE8;--inv:#1A1A17;--on-inv:#F3F3EE;--ink:#1A1A17;--muted:#5F5F57;--faint:#8A8A80;--primary:#FF5A1F;--p-soft:#FFE8DC;--p-ink:#B53D0A;--p-ink2:#8E2F06;--s-soft:#E3F5EC;--s-ink:#0D7350;--w-soft:#FFF1D1;--w-ink:#8A5800;--d-soft:#FDE6EC;--d-ink:#B81F45;--d-line:#F3C2CF;--i-soft:#E6ECFF;--i-ink:#2A50C8;--a-soft:#EEF8D2;--a-ink:#4F7A00}
+.th-dark{--bg:#121210;--surface:#1B1B18;--soft:#24241F;--line:#2E2E29;--divider:#26261F;--inv:#F3F3EE;--on-inv:#1A1A17;--ink:#F3F3EE;--muted:#A9A99F;--faint:#7A7A70;--primary:#FF6A30;--p-soft:#3A1C10;--p-ink:#FF8E5E;--p-ink2:#FFB08A;--s-soft:#163126;--s-ink:#3DD68C;--w-soft:#33280F;--w-ink:#F5B642;--d-soft:#3A1520;--d-ink:#FF7A95;--d-line:#5A2333;--i-soft:#1C2747;--i-ink:#8AA9FF;--a-soft:#263012;--a-ink:#C8F03C}
+.th-dark{color-scheme:dark}
+.th-dark .tbl tbody tr:hover{background:#24241F}
+
+.sk{background:linear-gradient(90deg,var(--soft,#24241F) 25%,var(--line,#2E2E29) 37%,var(--soft,#24241F) 63%);background-size:400% 100%;animation:skm 1.4s ease infinite;border-radius:8px}
+@keyframes skm{0%{background-position:100% 50%}100%{background-position:0 50%}}
+@media (prefers-reduced-motion:reduce){.sk{animation:none}}
+.pse{background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:16px;padding:40px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.pse .ico{width:56px;height:56px;border-radius:999px;background:var(--d-soft,#3A1520);color:var(--d-ink,#FF7A95);display:flex;align-items:center;justify-content:center}
+</style>
+<link rel="stylesheet" href="proto.css">
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-src">
+<div class="{{ themeCls }}" style="min-height:1000px;display:flex;flex-wrap:wrap;position:relative;font-family:'Readex Pro',sans-serif;color:var(--ink);direction:rtl;background:var(--bg)">
+
+  <nav class="rail" aria-label="قائمة الاستقبال">
+    <img src="assets/ultragym-mark-dark.svg" alt="UltraGym" style="width:40px;margin-bottom:14px">
+    <a class="ri" href="Reception.html" aria-label="محطة الدخول" title="محطة الدخول"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4H5v16h5M14 8l4 4-4 4M18 12H9"/></svg></a>
+    <a class="ri" href="SellMembership.html" aria-label="بيع اشتراك" title="بيع اشتراك"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></a>
+    <a class="ri" href="Members.html" aria-label="الأعضاء" title="الأعضاء"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7"/></svg></a>
+    <a class="ri" href="ReceptionCash.html" aria-label="الصندوق" title="الصندوق"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16v12H4zM4 7l2-3h12l2 3M16 13h2"/></svg></a>
+    <a class="ri on" aria-current="page" href="ReceptionSync.html" aria-label="المزامنة" title="المزامنة"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14-5L4 8M4 4v4h4M4 13a8 8 0 0 0 14 5l2-2M20 20v-4h-4"/></svg></a>
+  </nav>
+
+  <div style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column">
+    <header class="top">
+      <div style="margin-left:auto;display:flex;flex-direction:column">
+        <strong style="font-size:18px;line-height:28px;font-weight:600">الفرع الرئيسي – المزة</strong>
+        <span style="font-size:12px;color:var(--muted)">الأربعاء 4 تشرين الثاني · قسم: مختلط الآن</span>
+      </div>
+      <template data-if value="{{ online }}" hint-placeholder-val="{{ true }}"><span class="badge t-success" style="height:30px;padding:0 12px">متصل · آخر مزامنة 09:41</span></template>
+      <template data-if value="{{ offline }}" hint-placeholder-val="{{ false }}"><span class="badge t-warning" style="height:30px;padding:0 12px">دون اتصال · 3 عمليات معلقة · آخر مزامنة 09:31</span></template>
+      <span class="badge t-accent" style="height:30px;padding:0 12px">الوردية <span class="ltr">#48</span> مفتوحة</span>
+      <button class="iconbtn" type="button" onClick="{{ toggleTheme }}" aria-label="{{ themeLabel }}" title="{{ themeLabel }}"><template data-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></template><template data-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></template></button>
+      <button class="iconbtn" type="button" aria-label="الإشعارات، 2 غير مقروءة"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></svg><span style="position:absolute;top:-4px;left:-4px;min-width:18px;height:18px;border-radius:999px;background:#C8F03C;color:#1A1A18;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center">2</span></button>
+      <span style="display:flex;align-items:center;gap:8px"><span style="width:34px;height:34px;border-radius:999px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600">ر ع</span><span style="font-size:13px">ريم العلي</span></span>
+    </header>
+
+    <template data-if value="{{ offline }}" hint-placeholder-val="{{ false }}">
+      <div role="status" style="padding:10px 24px;background:var(--w-soft);color:var(--w-ink);font-size:13px;line-height:22px">تعمل دون اتصال. الدخول والبيع والقبض تُحفظ على هذا الجهاز وتُرسل عند عودة الإنترنت. التقارير والإعدادات وفتح الصندوق وإغلاقه تحتاج اتصالًا.</div>
+    </template>
+
+    <main style="padding:24px;display:flex;flex-direction:column;gap:16px;max-width:1320px;width:100%;box-sizing:border-box">
+<template data-if value="{{ psReady }}" hint-placeholder-val="{{ true }}"><div style="display:contents">
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div class="stat"><span>عمليات بانتظار الإرسال</span><strong class="ltr" style="color:var(--w-ink)">3</strong></div>
+        <div class="stat"><span>آخر مزامنة</span><strong class="ltr">09:31</strong></div>
+        <div class="stat"><span>بيانات الفرع المحفوظة</span><strong class="ltr">1,284</strong><span>عضو · حُدّثت 09:30</span></div>
+        <div class="stat"><span>هذا الجهاز</span><strong style="font-family:'Readex Pro',sans-serif;font-size:16px;font-weight:600">كاونتر الاستقبال الرئيسي</strong><span class="ltr" style="align-self:flex-start">7f3c…e91a</span></div>
+      </div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start">
+        <section class="cut" style="flex:1 1 440px;min-width:0"><div class="in" style="padding:18px 22px;display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:10px;flex-wrap:wrap"><h2 class="h2">بانتظار الإرسال</h2><template data-if value="{{ online }}" hint-placeholder-val="{{ false }}"><button class="btn btn-primary" type="button">مزامنة الآن</button></template><template data-if value="{{ offline }}" hint-placeholder-val="{{ true }}"><span class="badge t-warning" style="height:30px;padding:0 12px">تنتظر عودة الاتصال</span></template></div>
+          <template data-for list="{{ queue }}" as="q" hint-placeholder-count="3"><div class="op"><span class="badge t-neutral">{{ q.ty }}</span><span style="flex:1">{{ q.d }}</span><span class="ltr" style="color:var(--muted)">{{ q.t }}</span></div></template>
+          <p style="margin:10px 0 0;font-size:12.5px;color:var(--muted)">تُرسل تلقائيًا عند عودة الاتصال بوقتها الأصلي. لكل عملية معرّف فريد، فإرسالها مرتين لا يكررها.</p>
+        </div></section>
+        <section class="cut" style="flex:1 1 520px;min-width:0"><div class="in" style="padding:18px 22px;display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><h2 class="h2">نتيجة آخر مزامنة · 09:31</h2><span style="font-size:12.5px;color:var(--muted)">4 عمليات</span></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px"><span class="badge t-success">نُفّذت 2</span><span class="badge t-neutral">مكررة 0</span><span class="badge t-danger">مرفوضة 2</span><span class="badge t-warning">فشلت 0</span></div>
+          <template data-for list="{{ results }}" as="r" hint-placeholder-count="4"><div class="op"><span class="{{ r.cls }}" style="min-width:70px;justify-content:center">{{ r.s }}</span><span style="flex:1;display:flex;flex-direction:column"><span>{{ r.ty }} · {{ r.d }}</span><span style="font-size:12.5px;color:{{ r.mc }}">{{ r.m }}</span></span></div></template>
+        </div></section>
+      </div>
+      <section class="cut"><div class="in" style="padding:18px 22px;display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;justify-content:space-between;align-items:center"><h2 class="h2">عمليات تحتاج مراجعة</h2><span class="badge t-danger">2</span></div>
+        <p style="margin:0 0 6px;font-size:12.5px;color:var(--muted)">رُفضت ولن تنجح بإعادة الإرسال. راجعها وسجّلها يدويًا إن لزم.</p>
+        <div class="op"><span style="flex:1;display:flex;flex-direction:column"><strong style="font-weight:600">دفعة · نور الخطيب</strong><span style="font-size:12.5px;color:var(--d-ink)">مجموع الدفعات ($5.00) أكبر من المستحق ($1.75)</span></span><a class="btn btn-secondary" href="MembershipDetail.html" style="height:36px">فتح الاشتراك</a><button class="btn btn-ghost" type="button" style="color:var(--muted)">تمت المراجعة</button></div>
+        <div class="op"><span style="flex:1;display:flex;flex-direction:column"><strong style="font-weight:600">خصم حصة · رامي درويش</strong><span style="font-size:12.5px;color:var(--d-ink)">هذا الاشتراك بالمدة وليس بالجلسات</span></span><a class="btn btn-secondary" href="MembershipDetail.html" style="height:36px">فتح الاشتراك</a><button class="btn btn-ghost" type="button" style="color:var(--muted)">تمت المراجعة</button></div>
+      </div></section>
+
+    </div></template>
+<template data-if value="{{ psLoading }}" hint-placeholder-val="{{ false }}"><div style="display:contents" role="status" aria-live="polite"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">جارٍ تحميل الصفحة</span>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;width:100%"><div style="flex:1 1 180px;background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px"><span class="sk" style="display:block;width:50%;height:11px;"></span><span class="sk" style="display:block;width:70%;height:24px;"></span></div><div style="flex:1 1 180px;background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px"><span class="sk" style="display:block;width:50%;height:11px;"></span><span class="sk" style="display:block;width:70%;height:24px;"></span></div><div style="flex:1 1 180px;background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px"><span class="sk" style="display:block;width:50%;height:11px;"></span><span class="sk" style="display:block;width:70%;height:24px;"></span></div><div style="flex:1 1 180px;background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px"><span class="sk" style="display:block;width:50%;height:11px;"></span><span class="sk" style="display:block;width:70%;height:24px;"></span></div></div>
+      <div style="background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:16px;overflow:hidden;width:100%"><div style="padding:18px 20px;display:flex;gap:12px;align-items:center"><span class="sk" style="display:block;width:180px;height:16px;"></span><span class="sk" style="display:block;width:120px;height:36px;border-radius:10px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div></div>
+    </div></template>
+<template data-if value="{{ psError }}" hint-placeholder-val="{{ false }}"><div style="display:contents"><div class="pse" role="alert" style="padding:48px 24px;width:100%;box-sizing:border-box">
+      <span class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg></span>
+      <h2 style="margin:0;font-size:18px;line-height:28px;font-weight:600;color:var(--ink,#F3F3EE)">تعذّر تحميل البيانات</h2>
+      <p style="margin:0;font-size:14px;line-height:22px;color:var(--muted,#A9A99F);max-width:420px">لم يصل رد من الخادم. تحقق من الاتصال ثم أعد المحاولة؛ لم يتغير شيء من بياناتك.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="btn btn-primary" type="button" onClick="{{ psRetry }}" style="height:42px;padding:0 18px;border-radius:10px;border:0;background:var(--primary,#FF6A30);color:#1A1A18;font-family:'Readex Pro',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer">إعادة المحاولة</button></div>
+    </div></div></template>
+</main>
+  </div>
+
+</div>
+</template>
+<script type="application/json" id="dc-props">{"online": {"editor": "boolean", "default": false, "section": "الاتصال"}, "theme": {"editor": "enum", "options": ["light", "dark"], "default": "light", "section": "المظهر"}, "pageState": {"editor": "enum", "options": ["ready", "loading", "error"], "default": "ready", "section": "حالة الصفحة"}, "$preview": {"width": 1440, "height": 1000}}</script>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  renderVals() {
+    const base = this.__ps();
+    const ps = (this.state && this.state.__ps) || this.props.pageState || 'ready';
+    return Object.assign({}, base, { psReady: ps === 'ready', psLoading: ps === 'loading', psError: ps === 'error', psRetry: () => this.setState({ __ps: 'ready' }) });
+  }
+  __ps() {
+    const v = this.__rv();
+    const th = (this.state && this.state.__th) || this.props.theme || 'light';
+    return Object.assign({}, v, { themeCls: 'th th-' + th, isDark: th === 'dark', isLight: th !== 'dark', themeLabel: th === 'dark' ? 'التبديل للوضع الفاتح' : 'التبديل للوضع الداكن', toggleTheme: () => this.setState({ __th: th === 'dark' ? 'light' : 'dark' }) });
+  }
+  __rv() {
+    const on = !!this.props.online;
+    return {
+      online: on, offline: !on,
+      queue: [
+        { ty: 'دخول', d: 'لؤي الشامي · QR', t: '09:44' },
+        { ty: 'دفعة', d: 'حسام ناصر · $10.00', t: '09:40' },
+        { ty: 'بيع اشتراك', d: 'هيا العمر · شهري · $30.00', t: '09:35' }
+      ],
+      results: [
+        { s: 'نُفّذت', cls: 'badge t-success', ty: 'دخول', d: 'سلمى حيدر', m: 'تم تسجيل الدخول', mc: 'var(--muted)' },
+        { s: 'مرفوضة', cls: 'badge t-danger', ty: 'دفعة', d: 'نور الخطيب', m: 'مجموع الدفعات ($5.00) أكبر من المستحق ($1.75)', mc: 'var(--d-ink)' },
+        { s: 'نُفّذت', cls: 'badge t-success', ty: 'بيع اشتراك', d: 'وسيم قطان', m: 'تم تسجيل الاشتراك · B1-2026-000013', mc: 'var(--muted)' },
+        { s: 'مرفوضة', cls: 'badge t-danger', ty: 'خصم حصة', d: 'رامي درويش', m: 'هذا الاشتراك بالمدة وليس بالجلسات', mc: 'var(--d-ink)' }
+      ]
+    };
+  }
+}
+
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لوحة المنصة · تفاصيل النادي · UltraGym v1</title>
+<style>
+@font-face{font-family:'Changa';src:url(assets/Changa-VariableFont_wght.ttf) format('truetype');font-weight:200 800;font-display:swap}
+@font-face{font-family:'Readex Pro';src:url(assets/ReadexPro-VariableFont_wght.ttf) format('truetype');font-weight:160 700;font-display:swap}
+body{margin:0;background:var(--bg)}
+a{color:var(--p-ink);text-decoration:none}a:hover{color:var(--p-ink2)}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.cut{background:var(--line);padding:1px;border-radius:16px;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+.cut>.in{background:var(--surface);border-radius:15px;clip-path:polygon(0 0,calc(100% - 17.6px) 0,100% 17.6px,100% 100%,0 100%);height:100%;box-sizing:border-box}
+.badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:500;white-space:nowrap}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.t-success{background:var(--s-soft);color:var(--s-ink)}.t-warning{background:var(--w-soft);color:var(--w-ink)}.t-danger{background:var(--d-soft);color:var(--d-ink)}.t-info{background:var(--i-soft);color:var(--i-ink)}.t-accent{background:var(--a-soft);color:var(--a-ink)}.t-primary{background:var(--p-soft);color:var(--p-ink)}.t-neutral{background:var(--soft);color:var(--muted)}
+.btn{height:42px;padding:0 18px;border-radius:10px;font-family:'Readex Pro',sans-serif;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:8px;border:1px solid transparent;cursor:pointer;box-sizing:border-box;white-space:nowrap}
+.btn-primary{background:var(--primary);color:#1A1A18}.btn-secondary{background:var(--surface);border-color:var(--line);color:var(--ink)}.btn-ghost{background:transparent;color:var(--p-ink);padding:0 8px;height:34px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.side{background:#1A1A17;color:#C9C9C0;flex:0 0 264px;width:264px;padding:20px 12px;box-sizing:border-box;display:flex;flex-direction:column;gap:2px}
+.nav-label{font-size:11.5px;color:#8A8A80;padding:12px 12px 6px}
+.nav{display:flex;align-items:center;gap:12px;height:38px;padding:0 12px;border-radius:10px;color:#C9C9C0;font-size:13.5px;position:relative}
+.nav:hover{background:rgba(255,255,255,.05);color:#F3F3EE}
+.nav.on{background:rgba(255,255,255,.10);color:#F3F3EE;font-weight:600}
+.nav.on::after{content:'';position:absolute;right:0;top:9px;bottom:9px;width:4px;border-radius:4px;background:#FF5A1F}
+.nav.on svg{color:#FF5A1F}
+.top{height:64px;display:flex;align-items:center;gap:12px;padding:0 24px;border-bottom:1px solid var(--line);background:var(--bg);flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-family:'Readex Pro',sans-serif;font-size:13px;color:var(--ink);cursor:pointer;box-sizing:border-box;white-space:nowrap}
+.iconbtn{width:38px;height:38px;border-radius:999px;border:1px solid var(--line);background:var(--surface);display:inline-flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer;position:relative}
+.stage{display:flex;flex-direction:column;gap:2px;padding:12px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font-family:'Readex Pro',sans-serif;cursor:pointer;text-align:right;min-width:112px;box-sizing:border-box}
+.stage.on{border:2px solid var(--inv);padding:11px 15px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;min-width:1080px}
+.tbl th{background:var(--soft);color:var(--muted);font-weight:500;font-size:12.5px;text-align:right;padding:10px 14px;white-space:nowrap}
+.tbl td{padding:12px 14px;border-top:1px solid var(--divider);vertical-align:middle}
+.tbl tbody tr:hover{background:var(--bg)}
+.logo{width:36px;height:36px;border-radius:10px;background:var(--inv);color:#FF6A30;display:flex;align-items:center;justify-content:center;font-family:'Changa',sans-serif;font-weight:700;font-size:15px;flex:0 0 auto}
+.meter{height:6px;border-radius:999px;background:var(--soft);overflow:hidden;width:120px}
+.pg{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-family:'Readex Pro',sans-serif;font-size:13px;color:var(--ink);cursor:pointer}
+.pg.on{background:var(--inv);color:var(--on-inv);border-color:var(--inv)}
+.ctabs{display:flex;gap:22px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.ctab{height:40px;padding:0 4px;font-size:14px;color:var(--muted);border:0;border-bottom:2px solid transparent;background:transparent;font-family:'Readex Pro',sans-serif;cursor:pointer}
+.ctab.on{color:var(--ink);font-weight:600;border-bottom-color:var(--primary)}
+.kv{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:8px 0;border-top:1px solid var(--divider)}
+.kv>span:first-child{color:var(--muted)}
+.h2{margin:0;font-size:16px;line-height:26px;font-weight:600}
+.lim{display:flex;flex-direction:column;gap:6px}
+.lim .meter{width:100%;height:8px}
+.ev{display:flex;gap:14px;position:relative;padding-bottom:18px}
+.ev::before{content:'';position:absolute;right:6px;top:16px;bottom:0;width:2px;background:var(--soft)}
+.ev:last-child::before{display:none}
+.dot{width:14px;height:14px;border-radius:50%;flex:0 0 14px;margin-top:3px;box-sizing:border-box;border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
+.btn-danger{background:#D6335A;color:#FFFFFF}
+.btn-dline{background:var(--surface);border-color:var(--d-line);color:var(--d-ink)}
+.input{height:44px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:0 12px;font-family:'Readex Pro',sans-serif;font-size:14px;color:var(--ink);box-sizing:border-box;width:100%}
+.dlg{background:var(--surface);border-radius:16px;box-shadow:0 24px 60px rgba(26,26,23,.16);width:100%;max-width:540px;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+.step{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.step b{width:22px;height:22px;border-radius:50%;background:var(--soft);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px}
+.step.on b{background:var(--inv);color:var(--on-inv)}.step.on{color:var(--ink);font-weight:600}
+
+.th-light{--bg:#F5F5F2;--surface:#FFFFFF;--soft:#EDEDE8;--line:#E0E0DA;--divider:#EDEDE8;--inv:#1A1A17;--on-inv:#F3F3EE;--ink:#1A1A17;--muted:#5F5F57;--faint:#8A8A80;--primary:#FF5A1F;--p-soft:#FFE8DC;--p-ink:#B53D0A;--p-ink2:#8E2F06;--s-soft:#E3F5EC;--s-ink:#0D7350;--w-soft:#FFF1D1;--w-ink:#8A5800;--d-soft:#FDE6EC;--d-ink:#B81F45;--d-line:#F3C2CF;--i-soft:#E6ECFF;--i-ink:#2A50C8;--a-soft:#EEF8D2;--a-ink:#4F7A00}
+.th-dark{--bg:#121210;--surface:#1B1B18;--soft:#24241F;--line:#2E2E29;--divider:#26261F;--inv:#F3F3EE;--on-inv:#1A1A17;--ink:#F3F3EE;--muted:#A9A99F;--faint:#7A7A70;--primary:#FF6A30;--p-soft:#3A1C10;--p-ink:#FF8E5E;--p-ink2:#FFB08A;--s-soft:#163126;--s-ink:#3DD68C;--w-soft:#33280F;--w-ink:#F5B642;--d-soft:#3A1520;--d-ink:#FF7A95;--d-line:#5A2333;--i-soft:#1C2747;--i-ink:#8AA9FF;--a-soft:#263012;--a-ink:#C8F03C}
+.th-dark{color-scheme:dark}
+.th-dark .tbl tbody tr:hover{background:#24241F}
+
+.sk{background:linear-gradient(90deg,var(--soft,#24241F) 25%,var(--line,#2E2E29) 37%,var(--soft,#24241F) 63%);background-size:400% 100%;animation:skm 1.4s ease infinite;border-radius:8px}
+@keyframes skm{0%{background-position:100% 50%}100%{background-position:0 50%}}
+@media (prefers-reduced-motion:reduce){.sk{animation:none}}
+.pse{background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:16px;padding:40px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.pse .ico{width:56px;height:56px;border-radius:999px;background:var(--d-soft,#3A1520);color:var(--d-ink,#FF7A95);display:flex;align-items:center;justify-content:center}
+</style>
+<link rel="stylesheet" href="proto.css">
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-src">
+<div class="{{ themeCls }}" style="min-height:1260px;display:flex;flex-wrap:wrap;position:relative;font-family:'Readex Pro',sans-serif;color:var(--ink);direction:rtl;background:var(--bg)">
+
+  <nav class="side" aria-label="قائمة المنصة">
+    <div style="padding:6px 12px 14px;border-bottom:1px solid #2E2E29;margin-bottom:6px;display:flex;flex-direction:column;gap:8px"><img src="assets/ultragym-horizontal-dark.svg" alt="UltraGym" style="height:30px;align-self:flex-start"><span style="font-size:11.5px;color:#A9A99F">لوحة المنصة</span></div>
+    <a class="nav" href="POverview.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="10" rx="2"/><rect x="13" y="3" width="8" height="6" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg>نظرة عامة</a>
+    <span class="nav-label">النوادي</span>
+    <a class="nav on" href="SuperTenants.html" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21V9l9-6 9 6v12M9 21v-6h6v6"/></svg>النوادي</a>
+    <a class="nav" href="PSubscriptions.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14-5L4 8M4 4v4h4M4 13a8 8 0 0 0 14 5l2-2M20 20v-4h-4"/></svg>الاشتراكات</a>
+    <a class="nav" href="PInvoices.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"/></svg>الفواتير والدفعات</a>
+    <a class="nav" href="PPlans.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>الباقات</a>
+    <a class="nav" href="PUsers.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7"/></svg>مستخدمو النوادي</a>
+    <span class="nav-label">التواصل</span>
+    <a class="nav" href="PSupport.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/></svg>الدعم الفني<span style="margin-right:auto;min-width:20px;height:20px;border-radius:999px;background:#C8F03C;color:#1A1A17;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center">7</span></a>
+    <a class="nav" href="PAnnouncements.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10v4h3l7 4V6L6 10zM17 9a4 4 0 0 1 0 6"/></svg>الإعلانات</a>
+    <a class="nav" href="PTemplates.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v14H4zM4 9h16"/></svg>قوالب الرسائل</a>
+    <span class="nav-label">المنصة</span>
+    <a class="nav" href="PAnalytics.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>التحليلات</a>
+    <a class="nav" href="PAppVersions.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10v18H7zM11 18h2"/></svg>نسخ التطبيقات</a>
+    <a class="nav" href="PAudit.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6l1 3h4v13H4V7h4z"/><path d="M9 13l2 2 4-4"/></svg>سجل التدقيق</a>
+    <a class="nav" href="PSystem.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>النظام والنسخ</a>
+    <a class="nav" href="PTeam.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg>فريق المنصة</a>
+    <a class="nav" href="PSettings.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg>الإعدادات</a>
+    <div style="margin-top:auto;padding:16px 12px 0;border-top:1px solid #2E2E29;display:flex;align-items:center;gap:10px">
+      <span style="width:36px;height:36px;border-radius:999px;background:#C8F03C;color:#1A1A17;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px">م</span>
+      <span style="display:flex;flex-direction:column"><strong style="color:#F3F3EE;font-size:13px;font-weight:600">مجد الأيوبي</strong><span style="font-size:11.5px;color:#A9A99F">مالك المنصة</span></span>
+    </div>
+  </nav>
+
+  <div style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column">
+    <header class="top">
+      <nav aria-label="مسار التنقل" style="margin-left:auto;display:flex;align-items:center;gap:8px;font-size:14px"><a href="SuperTenants.html" style="color:var(--muted)">النوادي</a><span style="color:var(--faint)">/</span><h1 style="margin:0;font-size:22px;line-height:34px;font-weight:600">نادي القمة الرياضي</h1></nav>
+      <button class="pill" type="button" style="width:320px;justify-content:flex-start;color:var(--muted)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>بحث شامل: نوادٍ، مستخدمون، فواتير</button>
+      <button class="iconbtn" type="button" onClick="{{ toggleTheme }}" aria-label="{{ themeLabel }}" title="{{ themeLabel }}"><template data-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></template><template data-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></template></button>
+      <button class="iconbtn" type="button" aria-label="الإشعارات، 3 غير مقروءة"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></svg><span style="position:absolute;top:-4px;left:-4px;min-width:18px;height:18px;border-radius:999px;background:#C8F03C;color:#1A1A18;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center">3</span></button>
+    </header>
+
+    <main style="padding:24px;display:flex;flex-direction:column;gap:16px;max-width:1320px;width:100%;box-sizing:border-box">
+<template data-if value="{{ psReady }}" hint-placeholder-val="{{ true }}"><div style="display:contents">
+      <section class="cut"><div class="in" style="padding:20px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <span class="logo" style="width:56px;height:56px;font-size:22px;border-radius:14px">ق</span>
+        <div style="flex:1 1 280px;display:flex;flex-direction:column;gap:4px">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="margin:0;font-size:20px;line-height:32px;font-weight:600">نادي القمة الرياضي</h2><span class="badge t-success">فعّال</span><span class="badge t-primary">Pro · شهري</span></div>
+          <span style="font-size:13px;color:var(--muted)"><span class="ltr">qimma</span> · المالك سامر الحلبي <span class="ltr">+963 933 100 001</span> · أُنشئ <span class="ltr">2026-03-12</span></span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-secondary" type="button">جلسة دعم كمستخدم</button>
+          <button class="btn btn-secondary" type="button">نسخة احتياطية</button>
+          <button class="btn btn-secondary" type="button">إيقاف النادي</button>
+        </div>
+      </div></section>
+
+      <div class="ctabs" role="tablist">
+        <template data-for list="{{ tabs }}" as="t" hint-placeholder-count="7"><button class="{{ t.cls }}" type="button" role="tab" aria-selected="{{ t.sel }}" onClick="{{ t.go }}">{{ t.l }}</button></template>
+      </div>
+
+      <template data-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:2 1 560px;min-width:0;display:flex;flex-direction:column;gap:16px">
+          <section class="cut"><div class="in" style="padding:20px 24px;display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h3 class="h2">الاشتراك</h3><span style="font-size:13px;color:var(--muted)">ينتهي بعد <strong class="ltr" style="color:var(--ink)">6</strong> أيام</span></div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap" aria-label="مرحلة الاشتراك">
+              <span class="badge t-neutral">تجريبي</span><span style="color:var(--faint)">←</span><span class="badge t-success" style="outline:2px solid var(--inv);outline-offset:1px">فعّال</span><span style="color:var(--faint)">←</span><span class="badge t-neutral">سماح</span><span style="color:var(--faint)">←</span><span class="badge t-neutral">قراءة فقط</span><span style="color:var(--faint)">←</span><span class="badge t-neutral">مقفل</span>
+            </div>
+            <div>
+              <div class="kv"><span>الباقة</span><span>Pro · شهري · <span class="ltr">$50.00</span></span></div>
+              <div class="kv"><span>الفترة الحالية</span><span><span class="ltr">2026-10-10</span> ← <span class="ltr">2026-11-10</span></span></div>
+              <div class="kv"><span>آخر فاتورة</span><span><a href="#" class="ltr">INV-2026-000187</a> · <span class="badge t-success">مدفوعة</span></span></div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-primary" type="button">تجديد</button>
+              <button class="btn btn-secondary" type="button">تغيير الباقة</button>
+              <button class="btn btn-secondary" type="button">تمديد أيام</button>
+              <button class="btn btn-secondary" type="button">تعليق</button>
+              <button class="btn btn-dline" type="button">إلغاء الاشتراك</button>
+            </div>
+          </div></section>
+
+          <section class="cut"><div class="in" style="padding:20px 24px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;justify-content:space-between;align-items:center"><h3 class="h2">الاستخدام مقابل الحدود</h3><span style="font-size:12.5px;color:var(--muted)">حدود Pro + استثناءات النادي</span></div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px 24px">
+              <template data-for list="{{ limits }}" as="l" hint-placeholder-count="4">
+                <div class="lim">
+                  <div style="display:flex;justify-content:space-between;font-size:13.5px"><span>{{ l.name }}</span><span class="ltr" style="font-weight:600">{{ l.text }}</span></div>
+                  <div class="meter"><div style="height:100%;width:{{ l.pct }}%;background:{{ l.color }};border-radius:999px"></div></div>
+                  <span style="font-size:12px;color:{{ l.noteColor }}">{{ l.note }}</span>
+                </div>
+              </template>
+            </div>
+          </div></section>
+        </div>
+
+        <div style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:16px">
+          <section class="cut"><div class="in" style="padding:20px 24px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center"><h3 class="h2">استثناءات النادي</h3><button class="btn btn-ghost" type="button">تعديل</button></div>
+            <div class="kv"><span>حد الأعضاء</span><span class="ltr">800</span></div>
+            <div class="kv"><span>ميزة إضافية</span><span>الدعم المميز</span></div>
+            <div class="kv"><span>ينتهي</span><span class="ltr">2026-12-31</span></div>
+            <p style="margin:0;font-size:12.5px;line-height:20px;color:var(--muted);background:var(--bg);border-radius:10px;padding:10px 12px">ملاحظة داخلية للفريق فقط: موسم الشتاء، رفع مؤقت بطلب المالك.</p>
+          </div></section>
+
+          <section class="cut"><div class="in" style="padding:20px 24px;display:flex;flex-direction:column;gap:12px">
+            <h3 class="h2">النسخ الاحتياطية</h3>
+            <div class="kv"><span><span class="ltr">2026-11-01</span> · مع الملفات</span><span><span class="badge t-success">مكتملة</span> <span class="ltr" style="font-size:12.5px;color:var(--muted)">412 MB</span></span></div>
+            <div class="kv"><span><span class="ltr">2026-10-02</span> · بيانات فقط</span><span><span class="badge t-success">مكتملة</span> <span class="ltr" style="font-size:12.5px;color:var(--muted)">96 MB</span></span></div>
+            <span style="font-size:12px;color:var(--muted)">النسخ يدوية فقط.</span>
+          </div></section>
+
+          <section class="cut"><div class="in" style="padding:20px 24px;display:flex;flex-direction:column;gap:10px;border:0">
+            <h3 class="h2" style="color:var(--d-ink)">منطقة الخطر</h3>
+            <p style="margin:0;font-size:13px;line-height:21px;color:var(--muted)">الحذف النهائي يمسح كل بيانات النادي ولا يمكن التراجع عنه. لمالك المنصة فقط.</p>
+            <button class="btn btn-dline" type="button" onClick="{{ openPurge }}" style="align-self:flex-start">حذف النادي نهائيًا</button>
+          </div></section>
+        </div>
+      </div>
+      </template>
+
+      <template data-if value="{{ isSub }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start">
+        <section class="cut" style="flex:1 1 420px;min-width:0"><div class="in" style="padding:20px 24px;display:flex;flex-direction:column;gap:14px">
+          <h3 class="h2">سجل الاشتراك</h3>
+          <div>
+            <template data-for list="{{ events }}" as="e" hint-placeholder-count="5">
+              <div class="ev"><span class="dot" style="background:{{ e.c }}"></span><div style="display:flex;flex-direction:column;gap:2px;min-width:0"><strong style="font-size:14px;font-weight:600">{{ e.t }}</strong><span style="font-size:13px;color:var(--muted)">{{ e.d }}</span><span style="font-size:12px;color:var(--faint)"><span class="ltr">{{ e.at }}</span> · {{ e.by }}</span></div></div>
+            </template>
+          </div>
+        </div></section>
+        <section class="cut" style="flex:1 1 420px;min-width:0"><div class="in" style="display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px"><h3 class="h2">الفواتير</h3><button class="btn btn-secondary" type="button" style="height:36px">فاتورة يدوية</button></div>
+          <table class="tbl" style="min-width:0"><thead><tr><th scope="col">الرقم</th><th scope="col">الفترة</th><th scope="col">المبلغ</th><th scope="col">الحالة</th></tr></thead><tbody>
+            <template data-for list="{{ invoices }}" as="v" hint-placeholder-count="4"><tr><td><a href="#" class="ltr">{{ v.no }}</a></td><td style="color:var(--muted)">{{ v.p }}</td><td><span class="ltr">{{ v.a }}</span></td><td><span class="{{ v.cls }}">{{ v.s }}</span></td></tr></template>
+          </tbody></table>
+          <p style="margin:0;padding:14px 20px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--divider)">الدفع يدوي (تحويل أو نقد) ويسجّله الفريق. إلغاء دفعة يتم بالعكس لا بالحذف.</p>
+        </div></section>
+      </div>
+      </template>
+    </div></template>
+<template data-if value="{{ psLoading }}" hint-placeholder-val="{{ false }}"><div style="display:contents" role="status" aria-live="polite"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">جارٍ تحميل الصفحة</span>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;width:100%"><div style="flex:1 1 180px;background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px"><span class="sk" style="display:block;width:50%;height:11px;"></span><span class="sk" style="display:block;width:70%;height:24px;"></span></div><div style="flex:1 1 180px;background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px"><span class="sk" style="display:block;width:50%;height:11px;"></span><span class="sk" style="display:block;width:70%;height:24px;"></span></div><div style="flex:1 1 180px;background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px"><span class="sk" style="display:block;width:50%;height:11px;"></span><span class="sk" style="display:block;width:70%;height:24px;"></span></div><div style="flex:1 1 180px;background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px"><span class="sk" style="display:block;width:50%;height:11px;"></span><span class="sk" style="display:block;width:70%;height:24px;"></span></div></div>
+      <div style="background:var(--surface,#1B1B18);border:1px solid var(--line,#2E2E29);border-radius:16px;overflow:hidden;width:100%"><div style="padding:18px 20px;display:flex;gap:12px;align-items:center"><span class="sk" style="display:block;width:180px;height:16px;"></span><span class="sk" style="display:block;width:120px;height:36px;border-radius:10px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div><div style="display:flex;gap:16px;align-items:center;padding:14px 20px;border-top:1px solid var(--divider,#2E2E29)"><span class="sk" style="display:block;width:28%;height:12px;"></span><span class="sk" style="display:block;width:16%;height:12px;"></span><span class="sk" style="display:block;width:14%;height:12px;"></span><span class="sk" style="display:block;width:18%;height:12px;"></span><span class="sk" style="display:block;width:10%;height:22px;border-radius:999px;margin-right:auto"></span></div></div>
+    </div></template>
+<template data-if value="{{ psError }}" hint-placeholder-val="{{ false }}"><div style="display:contents"><div class="pse" role="alert" style="padding:48px 24px;width:100%;box-sizing:border-box">
+      <span class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg></span>
+      <h2 style="margin:0;font-size:18px;line-height:28px;font-weight:600;color:var(--ink,#F3F3EE)">تعذّر تحميل البيانات</h2>
+      <p style="margin:0;font-size:14px;line-height:22px;color:var(--muted,#A9A99F);max-width:420px">لم يصل رد من الخادم. تحقق من الاتصال ثم أعد المحاولة؛ لم يتغير شيء من بياناتك.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="btn btn-primary" type="button" onClick="{{ psRetry }}" style="height:42px;padding:0 18px;border-radius:10px;border:0;background:var(--primary,#FF6A30);color:#1A1A18;font-family:'Readex Pro',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer">إعادة المحاولة</button></div>
+    </div></div></template>
+</main>
+  </div>
+
+  <template data-if value="{{ showPurge }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(26,26,23,.5);display:flex;align-items:flex-start;justify-content:center;padding:120px 16px;box-sizing:border-box">
+      <form class="dlg" role="dialog" aria-modal="true" aria-labelledby="pg-t" style="padding:24px;display:flex;flex-direction:column;gap:16px" onSubmit="{{ next }}">
+        <div style="display:flex;justify-content:space-between;align-items:center"><h2 id="pg-t" style="margin:0;font-size:19px;line-height:30px;font-weight:600;color:var(--d-ink)">حذف النادي نهائيًا</h2><button type="button" class="btn btn-ghost" aria-label="إغلاق النافذة" onClick="{{ close }}" style="color:var(--muted)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+        <div style="display:flex;gap:18px"><span class="{{ s1 }}"><b>1</b>التحقق</span><span class="{{ s2 }}"><b>2</b>التأكيد الأخير</span></div>
+        <template data-if value="{{ step1 }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="background:var(--d-soft);color:var(--d-ink);border-radius:12px;padding:12px 16px;font-size:13.5px;line-height:22px">سيُحذف 540 عضوًا و 2 فرع وكل الحركات المالية والحضور والملفات. خذ نسخة احتياطية أولًا.</div>
+            <label class="lbl" for="pg-s" style="font-size:13px;color:var(--muted)">اكتب المعرّف المختصر للنادي <strong class="ltr" style="color:var(--ink)">qimma</strong> للمتابعة</label>
+            <input id="pg-s" class="input" dir="ltr" style="text-align:right" value="qimma">
+            <div style="display:flex;gap:10px"><button class="btn btn-danger" type="submit">متابعة</button><button class="btn btn-secondary" type="button" onClick="{{ close }}">إلغاء</button></div>
+          </div>
+        </template>
+        <template data-if value="{{ step2 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <p style="margin:0;font-size:14px;line-height:23px">هذه آخر خطوة. بعد الضغط لا يمكن استرجاع نادي القمة الرياضي ولا أي من بياناته.</p>
+            <label class="lbl" for="pg-r" style="font-size:13px;color:var(--muted)">السبب</label>
+            <input id="pg-r" class="input" value="طلب المالك إغلاق الحساب نهائيًا">
+            <div style="display:flex;gap:10px"><button class="btn btn-danger" type="button" onClick="{{ close }}">حذف نهائي الآن</button><button class="btn btn-secondary" type="button" onClick="{{ back }}">رجوع</button></div>
+          </div>
+        </template>
+      </form>
+    </div>
+  </template>
+</div>
+</template>
+<script type="application/json" id="dc-props">{"tab": {"editor": "enum", "options": ["overview", "subscription"], "default": "overview", "section": "العرض"}, "purge": {"editor": "enum", "options": ["none", "step1", "step2"], "default": "none", "section": "الحذف النهائي"}, "theme": {"editor": "enum", "options": ["light", "dark"], "default": "light", "section": "المظهر"}, "pageState": {"editor": "enum", "options": ["ready", "loading", "error"], "default": "ready", "section": "حالة الصفحة"}, "$preview": {"width": 1440, "height": 1260}}</script>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  renderVals() {
+    const base = this.__ps();
+    const ps = (this.state && this.state.__ps) || this.props.pageState || 'ready';
+    return Object.assign({}, base, { psReady: ps === 'ready', psLoading: ps === 'loading', psError: ps === 'error', psRetry: () => this.setState({ __ps: 'ready' }) });
+  }
+  __ps() {
+    const v = this.__rv();
+    const th = (this.state && this.state.__th) || this.props.theme || 'light';
+    return Object.assign({}, v, { themeCls: 'th th-' + th, isDark: th === 'dark', isLight: th !== 'dark', themeLabel: th === 'dark' ? 'التبديل للوضع الفاتح' : 'التبديل للوضع الداكن', toggleTheme: () => this.setState({ __th: th === 'dark' ? 'light' : 'dark' }) });
+  }
+  __rv() {
+    const st = this.state || {};
+    const tab = st.tab || this.props.tab || 'overview';
+    const pg = st.purge || this.props.purge || 'none';
+    const pre = (e) => { if (e && e.preventDefault) e.preventDefault(); };
+    const L = [['overview','نظرة عامة'],['subscription','الاشتراك والفواتير'],['usage','الاستخدام'],['overrides','الاستثناءات'],['history','سجل الحالة'],['users','المستخدمون'],['backups','النسخ الاحتياطية']];
+    const lim = (name, used, limit, unit, note, noteColor) => {
+      const pct = limit ? Math.min(100, Math.round(used / limit * 100)) : 10;
+      return { name, pct, text: used.toLocaleString('en-US') + ' / ' + (limit ? limit.toLocaleString('en-US') : '∞') + (unit || ''), color: pct >= 95 ? '#D6335A' : pct >= 85 ? '#E0A21B' : '#2E9E6B', note, noteColor: noteColor || 'var(--muted)' };
+    };
+    return {
+      tabs: L.map(([k, l]) => ({ l, cls: k === tab ? 'ctab on' : 'ctab', sel: k === tab ? 'true' : 'false', go: () => this.setState({ tab: k }) })),
+      isOverview: tab !== 'subscription',
+      isSub: tab === 'subscription',
+      showPurge: pg !== 'none',
+      step1: pg === 'step1',
+      step2: pg === 'step2',
+      s1: pg === 'step1' ? 'step on' : 'step',
+      s2: pg === 'step2' ? 'step on' : 'step',
+      openPurge: () => this.setState({ purge: 'step1' }),
+      next: (e) => { pre(e); this.setState({ purge: 'step2' }); },
+      back: () => this.setState({ purge: 'step1' }),
+      close: (e) => { pre(e); this.setState({ purge: 'none' }); },
+      limits: [
+        lim('الأعضاء', 540, 800, '', 'الحد 600 بالباقة، مرفوع باستثناء'),
+        lim('الموظفون', 13, 15, '', 'يشمل حسابات الاستقبال', 'var(--w-ink)'),
+        lim('الفروع', 2, 3, '', ''),
+        lim('التخزين', 2.1, 5, ' GB', '')
+      ],
+      events: [
+        { t: 'تجديد', d: 'Pro شهري حتى 2026-11-10', at: '2026-10-10 11:20', by: 'مجد الأيوبي', c: '#2E9E6B' },
+        { t: 'تغيير الباقة', d: 'من Basic إلى Pro', at: '2026-06-02 09:05', by: 'مجد الأيوبي', c: '#3D6BF2' },
+        { t: 'دخول فترة السماح', d: 'تأخر دفع فاتورة INV-2026-000098', at: '2026-05-13 00:00', by: 'النظام', c: '#E0A21B' },
+        { t: 'تفعيل', d: 'Basic شهري بعد الفترة التجريبية', at: '2026-03-26 14:40', by: 'مجد الأيوبي', c: '#2E9E6B' },
+        { t: 'بدء الفترة التجريبية', d: '14 يومًا', at: '2026-03-12 10:00', by: 'مجد الأيوبي', c: '#C8F03C' }
+      ],
+      invoices: [
+        { no: 'INV-2026-000187', p: 'تشرين الأول', a: '$50.00', s: 'مدفوعة', cls: 'badge t-success' },
+        { no: 'INV-2026-000151', p: 'أيلول', a: '$50.00', s: 'مدفوعة', cls: 'badge t-success' },
+        { no: 'INV-2026-000122', p: 'آب', a: '$50.00', s: 'مدفوعة', cls: 'badge t-success' },
+        { no: 'INV-2026-000098', p: 'أيار', a: '$25.00', s: 'مدفوعة متأخرة', cls: 'badge t-warning' }
+      ]
+    };
+  }
+}
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

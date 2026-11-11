@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لوحة النادي · حالات النظام · UltraGym v1</title>
+<style>
+@font-face{font-family:'Changa';src:url(assets/Changa-VariableFont_wght.ttf) format('truetype');font-weight:200 800;font-display:swap}
+@font-face{font-family:'Readex Pro';src:url(assets/ReadexPro-VariableFont_wght.ttf) format('truetype');font-weight:160 700;font-display:swap}
+body{margin:0;background:var(--bg)}
+a{color:var(--p-ink);text-decoration:none}a:hover{color:var(--p-ink2)}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.cut{background:var(--line);padding:1px;border-radius:16px;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+.cut>.in{background:var(--surface);border-radius:15px;clip-path:polygon(0 0,calc(100% - 17.6px) 0,100% 17.6px,100% 100%,0 100%);height:100%;box-sizing:border-box}
+.badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:500;white-space:nowrap}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.t-success{background:var(--s-soft);color:var(--s-ink)}.t-warning{background:var(--w-soft);color:var(--w-ink)}.t-danger{background:var(--d-soft);color:var(--d-ink)}.t-info{background:var(--i-soft);color:var(--i-ink)}.t-accent{background:var(--a-soft);color:var(--a-ink)}.t-neutral{background:var(--soft);color:var(--muted)}
+.btn{height:42px;padding:0 18px;border-radius:10px;font-family:'Readex Pro',sans-serif;font-size:13px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;cursor:pointer;box-sizing:border-box;white-space:nowrap}
+.btn-primary{background:var(--primary);color:#1A1A18}.btn-secondary{background:var(--surface);border-color:var(--line);color:var(--ink)}.btn-ghost{background:transparent;color:var(--p-ink);padding:0 8px;height:34px}
+.side{background:#1A1A17;color:#C9C9C0;flex:0 0 264px;width:264px;padding:20px 12px;box-sizing:border-box;display:flex;flex-direction:column;gap:4px}
+.nav-label{font-size:11.5px;color:#8A8A80;padding:14px 12px 6px}
+.nav{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:10px;color:#C9C9C0;font-size:13.5px;position:relative}
+.nav:hover{background:rgba(255,255,255,.05);color:#F3F3EE}
+.nav.on{background:rgba(255,255,255,.10);color:#F3F3EE;font-weight:600}
+.nav.on::after{content:'';position:absolute;right:0;top:9px;bottom:9px;width:4px;border-radius:4px;background:#FF5A1F}
+.nav.on svg{color:#FF5A1F}
+.top{height:64px;display:flex;align-items:center;gap:12px;padding:0 24px;border-bottom:1px solid var(--line);background:var(--bg);flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-family:'Readex Pro',sans-serif;font-size:13px;color:var(--ink);cursor:pointer;box-sizing:border-box;white-space:nowrap}
+.iconbtn{width:38px;height:38px;border-radius:999px;border:1px solid var(--line);background:var(--surface);display:inline-flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer;position:relative}
+.ctabs{display:flex;gap:24px;border-bottom:1px solid var(--line)}
+.ctab{height:40px;padding:0 4px;font-size:14px;color:var(--muted);border-bottom:2px solid transparent;display:flex;align-items:center}
+.ctab.on{color:var(--ink);font-weight:600;border-bottom-color:var(--primary)}
+.cur{flex:1 1 300px;min-width:0;border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.ln{display:flex;justify-content:space-between;font-size:14px}
+.ln span:first-child{color:var(--muted)}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;min-width:960px}
+.tbl th{background:var(--soft);color:var(--muted);font-weight:500;font-size:12.5px;text-align:right;padding:10px 14px;white-space:nowrap}
+.tbl td{padding:12px 14px;border-top:1px solid var(--divider)}
+.input{height:50px;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:0 14px;font-family:'Readex Pro',sans-serif;font-size:18px;color:var(--ink);box-sizing:border-box;width:100%}
+.lbl{font-size:12.5px;font-weight:500;color:var(--muted)}
+.dlg{background:var(--surface);border-radius:16px;box-shadow:0 24px 60px rgba(26,26,23,.16);width:100%;max-width:640px;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+.ctab{border:0;background:transparent;font-family:'Readex Pro',sans-serif;cursor:pointer}
+.sel{height:42px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:0 12px;font-family:'Readex Pro',sans-serif;font-size:14px;color:var(--ink);box-sizing:border-box;width:100%}
+.fi{display:flex;flex-direction:column;gap:6px;min-width:0}
+.seg{display:inline-flex;background:var(--soft);border-radius:10px;padding:3px;gap:3px}
+.seg button{height:36px;padding:0 16px;border-radius:8px;border:0;background:transparent;font-family:'Readex Pro',sans-serif;font-size:13px;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(26,26,23,.08)}
+.chip{height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-family:'Readex Pro',sans-serif;font-size:12.5px;color:var(--muted);cursor:pointer}
+.chip.on{background:var(--inv);border-color:var(--inv);color:var(--on-inv)}
+.sw{width:40px;height:24px;border-radius:999px;background:var(--line);position:relative;display:inline-block;flex:0 0 40px}
+.sw::after{content:'';position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#FFFFFE}
+.sw.on{background:var(--primary)}.sw.on::after{right:auto;left:3px}
+.stat{flex:1 1 180px;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.stat span{font-size:12.5px;color:var(--muted)}
+.stat strong{font-family:'Changa',sans-serif;font-size:24px;font-weight:700}
+.av{width:36px;height:36px;border-radius:999px;background:var(--soft);color:var(--muted);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex:0 0 36px}
+.kv{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:9px 0;border-top:1px solid var(--divider)}
+.kv>span:first-child{color:var(--muted)}
+.h2{margin:0;font-size:16px;line-height:26px;font-weight:600}
+.btn-danger{background:#D6335A;color:#FFFFFF}
+.btn-dline{background:var(--surface);border-color:var(--d-line);color:var(--d-ink)}
+.ov{position:absolute;inset:0;background:rgba(26,26,23,.5);display:flex;align-items:flex-start;justify-content:center;padding:96px 16px;box-sizing:border-box}
+.dlg{max-width:600px;padding:24px;display:flex;flex-direction:column;gap:16px}
+.dh{display:flex;justify-content:space-between;align-items:center}
+.dh h2{margin:0;font-size:19px;line-height:30px;font-weight:600}
+.chipbar{display:flex;gap:6px;flex-wrap:wrap}
+.blk{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:48px 28px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;max-width:640px;margin:24px auto;width:100%;box-sizing:border-box}
+.blk .ico{width:64px;height:64px;border-radius:999px;display:flex;align-items:center;justify-content:center}
+.blk h2{margin:0;font-size:22px;line-height:34px;font-weight:600}
+.blk p{margin:0;font-size:14.5px;line-height:24px;color:var(--muted);max-width:460px}
+.code{font-family:ui-monospace,monospace;font-size:12px;color:var(--faint);direction:ltr}
+.np{position:absolute;top:58px;left:24px;width:400px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 60px rgba(26,26,23,.16);overflow:hidden;z-index:5}
+.ni{display:flex;gap:12px;padding:14px 16px;border-top:1px solid var(--divider);color:var(--ink)}
+.ni.un{background:var(--p-soft)}
+.ni .ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:0 0 36px}
+.imp{display:flex;align-items:center;gap:12px;padding:10px 24px;background:#1C2747;color:#E6ECFF;font-size:13.5px;flex-wrap:wrap}
+
+.th-light{--bg:#F5F5F2;--surface:#FFFFFF;--soft:#EDEDE8;--line:#E0E0DA;--divider:#EDEDE8;--inv:#1A1A17;--on-inv:#F3F3EE;--ink:#1A1A17;--muted:#5F5F57;--faint:#8A8A80;--primary:#FF5A1F;--p-soft:#FFE8DC;--p-ink:#B53D0A;--p-ink2:#8E2F06;--s-soft:#E3F5EC;--s-ink:#0D7350;--w-soft:#FFF1D1;--w-ink:#8A5800;--d-soft:#FDE6EC;--d-ink:#B81F45;--d-line:#F3C2CF;--i-soft:#E6ECFF;--i-ink:#2A50C8;--a-soft:#EEF8D2;--a-ink:#4F7A00}
+.th-dark{--bg:#121210;--surface:#1B1B18;--soft:#24241F;--line:#2E2E29;--divider:#26261F;--inv:#F3F3EE;--on-inv:#1A1A17;--ink:#F3F3EE;--muted:#A9A99F;--faint:#7A7A70;--primary:#FF6A30;--p-soft:#3A1C10;--p-ink:#FF8E5E;--p-ink2:#FFB08A;--s-soft:#163126;--s-ink:#3DD68C;--w-soft:#33280F;--w-ink:#F5B642;--d-soft:#3A1520;--d-ink:#FF7A95;--d-line:#5A2333;--i-soft:#1C2747;--i-ink:#8AA9FF;--a-soft:#263012;--a-ink:#C8F03C}
+.th-dark{color-scheme:dark}
+.th-dark .tbl tbody tr:hover{background:#24241F}
+</style>
+<link rel="stylesheet" href="proto.css">
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-src">
+<div class="{{ themeCls }}" style="min-height:1000px;display:flex;flex-wrap:wrap;font-family:'Readex Pro',sans-serif;color:var(--ink);direction:rtl;background:var(--bg);position:relative">
+
+  <nav class="side" aria-label="القائمة الرئيسية">
+    <div style="padding:6px 12px 18px;border-bottom:1px solid #2E2E29;margin-bottom:6px"><img src="assets/ultragym-horizontal-dark.svg" alt="UltraGym" style="height:30px"></div>
+    <a class="nav on" href="Dashboard.html" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="10" rx="2"/><rect x="13" y="3" width="8" height="6" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg>الرئيسية</a>
+    <span class="nav-label">التشغيل</span>
+    <a class="nav" href="Members.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></svg>الأعضاء</a>
+    <a class="nav" href="Memberships.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg>الاشتراكات والديون</a>
+    <a class="nav" href="Attendance.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4H5v16h5M14 8l4 4-4 4M18 12H9"/></svg>الحضور</a>
+    <span class="nav-label">المالية</span>
+    <a class="nav" href="CashSessions.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16v12H4zM4 7l2-3h12l2 3M16 13h2"/></svg>الصندوق والحركات</a>
+    <a class="nav" href="Payroll.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"/></svg>الرواتب والسلف</a>
+    <a class="nav" href="Reports.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>التقارير</a>
+    <span class="nav-label">النادي</span>
+    <a class="nav" href="Plans.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>الخطط والكوبونات</a>
+    <a class="nav" href="Training.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 12h3M19 12h3M5 8v8M19 8v8M7 12h10"/></svg>المدربون والتدريب</a>
+    <a class="nav" href="Announcements.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10v4h3l7 4V6L6 10zM17 9a4 4 0 0 1 0 6"/></svg>الإعلانات</a>
+    <span class="nav-label">الإدارة</span>
+    <a class="nav" href="BranchSettings.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg>الإعدادات والفروع</a>
+    <a class="nav" href="Staff.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16a3 3 0 0 1 6 0M14 10h4M14 14h3"/></svg>الموظفون والحسابات</a>
+    <a class="nav" href="ReceptionDevices.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10v18H7zM11 18h2"/></svg>أجهزة الاستقبال</a>
+    <a class="nav" href="ClubBilling.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg>اشتراك النادي والدعم</a>
+    <div style="margin-top:auto;padding:16px 12px 0;border-top:1px solid #2E2E29;display:flex;align-items:center;gap:10px">
+      <span style="width:36px;height:36px;border-radius:999px;background:#FF5A1F;color:#1A1A17;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px">س</span>
+      <span style="display:flex;flex-direction:column"><strong style="color:#F3F3EE;font-size:13px;font-weight:600">سامر الحلبي</strong><span style="font-size:11.5px;color:#A9A99F">مالك النادي</span></span>
+    </div>
+  </nav>
+
+  <div style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column">
+    <header class="top">
+      <h1 style="margin:0;font-size:24px;line-height:36px;font-weight:600;margin-left:auto">حالات النظام</h1>
+      
+      <button class="pill" type="button" aria-label="الفرع"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>الفرع الرئيسي – المزة<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button class="iconbtn" type="button" onClick="{{ toggleTheme }}" aria-label="{{ themeLabel }}" title="{{ themeLabel }}"><template data-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></template><template data-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></template></button>
+      <button class="iconbtn" type="button" aria-label="الإشعارات"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></svg></button>
+    </header>
+
+    <main style="padding:24px;display:flex;flex-direction:column;gap:16px;max-width:1240px;width:100%;box-sizing:border-box">
+      <div class="chipbar" role="group" aria-label="اختر الحالة"><template data-for list="{{ chips }}" as="c" hint-placeholder-count="11"><button type="button" class="{{ c.cls }}" aria-pressed="{{ c.on }}" onClick="{{ c.go }}">{{ c.l }}</button></template></div>
+
+      <template data-if value="{{ isNotif }}" hint-placeholder-val="{{ true }}"><div style="position:relative;min-height:520px">
+        <p style="margin:0;font-size:13.5px;color:var(--muted)">قائمة الجرس بالشريط العلوي. كل إشعار يفتح شاشته.</p>
+        <div class="np" role="dialog" aria-label="الإشعارات">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px"><strong style="font-size:15px;font-weight:600">الإشعارات · 3 جديدة</strong><button class="btn btn-ghost" type="button">قراءة الكل</button></div>
+          <template data-for list="{{ notifs }}" as="n" hint-placeholder-count="5"><a class="{{ n.cls }}" href="{{ n.href }}"><span class="ic" style="background:{{ n.bg }};color:{{ n.c }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ n.p }}"/></svg></span><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><strong style="font-size:13.5px;font-weight:600">{{ n.t }}</strong><span style="font-size:12.5px;line-height:19px;color:var(--muted)">{{ n.b }}</span><span style="font-size:11.5px;color:var(--faint)">{{ n.at }}</span></span></a></template>
+          <div style="padding:12px 16px;border-top:1px solid var(--divider);display:flex;justify-content:space-between"><a href="ClubSettings.html" style="font-size:13px">إعدادات الإشعارات</a><a href="#" style="font-size:13px">عرض الكل</a></div>
+        </div>
+      </div></template>
+
+      <template data-if value="{{ isImp }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:16px">
+        <div class="imp" role="status" style="border-radius:14px"><strong style="font-weight:600">جلسة دعم من فريق UltraGym</strong><span>مجد الأيوبي يعمل بصفة سامر الحلبي · تنتهي بعد <span class="ltr" style="font-family:'Changa',sans-serif;font-weight:700">24:12</span></span><span style="margin-right:auto;font-size:12.5px;color:#8AA9FF">تغيير كلمة السر والموبايل والجلسات مقفل</span><button class="btn btn-secondary" type="button" style="height:34px">إنهاء الجلسة</button></div>
+        <p style="margin:0;font-size:13.5px;color:var(--muted)">الشريط ثابت أعلى كل صفحات اللوحة طوال جلسة الدعم، ولا يمكن إخفاؤه.</p>
+      </div></template>
+
+      <template data-if value="{{ isOffline }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:16px">
+        <div role="status" style="display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--w-soft);color:var(--w-ink);border-radius:14px;font-size:13.5px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8a16 16 0 0 1 20 0M5 12a11 11 0 0 1 14 0M8.5 15.5a6 6 0 0 1 7 0M12 19h.01M3 3l18 18"/></svg><strong style="font-weight:600">انقطع الاتصال</strong><span>لوحة النادي تحتاج الإنترنت. ما تراه آخر بيانات محمّلة، والحفظ متوقف حتى يعود الاتصال.</span><span style="margin-right:auto;font-size:12.5px">إعادة المحاولة تلقائيًا…</span></div>
+        <p style="margin:0;font-size:13.5px;color:var(--muted)">شاشة الاستقبال وحدها تعمل دون اتصال؛ اللوحات تعرض هذا الشريط وتعطّل أزرار الحفظ.</p>
+      </div></template>
+
+      <template data-if value="{{ isLimit }}" hint-placeholder-val="{{ false }}"><div class="blk"><span class="ico" style="background:var(--w-soft);color:var(--w-ink)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><h2>وصلت لحد الأعضاء بباقتك</h2><p>باقة Pro تسمح بـ 600 عضو، وعندك 600. لإضافة عضو جديد رقِّ الباقة أو تواصل مع الدعم لرفع الحد.</p><div style="display:flex;gap:10px"><a class="btn btn-primary" href="ClubBilling.html">اشتراك النادي</a><a class="btn btn-secondary" href="ClubBilling.html">تواصل مع الدعم</a></div><span class="code">PLAN_LIMIT_REACHED · HTTP 409</span></div></template>
+
+      <template data-if value="{{ isFeature }}" hint-placeholder-val="{{ false }}"><div class="blk"><span class="ico" style="background:var(--a-soft);color:var(--a-ink)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.5-.8z"/></svg></span><h2>هذه الميزة ليست ضمن باقتك</h2><p>تصدير التقارير غير مفعّل لناديك. الميزات تختلف حسب الباقة، ويمكن إضافتها لناديك كاستثناء.</p><a class="btn btn-primary" href="ClubBilling.html">عرض الباقة الحالية</a><span class="code">FEATURE_NOT_AVAILABLE</span></div></template>
+
+      <template data-if value="{{ isForbidden }}" hint-placeholder-val="{{ false }}"><div class="blk"><span class="ico" style="background:var(--soft);color:var(--muted)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 11h12v10H6zM8 11V8a4 4 0 0 1 8 0v3"/></svg></span><h2>لا تملك صلاحية هذه الصفحة</h2><p>الرواتب والتقارير المالية للمالك فقط. إن كنت تحتاجها اطلب من مالك النادي.</p><a class="btn btn-secondary" href="Dashboard.html">العودة للرئيسية</a><span class="code">HTTP 403</span></div></template>
+
+      <template data-if value="{{ isNotFound }}" hint-placeholder-val="{{ false }}"><div class="blk"><img src="assets/empty-state-art-light.svg" alt="" style="width:200px"><h2>الصفحة غير موجودة</h2><p>ربما حُذف العنصر أو الرابط غير صحيح.</p><a class="btn btn-primary" href="Dashboard.html">العودة للرئيسية</a><span class="code">HTTP 404</span></div></template>
+
+      <template data-if value="{{ isRate }}" hint-placeholder-val="{{ false }}"><div class="blk"><span class="ico" style="background:var(--i-soft);color:var(--i-ink)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v5l3 2M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18"/></svg></span><h2>طلبات كثيرة خلال وقت قصير</h2><p>التقارير محدودة بـ 30 طلبًا بالدقيقة. يمكنك المحاولة بعد <strong class="ltr" style="font-family:'Changa',sans-serif;color:var(--ink)">42</strong> ثانية.</p><button class="btn btn-secondary" type="button" disabled>إعادة المحاولة بعد 42 ث</button><span class="code">TOO_MANY_REQUESTS · HTTP 429 · Retry-After</span></div></template>
+
+      <template data-if value="{{ isSession }}" hint-placeholder-val="{{ false }}"><div class="blk"><span class="ico" style="background:var(--soft);color:var(--muted)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4H5v16h5M14 8l4 4-4 4M18 12H9"/></svg></span><h2>انتهت جلستك</h2><p>لحماية حسابك انتهت الجلسة. سجّل الدخول مرة أخرى لتكمل من حيث توقفت.</p><a class="btn btn-primary" href="Login.html">تسجيل الدخول</a><span class="code">HTTP 401</span></div></template>
+
+      <template data-if value="{{ isLocked }}" hint-placeholder-val="{{ false }}"><div class="blk" style="border-color:var(--d-line)"><span class="ico" style="background:var(--d-soft);color:var(--d-ink)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 11h12v10H6zM8 11V8a4 4 0 0 1 8 0v3M12 15v2"/></svg></span><h2>حساب النادي مقفل</h2><p>انتهى اشتراك النادي ومرّت فترة السماح والقراءة فقط. بياناتك محفوظة، وتعود اللوحة كما كانت فور التجديد.</p><div style="display:flex;gap:10px"><a class="btn btn-primary" href="ClubBilling.html">عرض الفاتورة المستحقة</a><a class="btn btn-secondary" href="ClubBilling.html">تواصل مع UltraGym</a></div><span class="code">SUBSCRIPTION_LOCKED</span></div></template>
+
+      <template data-if value="{{ isSuspended }}" hint-placeholder-val="{{ false }}"><div class="blk" style="border-color:var(--d-line)"><span class="ico" style="background:var(--d-soft);color:var(--d-ink)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18M5.6 5.6l12.8 12.8"/></svg></span><h2>النادي موقوف</h2><p>أوقف فريق المنصة حساب النادي. للتفاصيل تواصل مع الدعم.</p><a class="btn btn-secondary" href="ClubBilling.html">تواصل مع UltraGym</a><span class="code">TENANT_SUSPENDED · HTTP 403</span></div></template>
+
+    </main>
+  </div>
+
+</div>
+</template>
+<script type="application/json" id="dc-props">{"state": {"editor": "enum", "options": ["notifications", "impersonation", "offline", "plan_limit", "feature", "forbidden", "not_found", "rate_limit", "session", "locked", "suspended"], "default": "notifications", "section": "الحالة"}, "theme": {"editor": "enum", "options": ["light", "dark"], "default": "light", "section": "المظهر"}, "$preview": {"width": 1440, "height": 1000}}</script>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  renderVals() {
+    const v = this.__rv();
+    const th = (this.state && this.state.__th) || this.props.theme || 'light';
+    return Object.assign({}, v, { themeCls: 'th th-' + th, isDark: th === 'dark', isLight: th !== 'dark', themeLabel: th === 'dark' ? 'التبديل للوضع الفاتح' : 'التبديل للوضع الداكن', toggleTheme: () => this.setState({ __th: th === 'dark' ? 'light' : 'dark' }) });
+  }
+  __rv() {
+    const s = (this.state && this.state.s) || this.props.state || 'notifications';
+    const L = [['notifications','الإشعارات'],['impersonation','جلسة دعم'],['offline','انقطاع الاتصال'],['plan_limit','حد الباقة'],['feature','ميزة غير متاحة'],['forbidden','لا صلاحية'],['not_found','غير موجود'],['rate_limit','طلبات كثيرة'],['session','انتهاء الجلسة'],['locked','النادي مقفل'],['suspended','النادي موقوف']];
+    const P = { pay: ['M4 7h16v12H4zM16 13h2', 'var(--s-ink)', '#E3F5EC'], cash: ['M4 7h16v12H4zM4 7l2-3h12l2 3', 'var(--w-ink)', 'var(--w-soft)'], rev: ['M4 12a8 8 0 1 0 3-6.2M4 4v4h4', 'var(--d-ink)', '#FDE6EC'], sync: ['M12 3l9 16H3zM12 10v4', 'var(--d-ink)', '#FDE6EC'], sum: ['M4 20V10M10 20V4M16 20v-7', 'var(--i-ink)', '#E6ECFF'] };
+    const N = (k, t, b, at, href, un) => ({ t, b, at, href, p: P[k][0], c: P[k][1], bg: P[k][2], cls: un ? 'ni un' : 'ni' });
+    return {
+      chips: L.map(([k, l]) => ({ l, cls: k === s ? 'chip on' : 'chip', on: k === s ? 'true' : 'false', go: () => this.setState({ s: k }) })),
+      isNotif: s === 'notifications', isImp: s === 'impersonation', isOffline: s === 'offline', isLimit: s === 'plan_limit', isFeature: s === 'feature', isForbidden: s === 'forbidden', isNotFound: s === 'not_found', isRate: s === 'rate_limit', isSession: s === 'session', isLocked: s === 'locked', isSuspended: s === 'suspended',
+      notifs: [
+        N('sync', 'عمليات مرفوضة بالمزامنة', 'عمليتان من كاونتر الاستقبال الرئيسي تحتاجان مراجعة.', 'قبل 5 دقائق', 'ReceptionSync.dc.html', true),
+        N('rev', 'عكس حركة مالية', 'عكس سامر الحلبي الإيصال B1-2026-011201.', '18:20', 'Transactions.dc.html', true),
+        N('cash', 'صندوق لم يُغلق', 'وردية #47 من أمس ما زالت مفتوحة بفرع المالكي.', '09:10', 'CashSessions.dc.html', true),
+        N('sum', 'ملخص الصباح', '38 اشتراكًا تنتهي خلال 3 أيام · ديون $318.50.', '09:10', 'Memberships.dc.html', false),
+        N('pay', 'فاتورة جديدة من المنصة', 'INV-2026-000213 · $50.00 · استحقاق 2026-11-18.', 'أمس', 'ClubBilling.dc.html', false)
+      ]
+    };
+  }
+}
+
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>
